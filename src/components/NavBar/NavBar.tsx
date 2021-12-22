@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ReactComponent as HomeLogo } from './home-logo.svg' 
 import './navbar.css';
 
 function NavBar() {
@@ -7,12 +8,12 @@ function NavBar() {
             <ul className="nav__list">
                 <li className="nav__item">
                     <Link className="nav__link" to="/">
-                        Home
+                       <HomeLogo />
                     </Link>
                 </li>
                 <li className="nav__item">
                     <Link className="nav__link" to="/root-contract-form">
-                        Root Contract Form
+                        <span> Root Contract Form </span>
                     </Link>
                 </li>
                 <li className="nav__item">

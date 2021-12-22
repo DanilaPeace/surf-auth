@@ -5,6 +5,7 @@
 
 .nav__list {
     display: flex;
+    align-items: center;
     list-style: none;
     margin: 40px auto;
 }
@@ -13,7 +14,7 @@
     padding: 0 30px;
 }
 
-.nav__link {
+a.nav__link {
     text-decoration: none;
     color: #000;
 }
