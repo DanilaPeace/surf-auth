@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import NavBar from './NavBar';
-import DeployFromFile from './pages/deploy-fro-file-page/DeployFromFile';
-import Home from './pages/home-page/Home';
-import RootContract from './pages/root-contract-page/RootContract';
-import CollectionList from './pages/collection-list-page/CollectionList';
+import NavBar from '../NavBar/NavBar';
+import DeployFromFile from '../../pages/deploy-fro-file-page/DeployFromFile';
+import Home from '../../pages/home-page/Home';
+import RootContract from '../../pages/root-contract-page/RootContract';
+import CollectionList from '../../pages/collection-list-page/CollectionList';
 
 function App() {
   return (
