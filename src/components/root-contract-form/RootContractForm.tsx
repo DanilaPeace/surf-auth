@@ -11,7 +11,7 @@ function RootContractForm() {
                 id="noanim-tab-example"
                 className="mb-3 ">
                     <Tab eventKey="main" title="Main">
-                      <MainCollectionInfo />
+                      <MainCollectionInfo/>
                     </Tab>
                     <Tab eventKey="rarity" title="Rarity">
                       Some2
@@ -23,6 +23,11 @@ function RootContractForm() {
                       Some4
                     </Tab>
             </Tabs>
+            <div className="btn-group">
+              <button type="submit">Save data</button>
+              <button type="submit">Generate contracts Code</button>
+              <button type="submit">Deploy contracts</button>
+            </div>
         </form>
     );
 }
