@@ -6,13 +6,13 @@ function UserInput(
     return (
         <div className="user-input-content flex-grow-1 px-3">
             <label htmlFor={inputName}>{labelName}</label>
-            <input 
-                name={inputName} 
-                type="text" 
-                className="form-control user-input" 
-                placeholder={inputName} 
+            <input
+                name={inputName}
+                type="text"
+                className="form-control user-input"
+                placeholder={inputName}
                 onChange={onChange}
-                value={data}/>
+                value={data} />
         </div>
     );
 };

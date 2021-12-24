@@ -1,8 +1,14 @@
 import { action, makeObservable, observable } from "mobx";
 
+type Rarity = {
+    name: string,
+    tokenAmount: number
+};
+
 class MainStore {
     collectionName: string = '';
     maxTokenNumber: number = 0;
+    raritiesList: Rarity[] = [];
 
     constructor() {
         makeObservable(this, {
@@ -15,12 +21,10 @@ class MainStore {
 
     changeCollectionName = (event: any) => {
         this.collectionName = event.target.value;
-        console.log('name: ', this.collectionName);
     };
     
     changeMaxTokenNumber = (event: any) => {
         this.maxTokenNumber = event.target.value;
-        console.log('num: ', this.maxTokenNumber);
     }
 };
 
