@@ -6,11 +6,11 @@ function MainCollectionInfo() {
         <div className="main-collection-info">
             <div className="main-info-inputs">
                 <UserInput
-                    placeholderName='Collection name' 
-                    inputName='Collection name'/>    
+                    labelName="Collection name" 
+                    inputName="Collection name"/>    
                 <UserInput 
-                    placeholderName='Maximum number of tokenes' 
-                    inputName='Maximum number of tokenes'/>    
+                    labelName="Collection name" 
+                    inputName="Maximum number of tokenes"/>    
             </div>
         </div>
     )

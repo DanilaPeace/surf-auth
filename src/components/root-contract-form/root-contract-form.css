@@ -1,0 +1,16 @@
+.nav-link {
+    background-color: transparent;
+}   
+
+.root-contract-btn-toolbar {
+    padding: 0 20px;
+    margin: 20px 0 0 0;
+}
+
+.root-contract-btn {
+    flex: 1;
+}
+
+.root-contract-btn:nth-child(2) {
+    margin: 0 10px;
+}

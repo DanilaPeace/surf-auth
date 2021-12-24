@@ -1,15 +1,6 @@
-:root {
-    --main-color: rgb(255, 255, 255);
-    --title-color: rgb(32, 38, 42);
-    --form-color: #e8efff;
-    --btr-color:rgba(0, 83, 138, 0.781);
-    --btr-color-sub:rgba(203, 255, 255, 0.781);
-    --text-color: #333;
-}
-
 .root-contract-form {
     padding: 0 30px 20px 30px;
     margin: 0 auto;
     border-radius: 50px;
-    background-color:   var(--form-color);
+    background-color: var(--form-color);
 }
