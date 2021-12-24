@@ -1,0 +1,9 @@
+.rarity-info-inputs {
+    display: flex;
+    align-items: center;
+}
+.checkboxForRarity{
+    display: flex;
+    align-items: left;
+
+}
