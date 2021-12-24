@@ -6,6 +6,7 @@ export const CommisionTab = () => {
             <UserInput 
                 labelName="Minting price for users (EVERs)"
                 inputName="Type price"
+                onChange={() => {}}
             />
         </div>
     );

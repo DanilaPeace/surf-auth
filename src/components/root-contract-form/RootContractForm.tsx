@@ -5,7 +5,10 @@ import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInf
 import { CommisionTab } from '../commision-tab/CommisionTab';
 import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
 
-function RootContractForm() {
+import {store} from '../../store/MainSotre';
+import { observer } from 'mobx-react';
+
+const RootContractForm = observer(() => {
 
   return (
     <form action="" className="root-contract-form">
@@ -15,7 +18,11 @@ function RootContractForm() {
         id="root-contract-tabs"
         className="mb-3">
         <Tab eventKey="main" title="Main" className='root-contract-tab-item'>
-          <MainCollectionInfoTab />
+          <MainCollectionInfoTab
+            collectionName={store.collectionName}
+            maxTokenNum={store.maxTokenNumber}
+            collectionNameHandler={store.changeCollectionName}
+            maxNumberHandler={store.changeMaxTokenNumber}/>
         </Tab>
         <Tab eventKey="rarity" title="Rarity" className='root-contract-tab-item'>
           <RarityCollectionInfo/>
@@ -42,6 +49,6 @@ function RootContractForm() {
       </div>
     </form>
   );
-}
+})
 
 export default RootContractForm;
