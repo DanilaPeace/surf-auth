@@ -1,0 +1,4 @@
+.user-input {
+    border: 1px solid var(--main-color);
+    border-radius: 50px;
+}
