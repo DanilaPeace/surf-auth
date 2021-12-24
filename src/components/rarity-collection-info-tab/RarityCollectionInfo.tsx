@@ -1,58 +1,55 @@
 import UserInput from '../common/user-input/UserInput';
 import './rarity-collection-info.css';
-import React,{useState} from "react"
-
-var count = 0
+import React, { useState } from "react"
 
 function RarityCollectionInfo() {
+    const [count, setCount] = useState(0);
     const [checked, setChecked] = useState(false);
-    const [quantity_field, setQuantity_field] = useState([0]);
-    
+    const [quantityField, setQuantityField] = useState([0]);
+
     function handleChange() {
-		setChecked(!checked);
-	}
-    const click_on_btn_add = (e: { preventDefault: () => void; }) => {
-        e.preventDefault()
-        count=count+1
-        setQuantity_field([...quantity_field,count])
-        // arr_quantity_field.push(quantity_field)
+        setChecked(!checked);
     }
-    const click_on_btn_del = (e: { preventDefault: () => void; }) => {
-        e.preventDefault()
-        if(count-1 >= 0){
-            setQuantity_field([...quantity_field.slice(0, count), ...quantity_field.slice(count + 1)]);
-            count=count-1
+    const addBtn = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        setCount(count => count + 1);
+        setQuantityField([...quantityField, count])
+    }
+    const delBtn = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        if (count) {
+            setQuantityField([...quantityField.slice(0, count)]);
+            setCount(count => count - 1);
         }
-        //setQuantity_field([...quantity_field,count])
     }
-    return(
+    return (
         <div className="">
             <div className='checkboxForRarity'>
-            
-                <input type="checkbox" checked={checked} onChange={handleChange}/>
+
+                <input type="checkbox" checked={checked} onChange={handleChange} />
                 <label >Use Rarity Types for tokens</label>
             </div>
-            
+
             {checked ?
-            <div>
-                <div> 
-                {quantity_field.map((n) => {
-                return (
-                        <p><div className="rarity-info-inputs"> 
-                        <UserInput
-                            labelName='Rarity Type For Token' 
-                            inputName='Rarity Type For Token'/>
-                        <UserInput 
-                            labelName='Maximum tokens number for type' 
-                            inputName='Maximum tokens number for type'/>  
-                    </div></p>
-                    )
-                })} 
+                <div>
+                    <div>
+                        {quantityField.map((n) => {
+                            return (
+                                <div className="rarity-info-inputs">
+                                    <UserInput
+                                        labelName='Rarity Type For Token'
+                                        inputName='Rarity Type For Token' />
+                                    <UserInput
+                                        labelName='Maximum tokens number for type'
+                                        inputName='Maximum tokens number for type' />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <button onClick={addBtn}>+</button>
+                    <button onClick={delBtn}>-</button>
                 </div>
-                <button onClick={click_on_btn_add}>+</button>
-                <button onClick={click_on_btn_del}>-</button> 
-            </div>
-            : ""}
+                : ""}
 
         </div>
     )

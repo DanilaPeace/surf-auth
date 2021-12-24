@@ -5,8 +5,7 @@ import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInf
 import { CommisionTab } from '../commision-tab/CommisionTab';
 import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
 
-function RootContractForm() {
-
+const RootContractForm = () => {
   return (
     <form action="" className="root-contract-form">
       <Tabs
