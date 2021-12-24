@@ -3,9 +3,9 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInfoTab';
 import { CommisionTab } from '../commision-tab/CommisionTab';
+import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
 
-function RootContractForm() {
-
+const RootContractForm = () => {
   return (
     <form action="" className="root-contract-form">
       <Tabs
@@ -17,7 +17,7 @@ function RootContractForm() {
           <MainCollectionInfoTab />
         </Tab>
         <Tab eventKey="rarity" title="Rarity" className='root-contract-tab-item'>
-          Some2
+          <RarityCollectionInfo/>
         </Tab>
         <Tab eventKey="commitsion" title="Commision" className='root-contract-tab-item'>
           <CommisionTab />
