@@ -1,12 +1,10 @@
 import './root-contract-form.css';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import MainCollectionInfo from '../main-collection-info/MainCollectionInfo';
+import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInfoTab';
+import { CommisionTab } from '../commision-tab/CommisionTab';
 
 function RootContractForm() {
-  const saveData = (props: any) => {
-    alert(props);
-  }
 
   return (
     <form action="" className="root-contract-form">
@@ -16,28 +14,28 @@ function RootContractForm() {
         id="root-contract-tabs"
         className="mb-3">
         <Tab eventKey="main" title="Main" className='root-contract-tab-item'>
-          <MainCollectionInfo />
+          <MainCollectionInfoTab />
         </Tab>
         <Tab eventKey="rarity" title="Rarity" className='root-contract-tab-item'>
           Some2
         </Tab>
         <Tab eventKey="commitsion" title="Commision" className='root-contract-tab-item'>
-          Some3
+          <CommisionTab />
         </Tab>
         <Tab eventKey="parameters" title="Token Parameters" className='root-contract-tab-item'>
           Some4
         </Tab>
       </Tabs>
       <div className="btn-toolbar root-contract-btn-toolbar">
-        <button className='btn root-contract-btn btn-blue' onClick={saveData}>
+        <button className='btn root-contract-btn btn-blue'>
           <i className="fas fa-file-download mr-2"></i>
           Save data
         </button>
         <button className='btn root-contract-btn btn-blue'>
           <i className="far fa-calendar-plus mr-2"></i>
           Generate contracts Code</button>
-        <button className='btn root-contract-btn btn-blue mr-2'>
-          <i className="fas fa-paper-plane"></i>
+        <button className='btn root-contract-btn btn-blue'>
+          <i className="fas fa-paper-plane mr-2"></i>
           Deploy contracts
         </button>
       </div>

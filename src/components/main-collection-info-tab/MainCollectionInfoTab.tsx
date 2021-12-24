@@ -1,7 +1,7 @@
 import UserInput from '../common/user-input/UserInput';
 import './main-collection-info.css';
 
-function MainCollectionInfo() {
+function MainCollectionInfoTab() {
     return(
         <div className="main-collection-info">
             <div className="main-info-inputs">
@@ -16,4 +16,4 @@ function MainCollectionInfo() {
     )
 }
 
-export default MainCollectionInfo;
+export default MainCollectionInfoTab;
