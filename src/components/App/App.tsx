@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import NavBar from '../NavBar/NavBar';
-import DeployFromFile from '../../pages/deploy-fro-file-page/DeployFromFilePage';
+import DeployFromFile from '../../pages/deploy-for-file-page/DeployFromFilePage';
 import Home from '../../pages/home-page/HomePage';
 import RootContractPage from '../../pages/root-contract-page/RootContractPage';
 import CollectionList from '../../pages/collection-list-page/CollectionListPage';
