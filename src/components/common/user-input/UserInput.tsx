@@ -1,7 +1,7 @@
 import './user-input.css'
 
 function UserInput(
-    { labelName, inputName, onChange, data }: { labelName: string, inputName: string, onChange?: (arg: any) => void, data?: any }
+    { labelName, inputName, onChange, data, name }: { labelName: string, inputName: string, onChange?: (arg: any) => void, data?: any, name?}
 ) {
     return (
         <div className="user-input-content flex-grow-1 px-3">

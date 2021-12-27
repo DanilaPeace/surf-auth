@@ -4,7 +4,7 @@ import Tab from 'react-bootstrap/Tab';
 import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInfoTab';
 import { CommisionTab } from '../commision-tab/CommisionTab';
 import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
-
+import ParameterForm from '../parameter-form/ParameterForm';
 const RootContractForm = () => {
   return (
     <form action="" className="root-contract-form">
@@ -23,7 +23,7 @@ const RootContractForm = () => {
           <CommisionTab />
         </Tab>
         <Tab eventKey="parameters" title="Token Parameters" className='root-contract-tab-item'>
-          Some4
+          <ParameterForm />
         </Tab>
       </Tabs>
       <div className="btn-toolbar root-contract-btn-toolbar">
