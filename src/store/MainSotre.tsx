@@ -1,4 +1,5 @@
 import { action, makeObservable, observable, reaction } from "mobx";
+import { observer } from 'mobx-react';
 import ParameterFormStore from './ParameterFormStore'
 
 type Rarity = {
@@ -39,6 +40,7 @@ class MainStore {
         }
     };
 
+
     constructor() {
         reaction(
             () => ParameterFormStore.parameters,
@@ -54,7 +56,7 @@ class MainStore {
                 this.Collection.mediafiles = []
                 this.Collection.variables = edited.map(x => {
                     if (x.type == 'enum') {
-                      x.enumVariants = Object.values(x.enumVariants)
+                        x.enumVariants = Object.values(x.enumVariants)
                         this.Collection.enums.push(x)
                         return x;
                     }
@@ -89,10 +91,12 @@ class MainStore {
 
     changeCollectionName = (event: any) => {
         this.collectionName = event.target.value;
+        this.Collection.description.name = this.collectionName;
     };
 
     changeMaxTokenNumber = (event: any) => {
         this.maxTokenNumber = event.target.value;
+        this.Collection.description.limit = this.maxTokenNumber
     }
 };
 
