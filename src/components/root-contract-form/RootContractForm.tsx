@@ -1,9 +1,11 @@
-import './root-contract-form.css';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+
 import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInfoTab';
-import { CommisionTab } from '../commision-tab/CommisionTab';
+import CommisionTab from '../commision-tab/CommisionTab';
 import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
+
+import './root-contract-form.css';
 
 const RootContractForm = () => {
   return (
@@ -34,7 +36,8 @@ const RootContractForm = () => {
         <button className='btn root-contract-btn btn-blue'>
           <i className="far fa-calendar-plus mr-2"></i>
           Generate contracts Code</button>
-        <button className='btn root-contract-btn btn-blue'>
+        <button
+          className='btn root-contract-btn btn-blue'>
           <i className="fas fa-paper-plane mr-2"></i>
           Deploy contracts
         </button>

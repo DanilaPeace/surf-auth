@@ -2,7 +2,10 @@ import { useState } from "react";
 import UserInput from "../common/user-input/UserInput";
 import './commision-tab.css';
 
-export const CommisionTab = () => {
+import { store } from "../../store/MainStore";
+import { observer } from "mobx-react";
+
+const CommisionTab = observer(() => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -18,14 +21,20 @@ export const CommisionTab = () => {
                         <UserInput
                             labelName="Commision (%)"
                             inputName="Type commision here"
+                            data={store.commistions.commissionFavorOwner.value}
+                            onChange={store.commistions.onChangeCommissionFavorOwner}
                         />
                     </div>
                 </div>
                 <UserInput
                     labelName="Minting price for users (EVERs)"
                     inputName="Type price"
+                    data={store.commistions.mintingPriceUsers}
+                    onChange={store.commistions.onChangeMintingPriceUsers}
                 />
             </div>
         </div>
     );
-}
+});
+
+export default CommisionTab;
