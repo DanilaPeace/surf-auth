@@ -1,6 +1,8 @@
-import UserInput from '../common/user-input/UserInput';
-import './rarity-collection-info.css';
 import React, { useState } from "react"
+
+import UserInput from '../common/user-input/UserInput';
+
+import './rarity-collection-info.css';
 
 function RarityCollectionInfo() {
     const [count, setCount] = useState(0);
