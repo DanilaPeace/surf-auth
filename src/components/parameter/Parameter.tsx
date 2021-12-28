@@ -28,7 +28,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
         this.handleChange = this.handleChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.addParameter = this.addParameter.bind(this);
-        this.handleValueChangeValue = this.handleValueChangeValue.bind(this);
+        this.handleChangeParameterNestedValue = this.handleChangeParameterNestedValue.bind(this);
         this.handleCheckBoxValueChange = this.handleCheckBoxValueChange.bind(this);
     }
 
@@ -40,7 +40,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
         ParameterFormStore.changeParameter(e.target.parentNode.parentNode.parentNode.id, name, value)
     };
 
-    handleValueChangeValue = (e) => {
+    handleChangeParameterNestedValue = (e) => {
         const {
             name,
             value
@@ -62,8 +62,8 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
                 ParameterFormStore.switchParameterTypeValues(id, type, val)
                 return (
                     <div id={id} className="row parameter-choice">
-                        <div className="col"><UserInput labelName='Minumum value' name='minValue' inputName='minValue' onChange={this.handleValueChangeValue} /></div>
-                        <div className="col"><UserInput labelName='Maximum value' name='maxValue' inputName='maxValue' onChange={this.handleValueChangeValue} /></div>
+                        <div className="col"><UserInput inputType='number' labelName='Minumum value' name='minValue' inputName='minValue' onChange={this.handleChangeParameterNestedValue} /></div>
+                        <div className="col"><UserInput inputType='number' labelName='Maximum value' name='maxValue' inputName='maxValue' onChange={this.handleChangeParameterNestedValue} /></div>
                     </div>
                 );
                 break;
@@ -73,8 +73,8 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
                 ParameterFormStore.switchParameterTypeValues(id, type1, val1)
                 return (
                     <div id={id} className="row parameter-choice">
-                        <div className="col"><UserInput labelName='Minimum length' name='minValue' inputName='minValue' onChange={this.handleValueChangeValue} /></div>
-                        <div className="col"><UserInput labelName='Maximum length' name='maxValue' inputName='maxValue' onChange={this.handleValueChangeValue} /></div>
+                        <div className="col"><UserInput inputType='number' labelName='Minimum length' name='minValue' inputName='minValue' onChange={this.handleChangeParameterNestedValue} /></div>
+                        <div className="col"><UserInput inputType='number' labelName='Maximum length' name='maxValue' inputName='maxValue' onChange={this.handleChangeParameterNestedValue} /></div>
                     </div>
                 );
                 break;
@@ -129,7 +129,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
         return (
             <div className="row parameter-choice" id={id}>
                 <div className="col">
-                    <UserInput labelName='Parameter name' name='name' inputName='name' onChange={this.handleValueChange} />
+                    <UserInput inputType='text' labelName='Parameter name' name='name' inputName='name' onChange={this.handleValueChange} />
                 </div>
                 <div className="col">
                     <Select

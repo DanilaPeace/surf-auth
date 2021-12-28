@@ -1,17 +1,15 @@
+
 import { action, makeObservable, observable, reaction } from "mobx";
 import { observer } from 'mobx-react';
+import RarityFormStore from './RarityFormStore'
+import commisionStore from './CommisionStore';
 import ParameterFormStore from './ParameterFormStore'
-
-type Rarity = {
-    name: string,
-    tokenAmount: number
-};
 
 class MainStore {
     collectionName: string = '';
     maxTokenNumber: number = 0;
-    raritiesList: Rarity[] = [];
     enums: any[] = [];
+    commistions = commisionStore;
     //main collection object
     Collection: any = {
         "description": {
@@ -39,9 +37,26 @@ class MainStore {
             "mintingPriceUsers": 0
         }
     };
-
-
     constructor() {
+        reaction(
+            () => RarityFormStore.raritys,
+            value => {
+                let ed = JSON.parse(JSON.stringify(RarityFormStore.raritys));
+                let edited = ed.map(x => {
+                    x = Object.assign(x, x.value_temporary)
+                    delete x.value_temporary;
+                    delete x.id;
+                    return x;
+                })
+                this.Collection.rarities = edited.map(x => {
+                    if (x != ""){
+                        return x;
+                    }
+                   
+                }
+                )
+            }
+        )
         reaction(
             () => ParameterFormStore.parameters,
             value => {
@@ -84,6 +99,7 @@ class MainStore {
             maxTokenNumber: observable,
             Collection: observable,
             enums: observable,
+            commistions: observable,
             changeCollectionName: action,
             changeMaxTokenNumber: action
         })

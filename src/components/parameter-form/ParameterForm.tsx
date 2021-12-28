@@ -1,6 +1,6 @@
 import React from 'react'
 import ParameterFormStore from '../../store/ParameterFormStore'
-import { store } from '../../store/MainSotre'
+import { store } from '../../store/MainStore'
 import { observer } from "mobx-react";
 import Parameter from '../parameter/Parameter'
 import './styles.css';

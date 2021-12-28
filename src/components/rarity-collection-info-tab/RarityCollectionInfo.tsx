@@ -1,6 +1,8 @@
-import UserInput from '../common/user-input/UserInput';
-import './rarity-collection-info.css';
 import React, { useState } from "react"
+
+import UserInput from '../common/user-input/UserInput';
+
+import './rarity-collection-info.css';
 
 function RarityCollectionInfo() {
     const [count, setCount] = useState(0);
@@ -36,12 +38,12 @@ function RarityCollectionInfo() {
                         {quantityField.map((n) => {
                             return (
                                 <div className="rarity-info-inputs">
-                                    <UserInput
+                                    {/* <UserInput
                                         labelName='Rarity Type For Token'
                                         inputName='Rarity Type For Token' />
                                     <UserInput
                                         labelName='Maximum tokens number for type'
-                                        inputName='Maximum tokens number for type' />
+                                        inputName='Maximum tokens number for type' /> */}
                                 </div>
                             )
                         })}

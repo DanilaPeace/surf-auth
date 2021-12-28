@@ -44,7 +44,7 @@ export default class EnumOptions extends React.Component<EnumOptionsProps, EnumO
         this.setState({
             rendered: [...this.state.rendered,
             <div>
-                <UserInput labelName='Variant:' name='enumoption' inputName='enumoption' onChange={(e) => this.handleChange(id, enumid, e)} />
+                <UserInput inputType='text' labelName='Variant:' name='enumoption' inputName='enumoption' onChange={(e) => this.handleChange(id, enumid, e)} />
                 <div className="flex-center"><button className="text btn btn-blue btn-block btn-sub" onClick={(e) => this.handleDelete(id, enumid, e)}> - Delete variant </button></div>
             </div>
             ]

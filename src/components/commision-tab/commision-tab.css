@@ -1,0 +1,15 @@
+.commitsion-tab {
+    text-align: left;
+}
+
+.commision-tab__content {
+    width: 50%;
+}
+
+.commsion-input {
+    display: none;
+}
+
+.active {
+    display: block;
+}
