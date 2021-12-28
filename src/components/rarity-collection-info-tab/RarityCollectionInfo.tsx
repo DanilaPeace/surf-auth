@@ -38,12 +38,12 @@ function RarityCollectionInfo() {
                         {quantityField.map((n) => {
                             return (
                                 <div className="rarity-info-inputs">
-                                    <UserInput
+                                    {/* <UserInput
                                         labelName='Rarity Type For Token'
                                         inputName='Rarity Type For Token' />
                                     <UserInput
                                         labelName='Maximum tokens number for type'
-                                        inputName='Maximum tokens number for type' />
+                                        inputName='Maximum tokens number for type' /> */}
                                 </div>
                             )
                         })}

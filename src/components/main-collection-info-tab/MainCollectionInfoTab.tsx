@@ -9,12 +9,14 @@ const MainCollectionInfoTab = observer(() => {
         <div className="main-collection-info">
             <div className="main-info-inputs">
                 <UserInput
+                    inputType='text'
                     labelName="Collection name"
                     inputName="Collection name"
                     onChange={store.changeCollectionName}
                     data={store.collectionName} />
-                <UserInput
-                    labelName="Maximum number of tokenes"
+                <UserInput 
+                    inputType = "number"
+                    labelName="Maximum number of tokenes" 
                     inputName="Maximum number of tokenes"
                     onChange={store.changeMaxTokenNumber}
                     data={store.maxTokenNumber} />

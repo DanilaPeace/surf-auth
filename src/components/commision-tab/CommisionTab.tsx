@@ -19,6 +19,7 @@ const CommisionTab = observer(() => {
                     </label>
                     <div className={"commsion-input " + (checked ? 'active' : '')}>
                         <UserInput
+                            inputType = "text"
                             labelName="Commision (%)"
                             inputName="Type commision here"
                             data={store.commistions.commissionFavorOwner.value}
@@ -27,6 +28,7 @@ const CommisionTab = observer(() => {
                     </div>
                 </div>
                 <UserInput
+                    inputType = "text"
                     labelName="Minting price for users (EVERs)"
                     inputName="Type price"
                     data={store.commistions.mintingPriceUsers}
@@ -35,6 +37,6 @@ const CommisionTab = observer(() => {
             </div>
         </div>
     );
-});
+})
 
 export default CommisionTab;
