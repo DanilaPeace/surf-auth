@@ -8,18 +8,24 @@ import { observer } from "mobx-react";
 const CommisionTab = observer(() => {
     const [checked, setChecked] = useState(false);
 
+    const onChangeCheckbox = () => {
+        setChecked(!checked);
+
+        store.commistions.onChangeCheckbox(!checked);
+    }
+
     return (
         <div className="commitsion-tab">
             <div className="commision-tab__content">
                 <div className="commision-checkbox mb-3">
                     <label>
                         <input type="checkbox"
-                            onChange={() => setChecked(!checked)} />
+                            onChange={onChangeCheckbox} />
                         Commision to collection owner
                     </label>
                     <div className={"commsion-input " + (checked ? 'active' : '')}>
                         <UserInput
-                            inputType = "text"
+                            inputType="text"
                             labelName="Commision (%)"
                             inputName="Type commision here"
                             data={store.commistions.commissionFavorOwner.value}
@@ -28,7 +34,7 @@ const CommisionTab = observer(() => {
                     </div>
                 </div>
                 <UserInput
-                    inputType = "text"
+                    inputType="text"
                     labelName="Minting price for users (EVERs)"
                     inputName="Type price"
                     data={store.commistions.mintingPriceUsers}

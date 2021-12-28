@@ -49,10 +49,10 @@ class MainStore {
                     return x;
                 })
                 this.Collection.rarities = edited.map(x => {
-                    if (x != ""){
+                    if (x != "") {
                         return x;
                     }
-                   
+
                 }
                 )
             }
