@@ -1,9 +1,9 @@
-function CollectionList() {
+import CollectionListContainer from "../../components/collection-list-container/CollectionListContainer";
+
+function CollectionListPage() {
     return (
-        <h1>
-            Welcome to the collection list page.
-        </h1>
+        <CollectionListContainer />
     );
 }
 
-export default CollectionList;
+export default CollectionListPage;
