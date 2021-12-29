@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import RarityFormStore from './RarityFormStore'
 import commisionStore from './CommisionStore';
 import ParameterFormStore from './ParameterFormStore'
+import internal from "stream";
 
 class MainStore {
     collectionName: string = '';
@@ -20,7 +21,7 @@ class MainStore {
         "rarities": [],
         "variables": [],
         "enums": [],
-        "mediafiles": [],
+        //"mediafiles": [],
         "commissions": {
             "commissionAuthor": {
                 "check": false,
@@ -49,10 +50,8 @@ class MainStore {
                     return x;
                 })
                 this.Collection.rarities = edited.map(x => {
-                    if (x != "") {
-                        return x;
-                    }
-
+                    x.limit=Number(x.limit)
+                    return x;
                 }
                 )
             }
@@ -68,23 +67,40 @@ class MainStore {
                     return x;
                 })
                 this.Collection.enums = []
-                this.Collection.mediafiles = []
+                //this.Collection.mediafiles = []
                 this.Collection.variables = edited.map(x => {
-                    if (x.type == 'enum') {
-                        x.enumVariants = Object.values(x.enumVariants)
-                        this.Collection.enums.push(x)
-                        return x;
-                    }
-                    else {
-                        if (x.type == 'Mediafile') {
-                            x.type = "string"
-                            this.Collection.mediafiles.push(x)
+                    switch (x.type) {
+                        case "enum":
+                            x.enumVariants = Object.values(x.enumVariants)
+                            this.Collection.enums.push(x)
                             return x;
-                        }
-                        else {
+                        // case "Mediafile":
+                        //     x.type = "string"
+                        //     this.Collection.mediafiles.push(x)
+                        //     return x;
+                        case "uint":
+                            x.minValue=Number(x.minValue)
+                            x.maxValue=Number(x.maxValue)
                             return x;
-                        }
-                        return x;
+                        case "string":
+                            x.minValue=Number(x.minValue)
+                            x.maxValue=Number(x.maxValue)
+                            return x;
+                    // if (x.type == 'enum') {
+                    //     x.enumVariants = Object.values(x.enumVariants)
+                    //     this.Collection.enums.push(x)
+                    //     return x;
+                    // }
+                    // else {
+                    //     if (x.type == 'Mediafile') {
+                    //         x.type = "string"
+                    //         this.Collection.mediafiles.push(x)
+                    //         return x;
+                    //     }
+                    //     else  {
+                    //         return x;
+                    //     }
+                        
                     }
                 })
 
@@ -103,6 +119,7 @@ class MainStore {
             changeCollectionName: action,
             changeMaxTokenNumber: action
         })
+
     }
 
     changeCollectionName = (event: any) => {
@@ -112,7 +129,23 @@ class MainStore {
 
     changeMaxTokenNumber = (event: any) => {
         this.maxTokenNumber = event.target.value;
-        this.Collection.description.limit = this.maxTokenNumber
+        this.Collection.description.limit = Number(this.maxTokenNumber)
+    }
+    sendingData = () =>{
+        fetch('http://localhost:4001/root-collection/deploy-collection', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.Collection),
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error !!!:', error);
+        });
     }
 };
 

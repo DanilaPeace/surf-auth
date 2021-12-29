@@ -7,6 +7,7 @@ import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollection
 import ParameterForm from '../parameter-form/ParameterForm';
 import RarityForm from '../rarity-form/RarityForm';
 import { useNavigate } from "react-router-dom";
+import { store } from '../../store/MainStore'
 
 const RootContractForm = () => {
   let navigate = useNavigate();
@@ -24,10 +25,10 @@ const RootContractForm = () => {
     navigate("/deploy-from-file", { state: {test:"test"} });
     // })
   }
-
   const deployContracts = async () => {
     // fetch('http://example.com/movies.json')
     // .then((response) => {
+    store.sendingData()
     navigate("/tokens-data-info", { state: {test:"test"} });
     // })
   }
