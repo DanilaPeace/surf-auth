@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import CollectionListItem from "../collection-list-item/CollectionListItem";
 
 const CollectionListContainer = () => {

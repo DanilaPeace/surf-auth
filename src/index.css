@@ -45,3 +45,8 @@ code {
   border-radius: 50px;
   font-size: 20px;
 }
+
+.btn-outline {
+  outline: solid var(--btn-color);
+  color: var(--btn-color) !important; 
+}

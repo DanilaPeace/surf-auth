@@ -1,9 +1,11 @@
+import './collection-list-item.css';
+
 const CollectionListItem = ({address, collection}) => {
     return (
         <div className="CollectionListItem main-form">
             <div className="CollectionListItem-content">
                 <div className="CollectionListItem-row">
-                    <div className="CollectionListItem-col">
+                    <div className="CollectionListItem-col col-2">
                         Collection: 
                     </div>
                     <div className="CollectionListItem-col">
@@ -11,7 +13,7 @@ const CollectionListItem = ({address, collection}) => {
                     </div>
                 </div>
                 <div className="CollectionListItem-row">
-                    <div className="CollectionListItem-col">
+                    <div className="CollectionListItem-col col-2">
                         Address:
                     </div>
                     <div className="CollectionListItem-col">
@@ -24,7 +26,7 @@ const CollectionListItem = ({address, collection}) => {
                     <i className="far fa-plus-square"></i>
                     Minting token
                 </button>
-                <button className="CollectionListItem-btn btn">
+                <button className="CollectionListItem-btn btn btn-outline">
                     <i className="fas fa-info-circle"></i>
                     Info Root
                 </button>
