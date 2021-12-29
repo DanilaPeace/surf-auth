@@ -58,7 +58,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
         switch (state) {
             case 'Integer':
                 let val = { minValue: '', maxValue: '' };
-                let type = 'integer'
+                let type = 'uint'
                 ParameterFormStore.switchParameterTypeValues(id, type, val)
                 return (
                     <div id={id} className="row parameter-choice">
@@ -88,15 +88,15 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
                     </div>
                 );
                 break;
-            case 'Mediafile':
-                let val3 = {};
-                let type3 = 'Mediafile';
-                ParameterFormStore.switchParameterTypeValues(id, type3, val3)
-                return (
-                    <div id={id}>
-                    </div>
-                );
-                break;
+            // case 'Mediafile':
+            //     let val3 = {};
+            //     let type3 = 'Mediafile';
+            //     ParameterFormStore.switchParameterTypeValues(id, type3, val3)
+            //     return (
+            //         <div id={id}>
+            //         </div>
+            //     );
+            //     break;
             case 'Not selected':
                 let val4 = {};
                 let type4 = '';
@@ -133,7 +133,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
                 </div>
                 <div className="col">
                     <Select
-                        selectOptions={['Not selected', 'String', 'Integer', 'Enumeration', 'Mediafile']}
+                        selectOptions={['Not selected', 'String', 'Integer', 'Enumeration']}//, 'Mediafile'
                         name="select"
                         onChange={this.handleChange}
                         value={this.state.defaultParamState}
