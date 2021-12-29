@@ -1,6 +1,6 @@
 import './collection-list-item.css';
 
-const CollectionListItem = ({address, collection}) => {
+const CollectionListItem = ({address, name}) => {
     return (
         <div className="CollectionListItem main-form">
             <div className="CollectionListItem-content">
@@ -9,7 +9,7 @@ const CollectionListItem = ({address, collection}) => {
                         Collection: 
                     </div>
                     <div className="CollectionListItem-col">
-                        {collection}
+                        {name}
                     </div>
                 </div>
                 <div className="CollectionListItem-row">
