@@ -96,10 +96,10 @@
     flex: 0 0 auto;
 }
 
-.container {
+.tokens-data-container {
     margin-top: 40px;
     padding: 50px;
-    text-align: left !important
+    text-align: left;
 }
 
 .col-lg-4 {
