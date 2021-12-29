@@ -10,6 +10,7 @@ import CollectionInfo from '../collection-info/CollectionInfo';
 import TokensDataInfo from '../../pages/tokens-data-info/TokensDataInfo';
 
 import './App.css';
+import MintingTokensPage from '../../pages/mintiog-tokens/MintiongTokensPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/collection-list" element={<CollectionList />} />
           <Route path="/collection-info" element={<CollectionInfo />} />
           <Route path="/tokens-data-info" element={<TokensDataInfo />} />
+          <Route path='/minting-tokens' element={<MintingTokensPage />} />
         </Routes>
       </Provider>
     </div>

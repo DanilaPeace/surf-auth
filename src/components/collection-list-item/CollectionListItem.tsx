@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './collection-list-item.css';
 
 const CollectionListItem = ({address, name}) => {
@@ -24,7 +25,9 @@ const CollectionListItem = ({address, name}) => {
             <div className="CollectionListItem-btns">
                 <button className="CollectionListItem-btn btn btn-blue">
                     <i className="far fa-plus-square"></i>
-                    Minting token
+                    <Link to='/minting-tokens'>
+                        Minting token
+                    </Link>
                 </button>
                 <button className="CollectionListItem-btn btn btn-outline">
                     <i className="fas fa-info-circle"></i>
