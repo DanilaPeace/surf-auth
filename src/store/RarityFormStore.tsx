@@ -3,7 +3,7 @@ import { action, makeObservable, observable } from "mobx";
 interface Rarity {
     id: string;
     name: string;
-    numberTokens: number;
+    limit: number;
     value_temporary?: RarityValue;
     [key: string]: any;
 }
@@ -25,7 +25,7 @@ class Store {
     }
 
     addRarity(rarId) {
-        this.raritys = [...this.raritys, { id: rarId, name: '', numberTokens: 0, value_temporary: {} }]
+        this.raritys = [...this.raritys, { id: rarId, name: '', limit: 0, value_temporary: {} }]
     }
 
     changeRarity(rarId, name, newparamvalue) {

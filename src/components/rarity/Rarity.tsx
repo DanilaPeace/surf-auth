@@ -54,7 +54,7 @@ export default class Rarity extends React.Component<RarityProps, RarityState> {
                     <UserInput inputType = "text" labelName='Rarity Type For Token' name='name' inputName='name' onChange={this.handleValueChange} />
                 </div>
                 <div className="col">
-                    <UserInput inputType = "number" labelName='Maximum tokens number for type' name='numberTokens' inputName='numberTokens' onChange={this.handleValueChange} />
+                    <UserInput inputType = "number" labelName='Maximum tokens number for type' name='limit' inputName='limit' onChange={this.handleValueChange} />
                 </div>
                 {this.state.RarityValues}
                 <div className='flex-center'><button onClick={this.handleDelete} className='text btn btn-blue btn-block btn-sub'> - Delete parameter </button></div>

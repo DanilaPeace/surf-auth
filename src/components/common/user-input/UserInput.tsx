@@ -1,14 +1,14 @@
 import './user-input.css'
 
 function UserInput(
-    { labelName, inputName, onChange, data, name,inputType }: { labelName: string, inputName: string, onChange?: (arg: any) => void, data?: any, name?,inputType:string}
+    { labelName, inputName, onChange, data, name,inputType }: { labelName: string, inputName: string, onChange?: (arg: any) => void, data?: any, name?:any,inputType:string}
 ) {
     return (
         <div className="user-input-content flex-grow-1 px-3">
             <label htmlFor={inputName}>{labelName}</label>
             <input
                 name={inputName}
-                type={inputType}
+                type={inputType} 
                 className="form-control user-input"
                 placeholder={inputName}
                 onChange={onChange}
@@ -16,5 +16,4 @@ function UserInput(
         </div>
     );
 };
-
 export default UserInput;
