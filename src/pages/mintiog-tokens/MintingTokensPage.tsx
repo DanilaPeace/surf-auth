@@ -1,6 +1,6 @@
 import MintingTokensForm from "../../components/minting-tokes-form/MintingTokensForm";
 
-const MintingTokensPage = () => {
+const MintingTokensPage = (props) => {
     return <MintingTokensForm />
 };
 

@@ -3,7 +3,6 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import MainCollectionInfoTab from '../main-collection-info-tab/MainCollectionInfoTab';
 import CommisionTab from '../commision-tab/CommisionTab';
-import RarityCollectionInfo from '../rarity-collection-info-tab/RarityCollectionInfo';
 import ParameterForm from '../parameter-form/ParameterForm';
 import RarityForm from '../rarity-form/RarityForm';
 import { useNavigate } from "react-router-dom";

@@ -12,7 +12,7 @@ const CollectionListContainer = () => {
             })
             .catch(error => console.log(`Error: ${error}`));
     }
-
+    
     useEffect(getCollectionListApi, []);
 
     return (
