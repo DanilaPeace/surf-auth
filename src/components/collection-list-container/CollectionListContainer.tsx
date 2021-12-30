@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import CollectionListItem from "../collection-list-item/CollectionListItem";
 
+import { global_urls } from '../../config/urls'
+
 const CollectionListContainer = () => {
     const [collectionList, setCollectionList] = useState([]);
 
     const getCollectionListApi = () => {
-        fetch('http://localhost:4001/collection-list')
+        fetch(global_urls.COLLECTION_LIST_URL)
             .then(res => res.json())
             .then(data => {
                 setCollectionList(data.collectionList)
             })
             .catch(error => console.log(`Error: ${error}`));
     }
-    
+
     useEffect(getCollectionListApi, []);
 
     return (
