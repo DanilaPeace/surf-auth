@@ -1,5 +1,7 @@
-const MintingTokensPage = () => {
-    return <h1>hello</h1>
-}
+import MintingTokensForm from "../../components/minting-tokes-form/MintingTokensForm";
 
-export default MintingTokensPage;
+const MintingTokensPage = () => {
+    return <MintingTokensForm />
+};
+
+export default MintingTokensPage;   
