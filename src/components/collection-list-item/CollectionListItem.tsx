@@ -1,11 +1,6 @@
 import { Link } from 'react-router-dom';
 import './collection-list-item.css';
 
-interface StateTo {
-    pathname: string,
-    state: any
-}
-
 const CollectionListItem = ({ address, name }) => {
     return (
         <div className="CollectionListItem main-form">

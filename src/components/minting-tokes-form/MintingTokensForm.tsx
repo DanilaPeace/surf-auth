@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { global_urls } from "../../config/urls";
 
 type ServerMintingResponse = {
     collectionInfo: any,
@@ -7,26 +8,54 @@ type ServerMintingResponse = {
     collecitonRootAddress: string
 }
 
-const ParamsField = () => {
+const ParamsField = ({ variables }) => {
     return (
-        <div className="MediafileField">
-
+        <div className="ParamsField">
+            Parameters
+            {
+                variables.map(parameter => {
+                    return (
+                        <div className="parameter">
+                            <div className="parameter-title">
+                                {parameter.name}
+                            </div>
+                            <input className="form-control user-input" type="text" name={parameter.name} id="" />
+                        </div>)
+                })}
         </div>
     )
 }
 
-const RaritiesField = () => {
+const RaritiesField = ({ rarities }) => {
     return (
-        <div className="MediafileField">
-
+        <div className="RaritiesField">
+            Rarities
+            <select className="form-select" name="rarities" id="rarities">
+                {rarities.map(rarity => {
+                    return <option>{rarity.name}</option>
+                })}
+            </select>
         </div>
     )
 }
 
-const EnumField = () => {
+const EnumField = ({ enums }) => {
     return (
-        <div className="MediafileField">
-
+        <div className="EnumField">
+            {enums.map(enumItem => {
+                return (<div className="enum-item-container">
+                    <div className="enum-item-name">
+                        {enumItem.name}
+                    </div>
+                    <select name="enum-items-select" className="form-select" id="">
+                        {enumItem.enumVariants.map(variant => {
+                            return (
+                                <option value={variant}>{variant}</option>
+                            )
+                        })}
+                    </select>
+                </div>)
+            })}
         </div>
     )
 }
@@ -46,10 +75,18 @@ const MintingTokensForm = (props) => {
         collecitonRootAddress: ''
     });
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const [signIsChecked, setSing] = useState(false);
+
     const params = useParams();
 
     const getMintingInfo = () => {
-        (fetch('http://localhost:4001/minting-tokens', {
+        /*
+            TODO: 
+                1. CHANGE A NAME OF THIS FUNCTION 
+        */
+        fetch(global_urls.MINTING_INFORMATION_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,86 +96,79 @@ const MintingTokensForm = (props) => {
                     colName: params.collectionName,
                     colAdd: params.collectionAddress
                 })
-        }))
+        })
             .then(res => res.json())
             .then(data => {
-                setMintingData(data)
+                setMintingData(data);
+                setIsLoaded(!isLoaded);
+                console.log(data)
             })
-            .catch(error => console.log(error));
+            .catch(error => error);
     }
 
     useEffect(getMintingInfo, [params.collectionAddress, params.collectionName]);
 
     const onHandleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData();
-        // console.log(data);
-        // console.log(event.target);
-        // console.log(event.target.elements);
-        console.log(event.target.rarities.value);
-        console.log(event.target["enum-items-select"].value);
+        /*
+            TODO: 
+                1. MAKE FUNCTION OT CREATE A PARAMS FOR MINTING
+                2. REDIRECT TO THE INFORMATINO ABOUT COLLECTION PAGE
+                3. Смотреть видео про запрос на сервер с коктелями 
+        */
+        const testMintingParams = {
+            rootAddress: params.collectionAddress,
+            contractName: params.collectionName,
+            url: "",
+            editionNumber: 1,
+            editionAmount: 1,
+            managersList: [],
+            royalty: 1,
+            rarities: "Collection",
+            attack: 5,
+            info: "info nft",
+            seedPhrase: "",
+            signAddress: ""
+        }
+
+        fetch(global_urls.MINTING_TOKEN_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(testMintingParams)
+        })
+            .then(res => res.json())
+            .then(data => console.log("DATA: ", data))
+            .catch(err => console.log(err));
     }
 
-    // console.log(mintingData)
+
 
     return (
+            /*
+            TODO:
+            1. make more readable of this component
+            */
         <div className="container">
             {
-                mintingData.collectionInfo.collection ?
+                isLoaded ?
                     (
                         <form onSubmit={onHandleSubmit} method="post" className="main-form">
-                            {/* {console.log(mintingData.collectionInfo)} */}
-                            Rarities
-                            <select className="form-select" name="rarities" id="rarities">
-                                {mintingData.collectionInfo.collection.rarities.map(rarity => {
-                                    return <option>{rarity.name}</option>
-                                })}
-                            </select>
 
+                            {mintingData.collectionInfo.rarities ? <RaritiesField rarities={mintingData.collectionInfo.rarities} /> : 'THERE IS NO RARITIES'}
+                            {mintingData.collectionInfo.variables ? <ParamsField variables={mintingData.collectionInfo.variables} /> : 'THERE IS NO PARAMS'}
+                            {mintingData.collectionInfo.enums ? <EnumField enums={mintingData.collectionInfo.enums} /> : "THERE IS NO ENUMS"}
+                            <div className="sign-block">
+                                <input type="checkbox" name="sign-block-checkbox" onChange={() => setSing(!signIsChecked)} />
+                                <div className={"sing-block-inputs " + signIsChecked ? ' active' : ''}>
 
-                            {mintingData.collectionInfo.collection.parameters ?
-                                (
-                                    <div>
-                                        "Parameters"
-                                        {
-                                            mintingData.collectionInfo.collection.parameters.map(parameter => {
-                                                return (
-                                                    <div className="parameter">
-                                                        <div className="parameter-title">
-                                                            {parameter.name}
-                                                        </div>
-                                                        <input className="form-control user-input" type="text" name={parameter.name} id="" />
-                                                    </div>)
-                                            })}
-                                    </div>
-                                ) : ""
-                            }
-
-                            {mintingData.collectionInfo.enums ?
-                                (
-
-                                    <div>
-                                        {mintingData.collectionInfo.enums.map(enumItem => {
-                                            return (<div className="enum-item-container">
-                                                <div className="enum-item-name">
-                                                    {enumItem.name}
-                                                </div>
-                                                <select name="enum-items-select" className="form-select" id="">
-                                                    {enumItem.enumVariants.map(variant => {
-                                                        return (
-                                                            <option value={variant}>{variant}</option>
-                                                        )
-                                                    })}
-                                                </select>
-                                            </div>)
-                                        })}
-                                    </div>
-                                ) : ""
-                            }
+                                </div>
+                            </div>
 
                             <button className="btn btn-blue">Submit</button>
                         </form>
-                    ) : ''
+                    ) : 'NOTHING'
             }
         </div>
     );
