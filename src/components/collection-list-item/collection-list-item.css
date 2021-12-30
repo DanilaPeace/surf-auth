@@ -1,0 +1,34 @@
+.CollectionListItem {
+    text-align: left;
+    margin-bottom: 30px;
+    padding: 25px 40px;
+}
+
+.CollectionListItem-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.CollectionListItem-col:first-child {
+    font-weight: 700;
+    margin-right: 30px;
+}
+
+/* BUTTONS */
+.CollectionListItem-btns {
+    margin-top: 30px;
+}
+
+.CollectionListItem-btns .CollectionListItem-btn {
+    padding: 10px 90px;
+    margin-bottom: 10px;
+}
+
+.CollectionListItem-btn:first-child {
+    margin-right: 30px;  
+}
+
+.CollectionListItem-btn i{
+    margin-right: 15px;
+}

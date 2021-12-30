@@ -21,6 +21,14 @@ code {
     monospace;
 }
 
+/* FORM */
+.main-form {
+  padding: 0 30px 20px 30px;
+  margin: 0 auto;
+  border-radius: 50px;
+  background-color: var(--form-color);
+}
+
 /* BUTTONS */
 .btn{
   transition: transform .2s ease-in-out;
@@ -36,4 +44,9 @@ code {
   font-weight: 600;
   border-radius: 50px;
   font-size: 20px;
+}
+
+.btn-outline {
+  outline: solid var(--btn-color);
+  color: var(--btn-color) !important; 
 }

@@ -8,7 +8,8 @@ class CommisionStore {
             commissionFavorOwner: observable,
             mintingPriceUsers: observable,
             onChangeCommissionFavorOwner: action,
-            onChangeMintingPriceUsers: action
+            onChangeMintingPriceUsers: action,
+            onChangeCheckbox: action
         }
         );
     }
@@ -17,6 +18,10 @@ class CommisionStore {
     commissionFavorOwner: { check: boolean, value: number } = {
         check: false,
         value: 0
+    };
+
+    onChangeCheckbox = (value) => {
+        this.commissionFavorOwner.check = value;
     };
 
     onChangeCommissionFavorOwner = (event: any) => {
