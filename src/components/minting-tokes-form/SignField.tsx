@@ -26,8 +26,8 @@ const SignField = ({ paramsForMint, signFieldChange }) => {
 
   const singInputs = signInputData.map((inputData) => {
     return (
-      <>
-        <label htmlFor={inputData.htmlFor}>{`${inputData.labelName}:`}</label>
+      <div className="sign-block-item">
+        <label htmlFor={inputData.htmlFor} >{inputData.labelName}:</label>
         <input
           onChange={onSignInputChange}
           type="text"
@@ -35,14 +35,14 @@ const SignField = ({ paramsForMint, signFieldChange }) => {
           name={inputData.name}
           value={inputData.value}
         />
-      </>
+      </div>
     );
   });
 
   return (
     <div className="SignField">
-      <label htmlFor="sign-block-checkbox">Sign token</label>
-      <input type="checkbox" onChange={() => setSing(!signIsChecked)} />
+      <label htmlFor="sign-checkbox" className="SignField-title">Sign token</label>
+      <input type="checkbox" name="sign-checkbox" onChange={() => setSing(!signIsChecked)} />
       <div className={"sing-block-inputs " + (signIsChecked ? " active" : "")}>
         {singInputs}
       </div>

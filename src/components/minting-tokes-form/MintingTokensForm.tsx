@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import ParamsField from "./ParamsField";
 import RaritiesField from "./RaritiasField";
@@ -65,10 +65,8 @@ const MintingTokensForm = () => {
       body: JSON.stringify(paramsForMint),
     })
       .then((res) => res.json())
-      .then((data) => console.log("DATA: ", data))
+      .then((data) => console.log(data))
       .catch((err) => console.log(err));
-    
-    setParamsForMint(defaultParamsForMint);
   };
 
   useEffect(getServerInfoForMint, [
@@ -77,7 +75,7 @@ const MintingTokensForm = () => {
   ]);
 
   return (
-    <div className="container">
+    <div className="MintingTokensFormContainer container">
       {isLoaded ? (
         <form
           onSubmit={makeFetchRequestToMint}
@@ -86,19 +84,24 @@ const MintingTokensForm = () => {
         >
           <RaritiesField
             rarities={serverInfoForMint.collectionInfo.rarities}
-            onRaritiesChange={setParamsForMint}
+            onRaritiesSelect={setParamsForMint}
             paramsForMint={paramsForMint}
           />
           <ParamsField
             variables={serverInfoForMint.collectionInfo.variables}
-            onRaritiesChange={setParamsForMint}
+            onParamsChange={setParamsForMint}
             paramsForMint={paramsForMint}
           />
           <SignField
             signFieldChange={setParamsForMint}
             paramsForMint={paramsForMint}
           />
-          <button className="btn btn-blue">Submit</button>
+          <button className="MintingTokensFormBtn btn btn-blue">
+            <Link to="/tokens-data-info">
+              <i className="fas fa-plus"></i>
+              Minting
+            </Link>
+          </button>
         </form>
       ) : (
         ""
