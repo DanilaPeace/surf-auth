@@ -1,0 +1,11 @@
+.minting-tokens-form {
+    text-align: left;
+}
+
+.sing-block-inputs {
+    display: none;
+}
+
+.sing-block-inputs.active {
+    display: block;
+}

@@ -6,7 +6,7 @@ import { global_urls } from '../../config/urls'
 const CollectionListContainer = () => {
     const [collectionList, setCollectionList] = useState([]);
 
-    const getCollectionListApi = () => {
+    const getCollectionListFromServer = () => {
         fetch(global_urls.COLLECTION_LIST_URL)
             .then(res => res.json())
             .then(data => {
@@ -15,7 +15,7 @@ const CollectionListContainer = () => {
             .catch(error => console.log(`Error: ${error}`));
     }
 
-    useEffect(getCollectionListApi, []);
+    useEffect(getCollectionListFromServer, []);
 
     return (
         <div className="CollectionListContainer container">
