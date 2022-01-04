@@ -24,13 +24,6 @@
   margin-top: 20px auto;
 }
 
-.MintingTokensFormBtn a,
-.MintingTokensFormBtn a:hover {
-  text-decoration: none;
-  color: #fff;
-  padding: 10px 90px;
-}
-
 @media screen and (max-width: 576px) {
   .MintingTokensFormBtn a {
     padding: 10px 50px;

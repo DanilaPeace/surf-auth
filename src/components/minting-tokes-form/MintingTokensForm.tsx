@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import ParamsField from "./ParamsField";
 import RaritiesField from "./RaritiasField";
@@ -34,6 +34,7 @@ const MintingTokensForm = () => {
     });
   const [isLoaded, setIsLoaded] = useState(false);
   const [paramsForMint, setParamsForMint] = useState(defaultParamsForMint);
+  const mintingNavigate = useNavigate();
 
   const getServerInfoForMint = () => {
     fetch(global_urls.MINTING_INFORMATION_URL, {
@@ -54,10 +55,14 @@ const MintingTokensForm = () => {
       .catch((error) => error);
   };
 
-  const makeFetchRequestToMint = (event) => {
+  const onHadleSubmit = async (event) => {
     event.preventDefault();
+    const serverResponse = await makeFetchReqToMintAndGetResponse();
+    redirectToInfoCollection(serverResponse);
+  };
 
-    fetch(global_urls.MINTING_TOKEN_URL, {
+  const makeFetchReqToMintAndGetResponse = async () => {
+    const serverResponse = await fetch(global_urls.MINTING_TOKEN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,9 +70,13 @@ const MintingTokensForm = () => {
       body: JSON.stringify(paramsForMint),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
+
+    return serverResponse;
   };
+
+  const redirectToInfoCollection = (dataForView) =>
+    mintingNavigate("/tokens-data-info", { state: dataForView });
 
   useEffect(getServerInfoForMint, [
     urlParams.collectionAddress,
@@ -78,7 +87,7 @@ const MintingTokensForm = () => {
     <div className="MintingTokensFormContainer container">
       {isLoaded ? (
         <form
-          onSubmit={makeFetchRequestToMint}
+          onSubmit={onHadleSubmit}
           method="post"
           className="main-form minting-tokens-form"
         >
@@ -97,10 +106,8 @@ const MintingTokensForm = () => {
             paramsForMint={paramsForMint}
           />
           <button className="MintingTokensFormBtn btn btn-blue">
-            <Link to="/tokens-data-info">
-              <i className="fas fa-plus"></i>
-              Minting
-            </Link>
+            <i className="fas fa-plus"></i>
+            Minting
           </button>
         </form>
       ) : (
