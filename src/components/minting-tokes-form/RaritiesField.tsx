@@ -1,9 +1,7 @@
-const RaritiesField = ({ rarities, onRaritiesSelect, paramsForMint }) => {
-  const defaultSelectedValue = rarities[0].name;
-
+const RaritiesField = ({ rarities, setRarity, mintParams }) => {
   const onRaritiesChange = (event) => {
-    onRaritiesSelect({
-      ...paramsForMint,
+    setRarity({
+      ...mintParams,
       [event.target.name]: event.target.value,
     });
   };
@@ -15,7 +13,6 @@ const RaritiesField = ({ rarities, onRaritiesSelect, paramsForMint }) => {
         onChange={onRaritiesChange}
         className="RaritiesField-select form-select"
         name="rarities"
-        defaultValue={defaultSelectedValue}
         id="rarities"
       >
         {rarities.map((rarity, idx) => {

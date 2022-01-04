@@ -1,22 +1,22 @@
-const ParamsField = ({ variables, onParamsChange, paramsForMint }) => {
+const ParamsField = ({ variables, setParam, mintParams }) => {
   const onParamChange = (event) => {
     let eventTargetValue = event.target.value;
     if (event.target.type === "number") {
       eventTargetValue = +eventTargetValue;
     }
-    onParamsChange({ ...paramsForMint, [event.target.name]: eventTargetValue });
+    setParam({ ...mintParams, [event.target.name]: eventTargetValue });
   };
 
   const parameters = variables.map((parameter, idx: number) => {
     return (
-      <div key={idx} className="parameter-block">
+      <div className="parameter-block" key={idx}>
         <div className="parameter-title">{parameter.name}</div>
         <input
           onChange={onParamChange}
           className="form-control user-input"
           type={parameter.type === "uint" ? "number" : "text"}
           name={parameter.name}
-          value={paramsForMint[parameter.name]}
+          required
         />
       </div>
     );

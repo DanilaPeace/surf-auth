@@ -1,6 +1,6 @@
 /* FORM */
 .MintingTokensFormContainer {
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .minting-tokens-form {
@@ -21,19 +21,21 @@
 
 /* BUTTON */
 .MintingTokensFormBtn {
-  margin-top: 20px auto;
-}
-
-@media screen and (max-width: 576px) {
-  .MintingTokensFormBtn a {
-    padding: 10px 50px;
-  }
+  margin-top: 20px;
+  padding-left: 90px;
+  padding-right: 90px;
 }
 
 .MintingTokensFormBtn i {
   margin-right: 10px;
 }
 
+@media screen and (max-width: 576px) {
+  .MintingTokensFormBtn {
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+}
 
 /* RARITIES AND PARAMS */
 .RaritiesField,
@@ -55,7 +57,6 @@
 .SignField-title {
   font-size: 20px;
   font-weight: 500;
-  /* margin-bottom: 10px; */
 }
 
 .SignField-title {
