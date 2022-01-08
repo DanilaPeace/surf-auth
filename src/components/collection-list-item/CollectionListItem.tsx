@@ -1,6 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import './collection-list-item.css';
 
+
 const CollectionListItem = ({address, name}) => {
+    let navigate = useNavigate();
+    const transitionInfoRoot = () => {
+        navigate(`/tokens-data-info/${name}/${address}`);
+    }
     return (
         <div className="CollectionListItem main-form">
             <div className="CollectionListItem-content">
@@ -26,7 +32,7 @@ const CollectionListItem = ({address, name}) => {
                     <i className="far fa-plus-square"></i>
                     Minting token
                 </button>
-                <button className="CollectionListItem-btn btn btn-outline">
+                <button className="CollectionListItem-btn btn btn-outline" onClick={transitionInfoRoot}>
                     <i className="fas fa-info-circle"></i>
                     Info Root
                 </button>
@@ -34,5 +40,6 @@ const CollectionListItem = ({address, name}) => {
         </div>
     )
 }
+// navigate(`/tokens-data-info/${data.collectionName}/${data.rootNftAddress}`, { state: {data:data} });
 
 export default CollectionListItem;
