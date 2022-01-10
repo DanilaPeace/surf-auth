@@ -5,6 +5,7 @@ import RarityFormStore from './RarityFormStore'
 import commisionStore from './CommisionStore';
 import ParameterFormStore from './ParameterFormStore'
 import internal from "stream";
+import { useNavigate } from "react-router-dom";
 
 class MainStore {
     collectionName: string = '';
@@ -105,7 +106,7 @@ class MainStore {
                 })
 
                 this.Collection.variables = this.Collection.variables.filter(item => item.type !== 'enum')
-                this.Collection.variables = this.Collection.variables.filter(item => item.type !== 'Mediafile')
+                //this.Collection.variables = this.Collection.variables.filter(item => item.type !== 'Mediafile')
 
             }
         )
@@ -119,6 +120,7 @@ class MainStore {
             changeCollectionName: action,
             changeMaxTokenNumber: action
         })
+        
 
     }
 
@@ -131,8 +133,43 @@ class MainStore {
         this.maxTokenNumber = event.target.value;
         this.Collection.description.limit = Number(this.maxTokenNumber)
     }
-    sendingData = () =>{
-        fetch('http://localhost:4001/root-collection/deploy-collection', {
+    
+    sendingDataDeploy = async () =>{
+        return await fetch('http://localhost:4001/root-collection/deploy-collection', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.Collection),
+            })
+            .then((response) => { return response.json()})
+            .then(data => {
+                console.log('Success:', data.rootNftAddress,data.collectionName);
+                return data
+            })
+            .catch((error) => {
+            console.error('Error !!!:', error);
+            
+        });
+    }
+    sendingDataSave = () =>{
+        fetch('http://localhost:4001/root-collection/save-data', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.Collection),
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error !!!:', error);
+        });
+    }
+    sendingDataContract = () =>{
+        fetch('http://localhost:4001/root-collection/generate-collection', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',

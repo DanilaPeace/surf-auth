@@ -7,6 +7,7 @@ import ParameterForm from '../parameter-form/ParameterForm';
 import RarityForm from '../rarity-form/RarityForm';
 import { useNavigate } from "react-router-dom";
 import { store } from '../../store/MainStore'
+import { useEffect, useState } from 'react';
 
 const RootContractForm = () => {
   let navigate = useNavigate();
@@ -14,6 +15,8 @@ const RootContractForm = () => {
   const saveData = () => {
     // fetch('http://example.com/movies.json')
     // .then((response) => {
+      
+    store.sendingDataSave()
     navigate("/deploy-from-file", { state: {test:"test"} });
     // })
   }
@@ -21,15 +24,15 @@ const RootContractForm = () => {
   const generateContractsCode = () => {
     // fetch('http://example.com/movies.json')
     // .then((response) => {
-    navigate("/deploy-from-file", { state: {test:"test"} });
+    store.sendingDataContract()
+    navigate("/deploy-from-file/", { state: {test:"test"} });
     // })
   }
-  const deployContracts = async () => {
-    // fetch('http://example.com/movies.json')
-    // .then((response) => {
-    store.sendingData()
-    navigate("/tokens-data-info", { state: {test:"test"} });
-    // })
+  const DeployContracts = async (e) => {
+    e.preventDefault() 
+    let data = await store.sendingDataDeploy()
+
+    navigate(`/tokens-data-info/${data.collectionName}/${data.rootNftAddress}`, { state: {data:data} });
   }
 
 return (
@@ -60,7 +63,7 @@ return (
       <button onClick={generateContractsCode} className='btn root-contract-btn btn-blue'>
         <i className="far fa-calendar-plus mr-2"></i>
         Generate contracts Code</button>
-      <button onClick={deployContracts} className='btn root-contract-btn btn-blue'>
+      <button onClick={DeployContracts} className='btn root-contract-btn btn-blue'>
         <i className="fas fa-paper-plane mr-2"></i>
         Deploy contracts
       </button>
