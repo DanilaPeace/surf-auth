@@ -23,6 +23,7 @@ function App() {
           <Route path="/collection-list" element={<CollectionList />} />
           <Route path="/collection-info" element={<CollectionInfo />} />
           <Route path="/tokens-data-info/:collectionName/:collectionAddress" element={<TokensDataInfo />} />
+          <Route path='/minting-tokens/:collectionName/:collectionAddress' element={<MintingTokensPage />} />
         </Routes>
       </Provider>
     </div>
