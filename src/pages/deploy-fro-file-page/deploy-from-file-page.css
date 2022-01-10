@@ -1,0 +1,10 @@
+.deploy-from-file-page {
+    padding: 10px 30px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    max-width: 350px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--form-color);
+}
