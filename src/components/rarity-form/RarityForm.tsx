@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import RarityFormStore from '../../store/RarityFormStore'
 import { store } from '../../store/MainStore'
 import { observer } from "mobx-react";

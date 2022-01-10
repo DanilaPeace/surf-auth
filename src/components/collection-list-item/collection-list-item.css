@@ -21,14 +21,21 @@
 }
 
 .CollectionListItem-btns .CollectionListItem-btn {
-    padding: 10px 90px;
     margin-bottom: 10px;
 }
 
 .CollectionListItem-btn:first-child {
-    margin-right: 30px;  
+    margin-right: 30px; 
 }
 
 .CollectionListItem-btn i{
     margin-right: 15px;
+}
+
+/* LINK */
+.CollectionListItem-btn a, 
+.CollectionListItem-btn a:hover {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 60px;
 }
