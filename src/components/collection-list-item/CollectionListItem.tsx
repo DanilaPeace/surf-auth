@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './collection-list-item.css';
-
+import { Link } from "react-router-dom";
 
 const CollectionListItem = ({address, name}) => {
     let navigate = useNavigate();
@@ -28,10 +28,12 @@ const CollectionListItem = ({address, name}) => {
                 </div>
             </div>
             <div className="CollectionListItem-btns">
-                <button className="CollectionListItem-btn btn btn-blue">
+            <button className="CollectionListItem-btn btn btn-blue">
+                <Link to={`/minting-tokens/${name}/${address}`}>
                     <i className="far fa-plus-square"></i>
                     Minting token
-                </button>
+                </Link>
+            </button>
                 <button className="CollectionListItem-btn btn btn-outline" onClick={transitionInfoRoot}>
                     <i className="fas fa-info-circle"></i>
                     Info Root
