@@ -1,6 +1,6 @@
 import './deploy-from-file-page.css';
-import {store} from '../../store/MainSotre'
-import { observer } from 'mobx-react-lite';
+import {store} from '../../store/MainStore'
+import { observer } from "mobx-react-lite";
 import React from "react"
 
 const DeployFromFile = () => {
