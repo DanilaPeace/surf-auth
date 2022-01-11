@@ -15,7 +15,7 @@ const MainCollectionInfoTab = observer(() => {
                     onChange={store.changeCollectionName}
                     data={store.collectionName} />
                 <UserInput 
-                    inputType = "number"
+                    inputType = "text"
                     labelName="Maximum number of tokenes" 
                     inputName="Maximum number of tokenes"
                     onChange={store.changeMaxTokenNumber}

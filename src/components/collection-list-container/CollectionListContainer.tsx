@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import CollectionListItem from "../collection-list-item/CollectionListItem";
 
 import { global_urls } from "../../config/urls";
 import PagePreloader from "../common/page-preloader/PagePreloader";
+import CollectionListItem from "../collection-list-item/CollectionListItem";
+import apiCall from "../../api/CallApi";
 
 const CollectionListContainer = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
 
   const getCollectionListFromServer = () => {
-    fetch(global_urls.COLLECTION_LIST_URL)
-      .then((res) => res.json())
+    apiCall
+      .get(global_urls.COLLECTION_LIST_URL)
       .then((data) => {
         setCollectionList(data.collectionList);
         setDataIsLoaded(true);
