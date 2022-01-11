@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { render } from "react-dom";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./tokens-data-info.css";
 interface stateType {
   from: { pathname: JSON };
@@ -13,6 +13,7 @@ type ServerTokenDataint = {
 
 //class TokensDataInfo extends React.Component {
 const TokensDataInfo = () => {
+  let navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [tokens, setTokens] = useState<ServerTokenDataint>({
     rootAddress: "",
@@ -22,23 +23,8 @@ const TokensDataInfo = () => {
 
   const params = useParams();
   console.log(params.collectionName, params.collectionAddress);
-  // const { state} = useLocation();
-  // console.log("state",state);
-  //   const getTokenInfo = async () => {
 
-  //     let url = 'http://localhost:4001/collection-list/tokens-data-info?rootNftAddress=0:05907625393c0b7a0c66b51b4fa4664cef7e470c8596f990c426313c7e8350ec';
-  //     let response = await fetch(url);
-
-  //     let infoTokensArr = await response.json();
-  //     console.log(infoTokensArr)
-  //     setTokens(infoTokensArr)
-  //     infoTokensArr.tokensData.forEach(function(entry) {
-  //       console.log(entry.id);
-  //   });
-  //   //console.log(commits.tokensData)
-  //   //return infoTokensArr
-  // }
-  const getTokenInfo = () => {
+  const getTokensInfo = () => {
     setIsLoaded(false);
     let url =
       `http://localhost:4001/collection-list/tokens-data-info?rootNftAddress=${params.collectionAddress}`;
@@ -49,22 +35,15 @@ const TokensDataInfo = () => {
         setIsLoaded(true);
       })
       .catch((error) => console.log(error));
-
-    //console.log(response)
-    //let infoTokensArr = response.json();
-    //   console.log(infoTokensArr)
-    //   setTokens(infoTokensArr)
-    //   infoTokensArr.tokensData.forEach(function(entry) {
-    //     console.log(entry.id);
-    // });
-    //console.log(commits.tokensData)
-    //return infoTokensArr
   };
-  // //let infoTokensArr =
-  useEffect(getTokenInfo, []);
+  useEffect(getTokensInfo, []);
 
-  //console.log(tokenData.tokensData)
 
+  const tokenInfo = async (e) => {
+    e.preventDefault() 
+    console.log(e.target.textContent)
+    navigate(`/one-token-info/${e.target.textContent}`);
+  }
   return (
     <div className="container">
       <div className="tokens-data-box-main row-info-coll">
@@ -92,7 +71,7 @@ const TokensDataInfo = () => {
             <ul>
               {isLoaded
                 ? tokens.tokensData.map((token) => {
-                  return <li>{token.id} </li> 
+                  return <li onClick={tokenInfo}>{token.id} </li> 
                   })
                 : ""}
             </ul>

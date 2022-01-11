@@ -71,7 +71,7 @@ const MintingTokensForm = () => {
   };
 
   const redirectToInfoCollection = (dataForView) =>
-    mintNavigate("/tokens-data-info", { state: dataForView });
+    mintNavigate(`/tokens-data-info/${defaultParamsForMint.contractName}/${defaultParamsForMint.rootAddress}`, { state: dataForView });
 
   const getInfoFromServerToMint = () => {
     fetch(global_urls.MINTING_INFORMATION_URL, {
@@ -87,6 +87,7 @@ const MintingTokensForm = () => {
       .then((res) => res.json())
       .then((data) => {
         setInfoFromServerToMint(data);
+     
         setIsLoaded(true);
       })
       .catch((error) => error);
@@ -96,20 +97,22 @@ const MintingTokensForm = () => {
     urlParams.collectionAddress,
     urlParams.collectionName,
   ]);
-
+  
   return (
     <div className="MintingTokensFormContainer container">
+    
       {isLoaded ? (
         <form
           onSubmit={onHadleSubmit}
           method="post"
           className="main-form minting-tokens-form"
         >
-          <RaritiesField
-            rarities={infoFromServerToMint.collectionInfo.rarities}
-            setRarity={setMintParams}
-            mintParams={mintParams}
-          />
+          {infoFromServerToMint.collectionInfo.rarities.length == 0 ?
+          "" : <RaritiesField
+          rarities={infoFromServerToMint.collectionInfo.rarities}
+          setRarity={setMintParams}
+          mintParams={mintParams}
+        />}
           <ParamsField
             variables={infoFromServerToMint.collectionInfo.variables}
             setParam={setMintParams}
@@ -122,6 +125,7 @@ const MintingTokensForm = () => {
               Minting
             </div>
           </button>
+          
         </form>
       ) : (
         <PagePreloader />

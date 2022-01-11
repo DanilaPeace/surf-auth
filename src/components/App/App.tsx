@@ -8,6 +8,7 @@ import RootContractPage from "../../pages/root-contract-page/RootContractPage";
 import CollectionList from "../../pages/collection-list-page/CollectionListPage";
 import CollectionInfo from "../collection-info/CollectionInfo";
 import TokensDataInfo from "../../pages/tokens-data-info/TokensDataInfo";
+import OneTokenInfo from "../../pages/one-token-info/OneTokenInfo";
 import MintingTokensPage from "../../pages/minting-tokens/MintingTokensPage";
 
 import "./App.css";
@@ -30,6 +31,10 @@ function App() {
           <Route
             path="/minting-tokens/:collectionName/:collectionAddress"
             element={<MintingTokensPage />}
+          />
+          <Route
+            path="/one-token-info/:tokenAddress"
+            element={<OneTokenInfo />}
           />
         </Routes>
       </Provider>
