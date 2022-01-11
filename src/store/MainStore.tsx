@@ -3,6 +3,9 @@ import RarityFormStore from "./RarityFormStore";
 import commisionStore from "./CommisionStore";
 import ParameterFormStore from "./ParameterFormStore";
 
+import apiCall from "../api/CallApi";
+import { global_urls } from "../config/urls";
+
 class MainStore {
   collectionName: string = "";
   maxTokenNumber: number = 0;
@@ -80,10 +83,6 @@ class MainStore {
               return x;
           }
         });
-
-        this.Collection.variables = this.Collection.variables.filter(
-          (item) => item.type !== "enum"
-        );
       }
     );
 
@@ -128,34 +127,16 @@ class MainStore {
   };
 
   changeMaxTokenNumber = (event: any) => {
-    this.maxTokenNumber = event.target.value;
-    this.Collection.description.limit = Number(this.maxTokenNumber);
+    this.maxTokenNumber = Number(event.target.value);
+    this.Collection.description.limit = this.maxTokenNumber;
   };
 
   sendingDataDeploy = async () => {
-    return await fetch(
-      "http://localhost:4001/root-collection/deploy-collection",
-      {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.Collection),
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Success:", data.rootNftAddress, data.collectionName);
-        return data;
-      })
-      .catch((error) => {
-        console.error("Error !!!:", error);
-      });
+    return apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
   };
+
   sendingDataSave = () => {
-    fetch("http://localhost:4001/root-collection/save-data", {
+    fetch(global_urls.SAVE_COLLECTION_DATA, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -170,8 +151,9 @@ class MainStore {
         console.error("Error !!!:", error);
       });
   };
+
   sendingDataContract = () => {
-    fetch("http://localhost:4001/root-collection/generate-collection", {
+    fetch(global_urls.GENERATE_COLLECTION, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",

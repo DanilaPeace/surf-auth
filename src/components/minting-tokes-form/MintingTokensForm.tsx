@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import ParamsField from "./ParamsField";
@@ -7,26 +7,28 @@ import SignField from "./SignField";
 import PagePreloader from "../common/page-preloader/PagePreloader";
 
 import { global_urls } from "../../config/urls";
+import apiCall from "../../api/CallApi";
 import "./minting-tokens-form.css";
 
-type ServerMintingResponse = {
+interface ServerMintingResponse {
   collectionInfo: any;
   collectionName: string;
   collecitonRootAddress: string;
-};
+}
+
+interface DefaultMintingParams {
+  rootAddress: string | undefined;
+  contractName: string | undefined;
+  url: "";
+  editionNumber: number;
+  editionAmount: number;
+  managersList: number[];
+  royalty: number;
+  rarities: string;
+}
 
 const MintingTokensForm = () => {
   const urlParams = useParams();
-  const defaultParamsForMint = {
-    rootAddress: urlParams.collectionAddress,
-    contractName: urlParams.collectionName,
-    url: "",
-    editionNumber: 1,
-    editionAmount: 1,
-    managersList: [],
-    royalty: 1,
-  };
-
   const [infoFromServerToMint, setInfoFromServerToMint] =
     useState<ServerMintingResponse>({
       collectionInfo: {},
@@ -34,15 +36,23 @@ const MintingTokensForm = () => {
       collecitonRootAddress: "",
     });
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mintParams, setMintParams] = useState(defaultParamsForMint);
+  const [mintParams, setMintParams] = useState<DefaultMintingParams>({
+    rootAddress: urlParams.collectionAddress,
+    contractName: urlParams.collectionName,
+    url: "",
+    editionNumber: 1,
+    editionAmount: 1,
+    managersList: [],
+    royalty: 1,
+    rarities: "",
+  });
   const mintNavigate = useNavigate();
 
-  const onHadleSubmit = async (event) => {
-    event.preventDefault();
-    if (!rarityIsSelect()) {
+  const onHadleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (rarityIsEmpty()) {
       // When user didn't select the rarity for token
-      alert("Please select the rarity for the creating token!");
-      return;
+      mintParams.rarities =
+        infoFromServerToMint.collectionInfo.rarities[0].name;
     }
     // For view preloader
     setIsLoaded(false);
@@ -51,68 +61,49 @@ const MintingTokensForm = () => {
     redirectToInfoCollection(serverResponseAfterSuccesMint);
   };
 
-  const rarityIsSelect = () => mintParams.hasOwnProperty("rarities");
+  const rarityIsEmpty = () => mintParams.rarities === "";
 
   const makeFetchReqToMint = async () => {
-    const serverResponseAfterSuccesMint = await fetch(
-      global_urls.MINTING_TOKEN_URL,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(mintParams),
-      }
-    )
-      .then((res) => res.json())
-      .catch((err) => console.error(err));
-
-    return serverResponseAfterSuccesMint;
+    return apiCall.post(global_urls.MINTING_TOKEN_URL, mintParams);
   };
 
   const redirectToInfoCollection = (dataForView) =>
-    mintNavigate(`/tokens-data-info/${defaultParamsForMint.contractName}/${defaultParamsForMint.rootAddress}`, { state: dataForView });
+    mintNavigate(
+      `/tokens-data-info/${mintParams.contractName}/${mintParams.rootAddress}`,
+      { state: dataForView }
+    );
 
   const getInfoFromServerToMint = () => {
-    fetch(global_urls.MINTING_INFORMATION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    apiCall
+      .post(global_urls.MINTING_INFORMATION_URL, {
         colName: urlParams.collectionName,
         colAdd: urlParams.collectionAddress,
-      }),
-    })
-      .then((res) => res.json())
+      })
       .then((data) => {
         setInfoFromServerToMint(data);
-     
         setIsLoaded(true);
       })
-      .catch((error) => error);
+      .catch((err) => console.log(err));
   };
 
   useEffect(getInfoFromServerToMint, [
     urlParams.collectionAddress,
     urlParams.collectionName,
   ]);
-  
+
   return (
     <div className="MintingTokensFormContainer container">
-    
       {isLoaded ? (
         <form
           onSubmit={onHadleSubmit}
           method="post"
           className="main-form minting-tokens-form"
         >
-          {infoFromServerToMint.collectionInfo.rarities.length == 0 ?
-          "" : <RaritiesField
-          rarities={infoFromServerToMint.collectionInfo.rarities}
-          setRarity={setMintParams}
-          mintParams={mintParams}
-        />}
+          <RaritiesField
+            rarities={infoFromServerToMint.collectionInfo.rarities}
+            setRarity={setMintParams}
+            mintParams={mintParams}
+          />
           <ParamsField
             variables={infoFromServerToMint.collectionInfo.variables}
             setParam={setMintParams}
@@ -125,7 +116,6 @@ const MintingTokensForm = () => {
               Minting
             </div>
           </button>
-          
         </form>
       ) : (
         <PagePreloader />

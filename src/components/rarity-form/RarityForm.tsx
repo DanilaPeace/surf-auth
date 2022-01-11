@@ -1,59 +1,69 @@
-import React from 'react'
-import RarityFormStore from '../../store/RarityFormStore'
-import { store } from '../../store/MainStore'
+import React from "react";
+import RarityFormStore from "../../store/RarityFormStore";
+import { store } from "../../store/MainStore";
 import { observer } from "mobx-react";
-import Rarity from '../rarity/Rarity'
-import './styles.css';
+import Rarity from "../rarity/Rarity";
+import "./styles.css";
 
-interface RarityFormProps {
-}
+interface RarityFormProps {}
 
 interface RarityFormState {
-    raritys: JSX.Element[];
-    checked:boolean;
+  raritys: JSX.Element[];
+  checked: boolean;
 }
 
 @observer
-export default class RarityForm extends React.Component<RarityFormProps, RarityFormState> {
-    
-    constructor(props: RarityFormProps | Readonly<RarityFormProps>) {
-        super(props);
-        
-        this.state = {
-            raritys: [],
-            checked:false
-        };
-        this.handleAdd = this.handleAdd.bind(this);
-    }
+export default class RarityForm extends React.Component<
+  RarityFormProps,
+  RarityFormState
+> {
+  constructor(props: RarityFormProps | Readonly<RarityFormProps>) {
+    super(props);
 
-    handleAdd(event) {
-        event.preventDefault();
-        let uid = Math.random().toString();
-        this.setState({
-            raritys: [...this.state.raritys, <Rarity id={uid} />]
-        })
-        RarityFormStore.addRarity(uid)
-    }
-    
-    render() {
-        return (
-            <div>
-                
-            <div className='checkboxForRarity'>
+    this.state = {
+      raritys: [],
+      checked: false,
+    };
+    this.handleAdd = this.handleAdd.bind(this);
+  }
 
-                <input type="checkbox" onChange={() => this.setState({checked:!this.state.checked})} />
-                <label >Use Rarity Types for tokens</label>
+  handleAdd(event) {
+    event.preventDefault();
+    let uid = Math.random().toString();
+    this.setState({
+      raritys: [...this.state.raritys, <Rarity id={uid} key={uid}/>],
+    });
+    RarityFormStore.addRarity(uid);
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="checkboxForRarity">
+          <input
+            type="checkbox"
+            onChange={() => this.setState({ checked: !this.state.checked })}
+          />
+          <label>Use Rarity Types for tokens</label>
+        </div>
+
+        {this.state.checked ? (
+          <div className="tab-pane fade show active">
+            {this.state.raritys}
+            <div className="flex-center">
+              <button
+                onClick={this.handleAdd}
+                className="text btn btn-blue btn-block btn-sub"
+              >
+                + Add rarity
+              </button>
             </div>
-                
-            {this.state.checked ?
-                <div className="tab-pane fade show active">
-                    {this.state.raritys}
-                    <div className="flex-center"><button onClick={this.handleAdd} className="text btn btn-blue btn-block btn-sub"> + Add parameter </button></div>
-                    <div>{JSON.stringify(store.Collection, null, 2)}</div>
-                </div>
-            :""}
-        
-            </div>
-        );
-    }
+            <div>{JSON.stringify(store.Collection, null, 2)}</div>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
 }
