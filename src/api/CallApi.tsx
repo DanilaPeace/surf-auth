@@ -17,6 +17,7 @@ class ApiCall {
   async get(path, searchParams = {}) {
     return await this.perform(`${path}?${qs.stringify(searchParams)}`);
   }
+  
   async post(path, payload) {
     return await this.perform(path, payload, {
       method: "POST",

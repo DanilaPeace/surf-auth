@@ -1,35 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { global_urls } from "../../config/urls";
 import PagePreloader from "../common/page-preloader/PagePreloader";
 import CollectionListItem from "../collection-list-item/CollectionListItem";
-import apiCall from "../../api/CallApi";
+import CollectionListStore from "../../store/CollectionListStore";
+import { observer } from "mobx-react-lite";
 
-const CollectionListContainer = () => {
-  const [collectionList, setCollectionList] = useState([]);
-  const [dataIsLoaded, setDataIsLoaded] = useState(false);
+const store = new CollectionListStore();
 
-  const getCollectionListFromServer = () => {
-    apiCall
-      .get(global_urls.COLLECTION_LIST_URL)
-      .then((data) => {
-        setCollectionList(data.collectionList);
-        setDataIsLoaded(true);
-      })
-      .catch((err) => console.error(err));
-  };
+const CollectionListContainer = observer(() => {
+  useEffect(() => {
+    store.changeDataIsLoaded(false);
+    store.setCollectionList().then(() => store.changeDataIsLoaded(true));
+  }, []);
 
-  useEffect(getCollectionListFromServer, []);
-
-  const collections = collectionList.map((collection, idx) => (
+  const collections = store.collectionList.map((collection, idx) => (
     <CollectionListItem key={idx} {...collection} />
   ));
 
   return (
     <div className="CollectionListContainer container">
-      {dataIsLoaded ? collections : <PagePreloader />}
+      {store.dataIsLoaded ? collections : <PagePreloader />}
     </div>
   );
-};
+});
 
 export default CollectionListContainer;
