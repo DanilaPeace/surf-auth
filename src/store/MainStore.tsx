@@ -59,30 +59,39 @@ class MainStore {
     reaction(
       () => ParameterFormStore.parameters,
       () => {
-        let ed = JSON.parse(JSON.stringify(ParameterFormStore.parameters));
-        let edited = ed.map((x) => {
-          x = Object.assign(x, x.value_temporary);
-          delete x.value_temporary;
-          delete x.id;
-          return x;
+        let paramCopy = JSON.parse(JSON.stringify(ParameterFormStore.parameters));
+        let editedParams = paramCopy.map((param) => {
+          param = Object.assign(param, param.value_temporary);
+          delete param.value_temporary;
+          delete param.id;
+          return param;
         });
         this.Collection.enums = [];
-        this.Collection.variables = edited.map((x) => {
-          switch (x.type) {
+        this.Collection.variables = editedParams.map((param) => {
+          switch (param.type) {
             case "enum":
-              x.enumVariants = Object.values(x.enumVariants);
-              this.Collection.enums.push(x);
-              return x;
+              param.enumVariants = Object.values(param.enumVariants);
+              this.Collection.enums.push(param);
+              return param;
             case "uint":
-              x.minValue = Number(x.minValue);
-              x.maxValue = Number(x.maxValue);
-              return x;
+              param.minValue = Number(param.minValue);
+              param.maxValue = Number(param.maxValue);
+              return param;
             case "string":
-              x.minValue = Number(x.minValue);
-              x.maxValue = Number(x.maxValue);
-              return x;
+              param.minValue = Number(param.minValue);
+              param.maxValue = Number(param.maxValue);
+              return param;
           }
         });
+
+        // TODO: make more readable and clear
+        this.Collection.variables = this.Collection.variables.filter(
+          (param) => param.type !== "enum"
+        );
+        this.Collection.enums = this.Collection.enums.map((enumItem) => ({
+          ...enumItem,
+          type: `e${enumItem.name}`,
+        }));
       }
     );
 
@@ -132,7 +141,9 @@ class MainStore {
   };
 
   sendingDataDeploy = async () => {
-    return apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
+    const resData = await apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
+    this.clearData();
+    return resData;
   };
 
   sendingDataSave = () => {
@@ -150,6 +161,7 @@ class MainStore {
       .catch((error) => {
         console.error("Error !!!:", error);
       });
+    this.clearData();
   };
 
   sendingDataContract = () => {
@@ -167,6 +179,39 @@ class MainStore {
       .catch((error) => {
         console.error("Error !!!:", error);
       });
+
+    this.clearData();
+  };
+
+  clearData = () => {
+    console.log('CLEAR DATA!!!!');
+    
+    this.Collection = {
+      description: {
+        name: "",
+        limit: "",
+        icon: "",
+      },
+      rarities: [],
+      variables: [],
+      enums: [],
+      //"mediafiles": [],
+      commissions: {
+        commissionAuthor: {
+          check: false,
+          value: 0,
+        },
+        commissionFavorOwner: {
+          check: false,
+          value: 0,
+        },
+        commissionAuthorGenerator: {
+          check: false,
+          value: 0,
+        },
+        mintingPriceUsers: 0,
+      },
+    };
   };
 }
 

@@ -9,6 +9,7 @@ import PagePreloader from "../common/page-preloader/PagePreloader";
 import { global_urls } from "../../config/urls";
 import apiCall from "../../api/CallApi";
 import "./minting-tokens-form.css";
+import EnumField from "./EnumField";
 
 interface ServerMintingResponse {
   collectionInfo: any;
@@ -80,6 +81,8 @@ const MintingTokensForm = () => {
         colAdd: urlParams.collectionAddress,
       })
       .then((data) => {
+        console.log("DATA: ", data);
+        
         setInfoFromServerToMint(data);
         setIsLoaded(true);
       })
@@ -109,6 +112,11 @@ const MintingTokensForm = () => {
             setParam={setMintParams}
             mintParams={mintParams}
           />
+          <EnumField
+            enums={infoFromServerToMint.collectionInfo.enums}
+            setParam={setMintParams}
+            mintParams={mintParams}
+          ></EnumField>
           <SignField signFieldChange={setMintParams} mintParams={mintParams} />
           <button className="MintingTokensFormBtn btn btn-blue">
             <div>
