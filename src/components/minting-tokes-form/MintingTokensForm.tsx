@@ -26,6 +26,7 @@ interface DefaultMintingParams {
   managersList: number[];
   royalty: number;
   rarities: string;
+  enums ?: [];
 }
 
 const MintingTokensForm = () => {
@@ -81,8 +82,6 @@ const MintingTokensForm = () => {
         colAdd: urlParams.collectionAddress,
       })
       .then((data) => {
-        console.log("DATA: ", data);
-        
         setInfoFromServerToMint(data);
         setIsLoaded(true);
       })

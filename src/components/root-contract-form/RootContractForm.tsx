@@ -30,7 +30,6 @@ const RootContractForm = () => {
     setIsLoaded(false);
     event.preventDefault();
     let data = await store.sendingDataDeploy();
-    console.log("DATA: ", data);
     navigate(
       `/tokens-data-info/${data.collectionName}/${data.rootNftAddress}`,
       { state: { data: data } }

@@ -1,42 +1,24 @@
 export const EnumField = ({ enums, setParam, mintParams }) => {
   const onEnumSelect = (event) => {
     let enumValue: number = 0;
-    for (const enumItem of testEnum) {
+    for (const enumItem of enums) {
       if (enumItem.name === event.target.name) {
-          enumValue = enumItem.enumVariants.indexOf(event.target.value);
+        enumValue = enumItem.enumVariants.indexOf(event.target.value);
       }
     }
-
-    console.log(enumValue);
 
     setParam({
       ...mintParams,
       [event.target.name]: enumValue,
     });
-
-    console.log("PARAMS: ", mintParams);
   };
 
-  const testEnum = [
-    {
-      name: "enumOne",
-      enumVariants: ["firstVar", "secondVar", "theerdVar"],
-    },
-    {
-      name: "enumTWO",
-      enumVariants: ["firstVar", "secondVar", "theerdVar"],
-    },
-    {
-      name: "enum3333333",
-      enumVariants: ["firstVar", "secondVar", "theerdVar"],
-    },
-  ];
-
-  const enumSelects = testEnum.map((enumsItem) => {
+  const enumSelects = enums.map((enumsItem) => {
     return (
       <div className="select-item">
         <div className="select-title">{enumsItem.name}</div>
         <select
+          onFocus={onEnumSelect}
           onChange={onEnumSelect}
           className="EnumsField-select form-select"
           name={enumsItem.name}

@@ -37,7 +37,7 @@ class MainStore {
       // },
       mintingPriceUsers: 0,
     },
-    options: []
+    options: [],
   };
 
   constructor() {
@@ -60,7 +60,10 @@ class MainStore {
     reaction(
       () => ParameterFormStore.parameters,
       () => {
-        let paramCopy = JSON.parse(JSON.stringify(ParameterFormStore.parameters));
+        // TODO: make more readable and clear
+        let paramCopy = JSON.parse(
+          JSON.stringify(ParameterFormStore.parameters)
+        );
         let editedParams = paramCopy.map((param) => {
           param = Object.assign(param, param.value_temporary);
           delete param.value_temporary;
@@ -68,6 +71,8 @@ class MainStore {
           return param;
         });
         this.Collection.enums = [];
+
+        // TODO: make more readable and clear
         this.Collection.variables = editedParams.map((param) => {
           switch (param.type) {
             case "enum":
@@ -142,11 +147,11 @@ class MainStore {
   };
 
   sendingDataDeploy = async () => {
-    console.log("START!!!");
-    const resData = await apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
+    const resData = await apiCall.post(
+      global_urls.DEPLOY_COLLECTION,
+      this.Collection
+    );
     this.clearData();
-    console.log("RES DATA: ", resData);
-    
     return resData;
   };
 
@@ -188,8 +193,8 @@ class MainStore {
   };
 
   clearData = () => {
-    console.log('CLEAR DATA!!!!');
-    
+    console.log("CLEAR DATA!!!!");
+
     this.Collection = {
       description: {
         name: "",
@@ -215,7 +220,7 @@ class MainStore {
         // },
         mintingPriceUsers: 0,
       },
-      options: []
+      options: [],
     };
   };
 }
