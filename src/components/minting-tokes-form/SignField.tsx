@@ -39,14 +39,16 @@ const SignField = ({ mintParams, signFieldChange }) => {
 
   return (
     <div className="SignField">
-      <label htmlFor="sign-checkbox" className="SignField-title">
-        Sign token
-      </label>
+      
       <input
+        className="form-check-input"
         type="checkbox"
         name="sign-checkbox"
         onChange={() => setSing(!signIsChecked)}
       />
+      <label htmlFor="sign-checkbox" className="SignField-title">
+        Sign token
+      </label>
       <div className={"sing-block-inputs " + (signIsChecked ? " active" : "")}>
         {singInputs}
       </div>

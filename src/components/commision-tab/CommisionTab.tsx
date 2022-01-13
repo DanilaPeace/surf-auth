@@ -15,13 +15,14 @@ const CommisionTab = observer(() => {
   };
 
   return (
-    <div className="commitsion-tab">
+    <div className="commitsion-tab text">
       <div className="commision-tab__content">
         <div className="commision-checkbox mb-3">
-          <label>
-            <input type="checkbox" onChange={onChangeCheckbox} />
-            Commision to collection owner
-          </label>
+          
+          <div className="commision-checkbox">
+            <input type="checkbox" onChange={onChangeCheckbox} className="form-check-input" />
+            <label className="labelCheckboxCommision">Commision to collection owner</label>
+          </div>
           <div className={"commsion-input " + (checked ? "active" : "")}>
             <UserInput
               inputType="text"

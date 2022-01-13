@@ -8,6 +8,7 @@ const ParamsField = ({ variables, setParam, mintParams }) => {
   };
 
   const parameters = variables.map((parameter, idx: number) => {
+
     return (
       <div className="parameter-block" key={idx}>
         <div className="parameter-title">{parameter.name}</div>
@@ -15,9 +16,14 @@ const ParamsField = ({ variables, setParam, mintParams }) => {
           onChange={onParamChange}
           className="form-control user-input"
           type={parameter.type === "uint" ? "number" : "text"}
+          min = {parameter.minValue}
+          max = {parameter.maxValue}
+          maxLength = {parameter.maxValue}
+          minLength = {parameter.minValue}
           name={parameter.name}
           required
         />
+        
       </div>
     );
   });
