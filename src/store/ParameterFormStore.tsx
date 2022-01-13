@@ -4,7 +4,7 @@ interface Parameter {
   id: string;
   name: string;
   type: string;
-  value_temporary?: ParamValue;
+  possibleValuesOfParam?: ParamValue;
   [key: string]: any;
 }
 
@@ -25,32 +25,42 @@ class Store {
       changeParameter: action,
       addParameter: action,
       removeParameter: action,
-      switchParameterTypeValues: action,
+      switchParamType: action,
       removeEnum: action,
     });
   }
 
   addParameter(paramId) {
+    // >>> 2
+    console.log(">>> 2");
+
     this.parameters = [
       ...this.parameters,
-      { id: paramId, name: "", type: "", value_temporary: {} },
+      { id: paramId, name: "", type: "", possibleValuesOfParam: {} },
     ];
   }
 
   changeParameter(paramId, name, newparamvalue) {
+    // This function is invoked from Parameter.tsx
     this.parameters = this.parameters.map((x) =>
       x.id === paramId ? { ...x, [name]: newparamvalue } : x
     );
   }
 
-  changeParameterValue(paramId, name, newparamvalue) {
-    this.parameters = this.parameters.map((x) =>
-      x.id === paramId
+  changeParameterValue(paramId, name, newParamValue) {
+    // Эта функция вызывается только для строк и целых чисел
+    console.log(">>> 9", paramId, name, newParamValue);
+
+    this.parameters = this.parameters.map((param) =>
+      param.id === paramId
         ? {
-            ...x,
-            value_temporary: { ...x.value_temporary, [name]: newparamvalue },
+            ...param,
+            possibleValuesOfParam: {
+              ...param.possibleValuesOfParam,
+              [name]: newParamValue,
+            },
           }
-        : x
+        : param
     );
   }
 
@@ -59,10 +69,10 @@ class Store {
       x.id === paramId
         ? {
             ...x,
-            value_temporary: {
-              ...x.value_temporary,
+            possibleValuesOfParam: {
+              ...x.possibleValuesOfParam,
               enumVariants: {
-                ...(x.value_temporary!.enumVariants as {}),
+                ...(x.possibleValuesOfParam!.enumVariants as {}),
                 [name]: newparamvalue,
               },
             },
@@ -71,13 +81,19 @@ class Store {
     );
   }
 
-  switchParameterTypeValues(paramId, type, value) {
+  switchParamType(paramId, type, value) {
+    // Вызывается для всех типов параметров
+    console.log(">>> 7 This function is invoked for every params!!!", value);
+
+    // Изменяет значение параметра когда тыкаем в селекте
     this.parameters = this.parameters.map((x) =>
-      x.id === paramId ? { ...x, type: type, value_temporary: value } : x
+      // Находим параметр по айдишнику и потом меняем у него тип и диапозон значений
+      x.id === paramId ? { ...x, type: type, possibleValuesOfParam: value } : x
     );
   }
 
   removeParameter(paramId) {
+    // Удаление параметра
     this.parameters = this.parameters.filter((item) => item.id !== paramId);
   }
 
@@ -90,10 +106,10 @@ class Store {
       x.id === paramId
         ? {
             ...x,
-            value_temporary: {
-              ...x.value_temporary,
+            possibleValuesOfParam: {
+              ...x.possibleValuesOfParam,
               enumVariants: deleteObject(
-                x.value_temporary!.enumVariants,
+                x.possibleValuesOfParam!.enumVariants,
                 enumid
               ),
             },
