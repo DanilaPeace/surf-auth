@@ -43,7 +43,6 @@ export default class ParameterForm extends React.Component<ParameterFormProps, P
                     <p className="form-title">Tokens parameters</p>
                     {this.state.params}
                     <div className="flex-center"><button onClick={this.handleAdd} className="text btn btn-blue btn-block btn-sub"> + Add parameter </button></div>
-                    <div>{JSON.stringify(store.Collection, null, 2)}</div>
                 </div>
             </div>
         );

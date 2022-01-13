@@ -193,8 +193,8 @@ class MainStore {
   };
 
   clearData = () => {
-    console.log("CLEAR DATA!!!!");
-
+    this.collectionName = "";
+    this.maxTokenNumber = 0;
     this.Collection = {
       description: {
         name: "",

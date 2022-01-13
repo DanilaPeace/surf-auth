@@ -58,7 +58,6 @@ export default class RarityForm extends React.Component<
                 + Add rarity
               </button>
             </div>
-            <div>{JSON.stringify(store.Collection, null, 2)}</div>
           </div>
         ) : (
           ""

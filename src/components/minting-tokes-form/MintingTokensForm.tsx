@@ -26,7 +26,6 @@ interface DefaultMintingParams {
   managersList: number[];
   royalty: number;
   rarities: string;
-  enums ?: [];
 }
 
 const MintingTokensForm = () => {
