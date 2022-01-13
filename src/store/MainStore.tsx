@@ -23,20 +23,21 @@ class MainStore {
     enums: [],
     //"mediafiles": [],
     commissions: {
-      commissionAuthor: {
-        check: false,
-        value: 0,
-      },
+      // commissionAuthor: {
+      //   check: false,
+      //   value: 0,
+      // },
       commissionFavorOwner: {
         check: false,
         value: 0,
       },
-      commissionAuthorGenerator: {
-        check: false,
-        value: 0,
-      },
+      // commissionAuthorGenerator: {
+      //   check: false,
+      //   value: 0,
+      // },
       mintingPriceUsers: 0,
     },
+    options: []
   };
 
   constructor() {
@@ -141,8 +142,11 @@ class MainStore {
   };
 
   sendingDataDeploy = async () => {
+    console.log("START!!!");
     const resData = await apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
     this.clearData();
+    console.log("RES DATA: ", resData);
+    
     return resData;
   };
 
@@ -197,20 +201,21 @@ class MainStore {
       enums: [],
       //"mediafiles": [],
       commissions: {
-        commissionAuthor: {
-          check: false,
-          value: 0,
-        },
+        // commissionAuthor: {
+        //   check: false,
+        //   value: 0,
+        // },
         commissionFavorOwner: {
           check: false,
           value: 0,
         },
-        commissionAuthorGenerator: {
-          check: false,
-          value: 0,
-        },
+        // commissionAuthorGenerator: {
+        //   check: false,
+        //   value: 0,
+        // },
         mintingPriceUsers: 0,
       },
+      options: []
     };
   };
 }
