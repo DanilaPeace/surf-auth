@@ -23,14 +23,6 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
       defaultParamState: "Not selected",
       parametersValues: <></>,
     };
-
-    // this.onChangeNameOfParam = this.onChangeNameOfParam.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleDelete = this.handleDelete.bind(this);
-    // this.addParameter = this.addParameter.bind(this);
-    // this.onChangeMinMaxValue =
-    //   this.onChangeMinMaxValue.bind(this);
-    // this.handleCheckBoxValueChange = this.handleCheckBoxValueChange.bind(this);
   }
 
   onChangeNameOfParam = (e) => {
@@ -41,7 +33,7 @@ export default class Parameter extends React.Component<ParamProps, ParamState> {
     console.log(">>> 3", e.target);
 
     ParameterFormStore.changeParameter(
-        // Это айди параметра, в котором происходят изменения
+      // Это айди параметра, в котором происходят изменения
       e.target.parentNode.parentNode.parentNode.id,
       name,
       value
