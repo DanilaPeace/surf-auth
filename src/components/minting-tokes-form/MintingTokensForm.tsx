@@ -81,6 +81,8 @@ const MintingTokensForm = () => {
         colAdd: urlParams.collectionAddress,
       })
       .then((data) => {
+        console.log("DATA FORM SERVER: ", data);
+        
         setInfoFromServerToMint(data);
         setIsLoaded(true);
       })

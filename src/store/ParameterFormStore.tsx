@@ -64,20 +64,21 @@ class Store {
     );
   }
 
-  changeParameterValueEnum(paramId, name, newparamvalue) {
-    this.parameters = this.parameters.map((x) =>
-      x.id === paramId
+  // Finish
+  addEnumVariant(paramId, name, newParamValue) {
+    this.parameters = this.parameters.map((enumItem) =>
+      enumItem.id === paramId
         ? {
-            ...x,
+            ...enumItem,
             possibleValuesOfParam: {
-              ...x.possibleValuesOfParam,
+              // ...enumItem.possibleValuesOfParam,
               enumVariants: {
-                ...(x.possibleValuesOfParam!.enumVariants as {}),
-                [name]: newparamvalue,
+                ...(enumItem.possibleValuesOfParam!.enumVariants as {}),
+                [name]: newParamValue,
               },
             },
           }
-        : x
+        : enumItem
     );
   }
 

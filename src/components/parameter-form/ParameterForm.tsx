@@ -4,6 +4,8 @@ import { observer } from "mobx-react";
 import Parameter from "../parameter/Parameter";
 import "./styles.css";
 
+import nextId from 'react-id-generator';
+
 interface ParameterFormProps {}
 
 interface ParameterFormState {
@@ -33,11 +35,12 @@ export default class ParameterForm extends React.Component<
 
     event.preventDefault();
 
-    let uid = Math.random().toString();
+    // let uid = Math.random().toString();
+    let uid = nextId();
     // id которое будет у каждой строки параметра
     this.setState({
-                                                /*Вот тут*/        
-      params: [...this.state.params, <Parameter id={uid} />],
+      /*Вот тут*/
+      params: [...this.state.params, <Parameter id={uid} key={uid} />],
     });
 
     ParameterFormStore.addParameter(uid);

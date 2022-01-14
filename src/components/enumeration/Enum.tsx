@@ -34,10 +34,15 @@ export default class EnumOptions extends React.Component<
 
   onAddVariant = (e) => {
     e.preventDefault();
+
     let uid = Math.random();
-    let enumid = uid;
-    const { id, ...props } = this.props;
-    ParameterFormStore.changeParameterValueEnum(id, enumid, {});
+    let enumId = uid;
+
+    const { id } = this.props;
+
+    // Finish
+    ParameterFormStore.addEnumVariant(id, enumId, {});
+
     this.setState({
       rendered: [
         ...this.state.rendered,
@@ -47,12 +52,12 @@ export default class EnumOptions extends React.Component<
             labelName="Variant:"
             name="enumoption"
             inputName="enumoption"
-            onChange={(e) => this.handleChange(id, enumid, e)}
+            onChange={(e) => this.handleChange(id, enumId, e)}
           />
           <div className="flex-center">
             <button
               className="text btn btn-blue btn-block btn-sub"
-              onClick={(e) => this.handleDelete(id, enumid, e)}
+              onClick={(e) => this.handleDelete(id, enumId, e)}
             >
               - Delete variant
             </button>
@@ -62,13 +67,13 @@ export default class EnumOptions extends React.Component<
     });
   };
 
-  handleChange = (id, enumid, e) => {
-    ParameterFormStore.changeParameterValueEnum(id, enumid, e.target.value);
+  handleChange = (id, enumId, e) => {
+    ParameterFormStore.addEnumVariant(id, enumId, e.target.value);
   };
 
-  handleDelete = async (id, enumid, event) => {
+  handleDelete = (id, enumId, event) => {
     event.preventDefault();
-    ParameterFormStore.removeEnum(id, enumid);
+    ParameterFormStore.removeEnum(id, enumId);
 
     event.target.parentElement.parentElement.remove();
   };

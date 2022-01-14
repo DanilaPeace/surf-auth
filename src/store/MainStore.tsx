@@ -65,8 +65,8 @@ class MainStore {
           JSON.stringify(ParameterFormStore.parameters)
         );
         let editedParams = paramCopy.map((param) => {
-          param = Object.assign(param, param.value_temporary);
-          delete param.value_temporary;
+          param = Object.assign(param, param.possibleValuesOfParam);
+          delete param.possibleValuesOfParam;
           delete param.id;
           return param;
         });
@@ -74,6 +74,8 @@ class MainStore {
 
         // TODO: make more readable and clear
         this.Collection.variables = editedParams.map((param) => {
+          console.log("PARAM :", param);
+
           switch (param.type) {
             case "enum":
               param.enumVariants = Object.values(param.enumVariants);
@@ -88,6 +90,7 @@ class MainStore {
               param.maxValue = Number(param.maxValue);
               return param;
           }
+          console.log(this.Collection.variables);
         });
 
         // TODO: make more readable and clear
