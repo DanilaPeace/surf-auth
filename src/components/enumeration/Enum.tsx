@@ -1,9 +1,8 @@
 import React from "react";
+import nextId from "react-id-generator";
+
 import ParameterFormStore from "../../store/ParameterFormStore";
-import { observer } from "mobx-react";
-import { action, makeObservable, observable } from "mobx";
 import UserInput from "../common/user-input/UserInput";
-import Checkbox from "../common/checkbox/checkbox";
 import "./styles.css";
 
 interface EnumOptionsState {
@@ -35,8 +34,7 @@ export default class EnumOptions extends React.Component<
   onAddVariant = (e) => {
     e.preventDefault();
 
-    let uid = Math.random();
-    let enumId = uid;
+    let enumId = nextId();
 
     const { id } = this.props;
 
@@ -52,6 +50,7 @@ export default class EnumOptions extends React.Component<
             labelName="Variant:"
             name="enumoption"
             inputName="enumoption"
+            key={enumId}
             onChange={(e) => this.handleChange(id, enumId, e)}
           />
           <div className="flex-center">

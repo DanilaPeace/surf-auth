@@ -26,6 +26,7 @@ interface DefaultMintingParams {
   managersList: number[];
   royalty: number;
   rarities: string;
+  enums?: []
 }
 
 const MintingTokensForm = () => {
@@ -55,6 +56,7 @@ const MintingTokensForm = () => {
       mintParams.rarities =
         infoFromServerToMint.collectionInfo.rarities[0].name;
     }
+    checkAndAddMissedEnumVariant();
     // For view preloader
     setIsLoaded(false);
     const serverResponseAfterSuccesMint = await makeFetchReqToMint();
@@ -63,6 +65,22 @@ const MintingTokensForm = () => {
   };
 
   const rarityIsEmpty = () => mintParams.rarities === "";
+  const checkAndAddMissedEnumVariant = () => {
+    const enums = infoFromServerToMint.collectionInfo.enums;
+    for (const currentEnum of enums) {
+      if (!hasEnumVariant(currentEnum.name)) {
+        addMissedEnumToMintParam(currentEnum)
+      }
+    }
+  }
+
+  const hasEnumVariant = (enumVariant: string) => {
+    return mintParams.hasOwnProperty(enumVariant);
+  }
+
+  const addMissedEnumToMintParam = (missedEnum) => {
+    mintParams[missedEnum.name] = 0;
+  }
 
   const makeFetchReqToMint = async () => {
     return apiCall.post(global_urls.MINTING_TOKEN_URL, mintParams);
