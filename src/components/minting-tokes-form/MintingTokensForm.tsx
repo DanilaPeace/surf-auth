@@ -50,11 +50,7 @@ const MintingTokensForm = () => {
   const mintNavigate = useNavigate();
 
   const onHadleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    if (rarityIsEmpty()) {
-      // When user didn't select the rarity for token
-      mintParams.rarities =
-        infoFromServerToMint.collectionInfo.rarities[0].name;
-    }
+    parseMintParams();
     // For view preloader
     setIsLoaded(false);
     const serverResponseAfterSuccesMint = await makeFetchReqToMint();
@@ -62,7 +58,37 @@ const MintingTokensForm = () => {
     redirectToInfoCollection(serverResponseAfterSuccesMint);
   };
 
+  const parseMintParams = () => {
+    parseRarity();
+    parseAllEnumsValues();
+  };
+
+  const parseRarity = () => {
+    if (rarityIsEmpty()) {
+      // When user didn't select the rarity for token
+      mintParams.rarities =
+        infoFromServerToMint.collectionInfo.rarities[0].name;
+    }
+  };
+
   const rarityIsEmpty = () => mintParams.rarities === "";
+
+  const parseAllEnumsValues = () => {
+    const enums = infoFromServerToMint.collectionInfo.enums;
+    for (const currentEnum of enums) {
+      if (!hasEnumVariant(currentEnum.name)) {
+        addMissedEnumVariant(currentEnum);
+      }
+    }
+  };
+
+  const hasEnumVariant = (enumVariant: string) => {
+    return mintParams.hasOwnProperty(enumVariant);
+  };
+
+  const addMissedEnumVariant = (missedEnum) => {
+    mintParams[missedEnum.name] = 0;
+  };
 
   const makeFetchReqToMint = async () => {
     return apiCall.post(global_urls.MINTING_TOKEN_URL, mintParams);

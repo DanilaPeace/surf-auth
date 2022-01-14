@@ -16,6 +16,8 @@ const ParamsField = ({ variables, setParam, mintParams }) => {
           className="form-control user-input"
           type={parameter.type === "uint" ? "number" : "text"}
           name={parameter.name}
+          min={parameter.minValue}
+          max={parameter.maxValue}
           required
         />
       </div>
