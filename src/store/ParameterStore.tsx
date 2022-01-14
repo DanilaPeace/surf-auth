@@ -1,7 +1,8 @@
 import { action, observable, makeObservable } from "mobx";
+import nextId from "react-id-generator";
 
 interface Parameter {
-  paramId: number;
+  paramId: string;
   name: string;
   type: string;
   enumVarians?: string[];
@@ -10,20 +11,43 @@ interface Parameter {
 }
 
 class ParameterStore {
-    params: Parameter[] = [];
-    constructor() {
-        makeObservable(this, {
-            params: observable,
-            addParam: action,
-            deleteParam: action
-        })
-    }
+  params: Parameter[] = [];
+  constructor() {
+    makeObservable(this, {
+      params: observable,
+      addParam: action,
+      deleteParam: action,
+    });
+  }
 
-    addParam = () => {
+  addParam = (name: string, type: string, possibleValue) => {
+    if (type === "string" || type === "uint") {
+      const newParam: Parameter = {
+        paramId: nextId(),
+        name,
+        type,
+        minValue: possibleValue.minValue,
+        maxValue: possibleValue.maxValue,
+      };
 
-    }
+      this.params.push(newParam);
+    } else if (type === "enum") {
+      const newParam: Parameter = {
+        paramId: nextId(),
+        name,
+        type,
+        enumVarians: possibleValue,
+      };
 
-    deleteParam = () => {
-        
+      this.params.push(newParam);
     }
+  };
+
+  deleteParam = (paramIdOfDeletedParam) => {
+    this.params = this.params.filter(
+      (param) => param.paramId !== paramIdOfDeletedParam
+    );
+  };
 }
+
+export const paramStore = new ParameterStore();

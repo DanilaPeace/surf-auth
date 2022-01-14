@@ -8,6 +8,7 @@ import CommisionTab from "../commision-tab/CommisionTab";
 import ParameterForm from "../parameter-form/ParameterForm";
 import RarityForm from "../rarity-form/RarityForm";
 import PagePreloader from "../common/page-preloader/PagePreloader";
+import ParamTab from "../param-tab/ParamTab";
 import { store } from "../../store/MainStore";
 
 import "./root-contract-form.css";
@@ -74,6 +75,13 @@ const RootContractForm = () => {
               className="root-contract-tab-item"
             >
               <ParameterForm />
+            </Tab>
+            <Tab
+              eventKey="PARAM"
+              title="Token PARAMS"
+              className="root-contract-tab-item"
+            >
+              <ParamTab />
             </Tab>
           </Tabs>
           <div className="btn-toolbar root-contract-btn-toolbar">
