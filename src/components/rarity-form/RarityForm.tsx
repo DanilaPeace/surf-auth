@@ -39,12 +39,13 @@ export default class RarityForm extends React.Component<
   render() {
     return (
       <div>
-        <div className="checkboxForRarity">
+        <div className="checkboxForRarity text">
           <input
+            className="form-check-input"
             type="checkbox"
             onChange={() => this.setState({ checked: !this.state.checked })}
           />
-          <label>Use Rarity Types for tokens</label>
+          <label className="labelCheckboxForRarity">Use Rarity Types for tokens</label>
         </div>
 
         {this.state.checked ? (
