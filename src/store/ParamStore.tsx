@@ -1,16 +1,26 @@
 import { action, observable, makeObservable } from "mobx";
 
+import { enumStore } from "./EnumStore";
+
 interface Parameter {
   paramId: string;
   name: string;
   type: string;
-  enumVarians?: string[];
+  enumVariants?: string[];
   minValue?: number;
   maxValue?: number;
 }
 
+interface Enum {
+  enumId: string;
+  name: string;
+  type: string;
+  enumVariants: string[];
+}
+
 class ParamStore {
   params: Parameter[] = [];
+
   constructor() {
     makeObservable(this, {
       params: observable,
@@ -19,7 +29,12 @@ class ParamStore {
     });
   }
 
-  addParam = (paramId: string, name: string, type: string, possibleValue) => {
+  addParam = (
+    paramId: string,
+    name: string,
+    type: string,
+    possibleValue: any
+  ) => {
     if (type === "string" || type === "uint") {
       const newParam: Parameter = {
         paramId,
@@ -28,26 +43,27 @@ class ParamStore {
         minValue: possibleValue.minValue,
         maxValue: possibleValue.maxValue,
       };
-
+      
+      console.log("Param: ", newParam);
       this.params.push(newParam);
     } else if (type === "enum") {
-      const newParam: Parameter = {
-        paramId,
+      const newEnum: Enum = {
+        enumId: paramId,
         name,
         type,
-        enumVarians: possibleValue,
+        enumVariants: possibleValue.enumVariants,
       };
+      console.log("NUUUUUUMMMM: ", newEnum);
 
-      this.params.push(newParam);
-
-      console.log("ALL PARAM: ", this.params);
-      console.log("NEW PARAM: ", newParam);
+      //   this.params.push(newParam);
+      enumStore.addEnum(newEnum);
+      // TODO: addint the enum store
     }
   };
 
-  deleteParam = (paramIdOfDeletedParam) => {
+  deleteParam = (idOfDeletingParam) => {
     this.params = this.params.filter(
-      (param) => param.paramId !== paramIdOfDeletedParam
+      (param) => param.paramId !== idOfDeletingParam
     );
   };
 }

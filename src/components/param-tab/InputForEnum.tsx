@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 
-import { paramStore } from "../../store/ParamStore";
-
 const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
-  console.log("RERENDER!!!");
-
   const [newEnumVariant, setNewEnumVariant] = useState("");
   const onAddVariant = (event) => {
     event.preventDefault();
-    console.log("NEW: ", newEnumVariant);
 
     addEnumVariant(newEnumVariant);
     setNewEnumVariant("");
   };
 
-  const onDeleteVariant = (event, deletedEnumVariantName: string) => {
+  const onDeleteVariant = (event, deletingEnumVariantName: string) => {
     event.preventDefault();
-    deleteEnumVariant(deletedEnumVariantName);
+    deleteEnumVariant(deletingEnumVariantName);
   };
 
   const havingEnumVariants = enumVariants?.map((enumVariantName) => {

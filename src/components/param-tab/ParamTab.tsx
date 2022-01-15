@@ -4,6 +4,7 @@ import nextId from "react-id-generator";
 
 import "./param-tab.css";
 import { paramStore } from "../../store/ParamStore";
+import { enumStore } from "../../store/EnumStore";
 import InputForEnum from "./InputForEnum";
 
 interface NewParam {
@@ -15,7 +16,7 @@ interface NewParam {
   maxValue?: number;
 }
 
-const ParamItem = ({ name, type, paramId, ...possibleValues }) => {
+const ParamItem = ({ name, type, paramId, minValue, maxValue }) => {
   const onDeleteParam = (event) => {
     event.preventDefault();
     paramStore.deleteParam(paramId);
@@ -23,9 +24,34 @@ const ParamItem = ({ name, type, paramId, ...possibleValues }) => {
 
   return (
     <div key={paramId}>
+      <div>ID: {paramId}</div>
       <div>Name: {name}</div>
       <div>Type: {type}</div>
-      <div></div>
+      <div>MinValue: {minValue}</div>
+      <div>MaxValue: {maxValue}</div>
+      <button className="btn btn-blue" onClick={onDeleteParam}>
+        - DELETE PARAM
+      </button>
+    </div>
+  );
+};
+
+const EnumItem = ({ name, type, enumId, enumVariants }) => {
+  const onDeleteParam = (event) => {
+    event.preventDefault();
+    enumStore.deleteEnum(enumId);
+  };
+
+  const possibleValues = enumVariants?.map((variant) => (
+    <span>{variant}, </span>
+  ));
+
+  return (
+    <div key={enumId}>
+      <div>ENUMID: {enumId}</div>
+      <div>Name: {name}</div>
+      <div>Type: {type}</div>
+      <div>Possible Values: {possibleValues}</div>
       <button className="btn btn-blue" onClick={onDeleteParam}>
         - DELETE PARAM
       </button>
@@ -36,15 +62,29 @@ const ParamItem = ({ name, type, paramId, ...possibleValues }) => {
 const ParamTab = observer(() => {
   const [newParam, setNewParam] = useState({} as NewParam);
   const { params } = paramStore;
-  const havingParams = params.map((param) => {
-    return <ParamItem {...param}></ParamItem>;
+  const { enums } = enumStore;
+  const havingStringAndIntParams = params.map(
+    ({ name, type, paramId, minValue, maxValue }) => {
+      return (
+        <ParamItem
+          name={name}
+          type={type}
+          paramId={paramId}
+          minValue={minValue}
+          maxValue={maxValue}
+        />
+      );
+    }
+  );
+  const havingEnumParams = enums.map((enumItem) => {
+    return <EnumItem {...enumItem} />;
   });
 
   const onChangeMinOrMaxValueOfParam = (event) => {
     setNewParam({ ...newParam, [event.target.name]: event.target.value });
   };
 
-  const thereIsNotEnumVariants = () => !newParam.enumVariants; 
+  const thereIsNotEnumVariants = () => !newParam.enumVariants;
 
   const addEnumVariant = (enumVariant: string) => {
     if (thereIsNotEnumVariants()) {
@@ -91,9 +131,6 @@ const ParamTab = observer(() => {
         );
       }
       case "enum": {
-        console.log("INNER");
-
-        // newParam.enumVariants = [];
         return (
           <InputForEnum
             enumVariants={newParam.enumVariants}
@@ -115,7 +152,8 @@ const ParamTab = observer(() => {
       alert("Select the type or name!");
       return;
     }
-    setNewParam({ ...newParam, newParamId: nextId() });
+
+    newParam.newParamId = nextId();
     const { newParamId, name, type, ...possibleValue } = newParam;
     paramStore.addParam(newParamId, name, type, possibleValue);
     setNewParam({ newParamId: "", name: "", type: "" });
@@ -138,7 +176,8 @@ const ParamTab = observer(() => {
   return (
     <>
       <div className="ParamTabContainer">
-        <div className="HavingParams">{havingParams}</div>
+        <div className="HavingParams">{havingStringAndIntParams}</div>
+        <div className="HavingParams">{havingEnumParams}</div>
         <div className="ParamDescription">
           <div className="ParamDescriptionContainer">
             <div className="NameTypeContainer">
