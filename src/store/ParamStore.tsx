@@ -10,7 +10,7 @@ interface Parameter {
   maxValue?: number;
 }
 
-class ParameterStore {
+class ParamStore {
   params: Parameter[] = [];
   constructor() {
     makeObservable(this, {
@@ -43,6 +43,10 @@ class ParameterStore {
     }
   };
 
+  addEnumVariant = () => {
+
+  }
+
   deleteParam = (paramIdOfDeletedParam) => {
     this.params = this.params.filter(
       (param) => param.paramId !== paramIdOfDeletedParam
@@ -50,4 +54,4 @@ class ParameterStore {
   };
 }
 
-export const paramStore = new ParameterStore();
+export const paramStore = new ParamStore();
