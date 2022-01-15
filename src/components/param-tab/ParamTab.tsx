@@ -1,11 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
+import nextId from "react-id-generator";
 
 import "./param-tab.css";
 import { paramStore } from "../../store/ParamStore";
 import InputForEnum from "./InputForEnum";
 
 interface NewParam {
+  newParamId: string;
   name: string;
   type: string;
   enumVariants?: string[];
@@ -14,8 +16,6 @@ interface NewParam {
 }
 
 const ParamItem = ({ name, type, paramId, ...possibleValues }) => {
-  console.log(`VALUES for ${name}: `, possibleValues);
-
   const onDeleteParam = (event) => {
     event.preventDefault();
     paramStore.deleteParam(paramId);
@@ -41,16 +41,28 @@ const ParamTab = observer(() => {
   });
 
   const onChangeMinOrMaxValueOfParam = (event) => {
-    console.log(event);
     setNewParam({ ...newParam, [event.target.name]: event.target.value });
   };
 
-  const addEnumVariant = (enumVariant: string) => {
-    console.log("log: ", enumVariant);
+  const thereIsNotEnumVariants = () => !newParam.enumVariants; 
 
-    // newParam.enumVariants?.push(enumVariant);
+  const addEnumVariant = (enumVariant: string) => {
+    if (thereIsNotEnumVariants()) {
+      // To add enum variant in the first time
+      newParam.enumVariants = [];
+    }
     newParam.enumVariants?.push(enumVariant);
-    console.log(newParam.enumVariants);
+    const newEnumVariant = newParam.enumVariants;
+
+    setNewParam({ ...newParam, enumVariants: newEnumVariant });
+  };
+
+  const deleteEnumVariant = (deletedEnumVariant: string) => {
+    const newEnumVariants = newParam.enumVariants?.filter(
+      (enumVariantName) => enumVariantName !== deletedEnumVariant
+    );
+
+    setNewParam({ ...newParam, enumVariants: newEnumVariants });
   };
 
   const getPossibleValuesOfParam = () => {
@@ -79,11 +91,14 @@ const ParamTab = observer(() => {
         );
       }
       case "enum": {
-        newParam.enumVariants = [];
+        console.log("INNER");
+
+        // newParam.enumVariants = [];
         return (
           <InputForEnum
             enumVariants={newParam.enumVariants}
             addEnumVariant={addEnumVariant}
+            deleteEnumVariant={deleteEnumVariant}
           />
         );
       }
@@ -100,9 +115,10 @@ const ParamTab = observer(() => {
       alert("Select the type or name!");
       return;
     }
-    const { name, type, ...possibleValue } = newParam;
-    paramStore.addParam(name, type, possibleValue);
-    setNewParam({ name: "", type: "" });
+    setNewParam({ ...newParam, newParamId: nextId() });
+    const { newParamId, name, type, ...possibleValue } = newParam;
+    paramStore.addParam(newParamId, name, type, possibleValue);
+    setNewParam({ newParamId: "", name: "", type: "" });
   };
 
   const onParamNameChange = (event) => {
@@ -110,7 +126,13 @@ const ParamTab = observer(() => {
   };
 
   const onParamTypeSelect = (event) => {
-    setNewParam({ ...newParam, type: event.target.value });
+    const oldParamId = newParam.newParamId;
+    const oldParamName = newParam.name;
+    setNewParam({
+      type: event.target.value,
+      newParamId: oldParamId,
+      name: oldParamName,
+    });
   };
 
   return (

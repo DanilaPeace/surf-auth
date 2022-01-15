@@ -1,5 +1,4 @@
 import { action, observable, makeObservable } from "mobx";
-import nextId from "react-id-generator";
 
 interface Parameter {
   paramId: string;
@@ -20,10 +19,10 @@ class ParamStore {
     });
   }
 
-  addParam = (name: string, type: string, possibleValue) => {
+  addParam = (paramId: string, name: string, type: string, possibleValue) => {
     if (type === "string" || type === "uint") {
       const newParam: Parameter = {
-        paramId: nextId(),
+        paramId,
         name,
         type,
         minValue: possibleValue.minValue,
@@ -33,19 +32,18 @@ class ParamStore {
       this.params.push(newParam);
     } else if (type === "enum") {
       const newParam: Parameter = {
-        paramId: nextId(),
+        paramId,
         name,
         type,
         enumVarians: possibleValue,
       };
 
       this.params.push(newParam);
+
+      console.log("ALL PARAM: ", this.params);
+      console.log("NEW PARAM: ", newParam);
     }
   };
-
-  addEnumVariant = () => {
-
-  }
 
   deleteParam = (paramIdOfDeletedParam) => {
     this.params = this.params.filter(

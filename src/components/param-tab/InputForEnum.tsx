@@ -2,34 +2,34 @@ import React, { useState } from "react";
 
 import { paramStore } from "../../store/ParamStore";
 
-const InputForEnum = ({ enumVariants, addEnumVariant }) => {
-  const [newEnumVariant, setNewEnumVariant] = useState();
-  const [enumVariant, setEnumVariant] = useState("");
+const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
+  console.log("RERENDER!!!");
+
+  const [newEnumVariant, setNewEnumVariant] = useState("");
   const onAddVariant = (event) => {
     event.preventDefault();
     console.log("NEW: ", newEnumVariant);
 
     addEnumVariant(newEnumVariant);
+    setNewEnumVariant("");
   };
 
-  const onDeleteVariant = (event) => {};
+  const onDeleteVariant = (event, deletedEnumVariantName: string) => {
+    event.preventDefault();
+    deleteEnumVariant(deletedEnumVariantName);
+  };
 
   const havingEnumVariants = enumVariants?.map((enumVariantName) => {
     return (
-      <>
-        {/* <input
-          type="text"
-          className="form-control user-input"
-          value={enumVariantName}
-        /> */}
+      <div>
         {enumVariantName}
         <button
           className="btn btn-blue"
-          onClick={() => onDeleteVariant(enumVariantName)}
+          onClick={(event) => onDeleteVariant(event, enumVariantName)}
         >
-          + DELETE VARIANT
+          + DELETE THIS VARIANT
         </button>
-      </>
+      </div>
     );
   });
 
@@ -45,6 +45,7 @@ const InputForEnum = ({ enumVariants, addEnumVariant }) => {
         className="form-control user-input"
         value={newEnumVariant || ""}
         onChange={onEnumVariantChange}
+        placeholder="Type new enum variant here"
       />
       <button className="btn btn-blue" onClick={onAddVariant}>
         + ADD VARIANT
