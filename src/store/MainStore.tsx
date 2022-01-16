@@ -1,46 +1,45 @@
 import { action, makeObservable, observable, reaction } from "mobx";
-import RarityFormStore from "./RarityFormStore";
-import commisionStore from "./CommisionStore";
-import ParameterFormStore from "./ParameterFormStore";
 
+import commisionStore from "./CommisionStore";
+import { enumStore } from "./EnumStore";
+import { intStringParamStore } from "./IntStringParamStore";
+import RarityFormStore from "./RarityFormStore";
+import {
+  Rarity,
+  MintDesc,
+  MintEnum,
+  MintParam,
+} from "../types/create-collection-types";
 import apiCall from "../api/CallApi";
 import { global_urls } from "../config/urls";
 
 class MainStore {
-  collectionName: string = "";
-  maxTokenNumber: number = 0;
-  enums: any[] = [];
-  commision = commisionStore;
-  //main collection object
-  Collection: any = {
-    description: {
-      name: this.collectionName,
-      limit: this.maxTokenNumber,
-      icon: "",
-    },
-    rarities: [],
-    variables: [],
-    enums: [],
-    //"mediafiles": [],
-    commissions: {
-      // commissionAuthor: {
-      //   check: false,
-      //   value: 0,
-      // },
-      commissionFavorOwner: {
-        check: false,
-        value: 0,
-      },
-      // commissionAuthorGenerator: {
-      //   check: false,
-      //   value: 0,
-      // },
-      mintingPriceUsers: 0,
-    },
-    options: [],
+  description: MintDesc = {
+    name: "",
+    limit: 0,
+    icon: "",
   };
+  // TODO: change the name of raritys
+  rarities: Rarity[] = RarityFormStore.raritys;
+
+  variables: MintParam[] = [];
+  enums: MintEnum[] = [];
+  commisions = commisionStore;
+  options: [] = [];
 
   constructor() {
+    makeObservable(this, {
+      commisions: observable,
+      changeCollectionName: action,
+      changeMaxTokenNumber: action,
+      description: observable,
+      rarities: observable,
+      enums: observable,
+      changeEnums: action,
+      variables: observable,
+      changeVariables: action,
+    });
+
     reaction(
       () => RarityFormStore.raritys,
       () => {
@@ -51,108 +50,73 @@ class MainStore {
           delete x.id;
           return x;
         });
-        this.Collection.rarities = edited.map((x) => {
+        this.rarities = edited.map((x) => {
           x.limit = Number(x.limit);
           return x;
         });
       }
     );
-    reaction(
-      () => ParameterFormStore.parameters,
-      () => {
-        // TODO: make more readable and clear
-        let paramCopy = JSON.parse(
-          JSON.stringify(ParameterFormStore.parameters)
-        );
-        let editedParams = paramCopy.map((param) => {
-          param = Object.assign(param, param.possibleValuesOfParam);
-          delete param.possibleValuesOfParam;
-          delete param.id;
-          return param;
-        });
-        this.Collection.enums = [];
 
-        // TODO: make more readable and clear
-        this.Collection.variables = editedParams.map((param) => {
-          console.log("PARAM :", param);
+    // For Params
+    reaction(() => intStringParamStore.params, this.changeVariables);
 
-          switch (param.type) {
-            case "enum":
-              param.enumVariants = Object.values(param.enumVariants);
-              this.Collection.enums.push(param);
-              return param;
-            case "uint":
-              param.minValue = Number(param.minValue);
-              param.maxValue = Number(param.maxValue);
-              return param;
-            case "string":
-              param.minValue = Number(param.minValue);
-              param.maxValue = Number(param.maxValue);
-              return param;
-          }
-          console.log(this.Collection.variables);
-        });
-
-        // TODO: make more readable and clear
-        this.Collection.variables = this.Collection.variables.filter(
-          (param) => param.type !== "enum"
-        );
-        this.Collection.enums = this.Collection.enums.map((enumItem) => ({
-          ...enumItem,
-          type: `e${enumItem.name}`,
-        }));
-      }
-    );
+    // For enums
+    reaction(() => enumStore.enums, this.changeEnums);
 
     // Reactions for commisions
+    // TODO: change the reactions for commisitons
     reaction(
-      () => this.commision.mintingPriceUsers,
+      () => this.commisions.mintingPriceUsers,
       (mintingPriceUsers) => {
-        this.Collection.commissions.mintingPriceUsers = mintingPriceUsers;
+        this.commisions.mintingPriceUsers = mintingPriceUsers;
       }
     );
 
     reaction(
-      () => this.commision.commissionFavorOwner.check,
+      () => this.commisions.commissionFavorOwner.check,
       (commissionFavorOwnerCheck) => {
-        this.Collection.commissions.commissionFavorOwner.check =
-          commissionFavorOwnerCheck;
+        this.commisions.commissionFavorOwner.check = commissionFavorOwnerCheck;
       }
     );
 
     reaction(
-      () => this.commision.commissionFavorOwner.value,
+      () => this.commisions.commissionFavorOwner.value,
       (commissionFavorOwnerValue) => {
-        this.Collection.commissions.commissionFavorOwner.value =
-          commissionFavorOwnerValue;
+        this.commisions.commissionFavorOwner.value = commissionFavorOwnerValue;
       }
     );
-
-    makeObservable(this, {
-      collectionName: observable,
-      maxTokenNumber: observable,
-      Collection: observable,
-      enums: observable,
-      commision: observable,
-      changeCollectionName: action,
-      changeMaxTokenNumber: action,
-    });
   }
 
+  changeEnums = () => {
+    this.enums = enumStore.enums.map(({ name, enumVariants }) => {
+      return {
+        name,
+        type: "e" + name,
+        enumVariants,
+      };
+    });
+  };
+
+  changeVariables = () => {
+    this.variables = intStringParamStore.params.map(
+      ({ name, type, minValue, maxValue }) => {
+        return { name, type, minValue: +minValue, maxValue: +maxValue };
+      }
+    );
+  };
+
   changeCollectionName = (event: any) => {
-    this.collectionName = event.target.value;
-    this.Collection.description.name = this.collectionName;
+    this.description.name = event.target.value;
   };
 
   changeMaxTokenNumber = (event: any) => {
-    this.maxTokenNumber = Number(event.target.value);
-    this.Collection.description.limit = this.maxTokenNumber;
+    this.description.limit = Number(event.target.value);
   };
 
   sendingDataDeploy = async () => {
     const resData = await apiCall.post(
       global_urls.DEPLOY_COLLECTION,
-      this.Collection
+      this.getSendedObject()
     );
     this.clearData();
     return resData;
@@ -164,7 +128,7 @@ class MainStore {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.Collection),
+      body: JSON.stringify(this.getSendedObject()),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -182,7 +146,7 @@ class MainStore {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.Collection),
+      body: JSON.stringify(this.getSendedObject()),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -195,36 +159,22 @@ class MainStore {
     this.clearData();
   };
 
+  getSendedObject = () => ({
+    description: this.description,
+    rarities: this.rarities,
+    variables: this.variables,
+    enums: this.enums,
+    commissions: this.commisions,
+    options: this.options,
+  });
+
   clearData = () => {
-    this.collectionName = "";
-    this.maxTokenNumber = 0;
-    this.Collection = {
-      description: {
-        name: "",
-        limit: "",
-        icon: "",
-      },
-      rarities: [],
-      variables: [],
-      enums: [],
-      //"mediafiles": [],
-      commissions: {
-        // commissionAuthor: {
-        //   check: false,
-        //   value: 0,
-        // },
-        commissionFavorOwner: {
-          check: false,
-          value: 0,
-        },
-        // commissionAuthorGenerator: {
-        //   check: false,
-        //   value: 0,
-        // },
-        mintingPriceUsers: 0,
-      },
-      options: [],
-    };
+    this.description = {} as MintDesc;
+    this.rarities = [];
+    this.enums = [];
+    this.variables = [];
+    // TODO: make reset commisions and
+    this.options = [];
   };
 }
 

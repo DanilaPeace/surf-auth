@@ -1,5 +1,32 @@
 import React, { useState } from "react";
 import nextId from "react-id-generator";
+import styled from "styled-components";
+
+const InputForEnumElement = styled.div`
+  margin-top: 10px;
+
+  .add-btn {
+    margin-top: 10px;
+    width: 300px;
+  }
+`;
+
+const EnumVariant = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+
+  .text {
+    flex: 2;
+    span {
+      font-weight: 700;
+    }
+  }
+
+  .btn {
+    flex: 1.5;
+  }
+`;
 
 const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
   const [newEnumVariant, setNewEnumVariant] = useState("");
@@ -17,15 +44,17 @@ const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
 
   const havingEnumVariants = enumVariants?.map((enumVariantName) => {
     return (
-      <div key={nextId()}>
-        {enumVariantName}
+      <EnumVariant key={nextId()}>
+        <div className="text">
+          Enum variant: <span>{enumVariantName}</span>
+        </div>
         <button
           className="btn btn-blue"
           onClick={(event) => onDeleteVariant(event, enumVariantName)}
         >
           + DELETE THIS VARIANT
         </button>
-      </div>
+      </EnumVariant>
     );
   });
 
@@ -34,7 +63,7 @@ const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
   };
 
   return (
-    <div className="">
+    <InputForEnumElement>
       {havingEnumVariants}
       <input
         type="text"
@@ -43,10 +72,10 @@ const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
         onChange={onEnumVariantChange}
         placeholder="Type new enum variant here"
       />
-      <button className="btn btn-blue" onClick={onAddVariant}>
+      <button className="btn btn-blue add-btn" onClick={onAddVariant}>
         + ADD VARIANT
       </button>
-    </div>
+    </InputForEnumElement>
   );
 };
 

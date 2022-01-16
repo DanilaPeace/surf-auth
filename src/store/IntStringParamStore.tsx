@@ -1,12 +1,6 @@
 import { action, observable, makeObservable } from "mobx";
 
-interface IntAndStrParam {
-  paramId: string;
-  name: string;
-  type: string;
-  minValue: number;
-  maxValue: number;
-}
+import { IntAndStrParam } from "../types/create-collection-types";
 
 class IntStringParamStore {
   params: IntAndStrParam[] = [];
@@ -34,7 +28,7 @@ class IntStringParamStore {
       maxValue,
     };
 
-    this.params.push(newParam);
+    this.params = [...this.params, newParam];
   };
 
   deleteParam = (idOfDeletingParam) => {

@@ -11,7 +11,7 @@ const CommisionTab = observer(() => {
   const onChangeCheckbox = () => {
     setChecked(!checked);
 
-    store.commision.onChangeCheckbox(!checked);
+    store.commisions.onChangeCheckbox(!checked);
   };
 
   return (
@@ -27,8 +27,8 @@ const CommisionTab = observer(() => {
               inputType="text"
               labelName="Commision (%)"
               inputName="Type commision here"
-              data={store.commision.commissionFavorOwner.value}
-              onChange={store.commision.onChangeCommissionFavorOwner}
+              data={store.commisions.commissionFavorOwner.value}
+              onChange={store.commisions.onChangeCommissionFavorOwner}
             />
           </div>
         </div>
@@ -36,8 +36,8 @@ const CommisionTab = observer(() => {
           inputType="text"
           labelName="Minting price for users (EVERs)"
           inputName="Type price"
-          data={store.commision.mintingPriceUsers}
-          onChange={store.commision.onChangeMintingPriceUsers}
+          data={store.commisions.mintingPriceUsers}
+          onChange={store.commisions.onChangeMintingPriceUsers}
         />
       </div>
     </div>

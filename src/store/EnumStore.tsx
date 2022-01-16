@@ -23,7 +23,7 @@ class EnumStore {
       type,
       enumVariants,
     };
-    this.enums.push(newEnum);
+    this.enums = [...this.enums, newEnum];
   };
 
   deleteEnum = (idOfDeletingEnum: string) => {
