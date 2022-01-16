@@ -16,9 +16,14 @@ class EnumStore {
     });
   }
 
-  addEnum = (addingEnum: Enum) => {
-    console.log("ENUMS IN ENUMSTORE: ", this.enums);
-    this.enums.push(addingEnum);
+  addEnum = (enumId, name, type, enumVariants) => {
+    const newEnum: Enum = {
+      enumId,
+      name,
+      type,
+      enumVariants,
+    };
+    this.enums.push(newEnum);
   };
 
   deleteEnum = (idOfDeletingEnum: string) => {

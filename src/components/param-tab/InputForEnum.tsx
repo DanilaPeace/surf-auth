@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import nextId from "react-id-generator";
 
 const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
   const [newEnumVariant, setNewEnumVariant] = useState("");
@@ -16,7 +17,7 @@ const InputForEnum = ({ enumVariants, addEnumVariant, deleteEnumVariant }) => {
 
   const havingEnumVariants = enumVariants?.map((enumVariantName) => {
     return (
-      <div>
+      <div key={nextId()}>
         {enumVariantName}
         <button
           className="btn btn-blue"

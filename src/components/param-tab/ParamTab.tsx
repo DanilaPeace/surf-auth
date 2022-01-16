@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import nextId from "react-id-generator";
 
 import "./param-tab.css";
-import { paramStore } from "../../store/ParamStore";
+import { intStringParamStore } from "../../store/IntStringParamStore";
 import { enumStore } from "../../store/EnumStore";
 import InputForEnum from "./InputForEnum";
 
@@ -19,7 +19,7 @@ interface NewParam {
 const ParamItem = ({ name, type, paramId, minValue, maxValue }) => {
   const onDeleteParam = (event) => {
     event.preventDefault();
-    paramStore.deleteParam(paramId);
+    intStringParamStore.deleteParam(paramId);
   };
 
   return (
@@ -43,11 +43,11 @@ const EnumItem = ({ name, type, enumId, enumVariants }) => {
   };
 
   const possibleValues = enumVariants?.map((variant) => (
-    <span>{variant}, </span>
+    <span key={nextId()}>{variant}, </span>
   ));
 
   return (
-    <div key={enumId}>
+    <div>
       <div>ENUMID: {enumId}</div>
       <div>Name: {name}</div>
       <div>Type: {type}</div>
@@ -61,23 +61,18 @@ const EnumItem = ({ name, type, enumId, enumVariants }) => {
 
 const ParamTab = observer(() => {
   const [newParam, setNewParam] = useState({} as NewParam);
-  const { params } = paramStore;
+  const { params } = intStringParamStore;
   const { enums } = enumStore;
   const havingStringAndIntParams = params.map(
-    ({ name, type, paramId, minValue, maxValue }) => {
+    (param) => {
       return (
-        <ParamItem
-          name={name}
-          type={type}
-          paramId={paramId}
-          minValue={minValue}
-          maxValue={maxValue}
-        />
+        <ParamItem {...param}/>
       );
     }
   );
+
   const havingEnumParams = enums.map((enumItem) => {
-    return <EnumItem {...enumItem} />;
+    return <EnumItem key={enumItem.enumId} {...enumItem} />;
   });
 
   const onChangeMinOrMaxValueOfParam = (event) => {
@@ -148,14 +143,28 @@ const ParamTab = observer(() => {
 
   const onAddParam = (event) => {
     event.preventDefault();
+
     if (!newParam.type || !newParam.name) {
       alert("Select the type or name!");
       return;
     }
 
     newParam.newParamId = nextId();
-    const { newParamId, name, type, ...possibleValue } = newParam;
-    paramStore.addParam(newParamId, name, type, possibleValue);
+    const { newParamId, name, type } = newParam;
+    if (newParam.type === "string" || newParam.type === "uint") {
+      const { minValue, maxValue } = newParam;
+      intStringParamStore.addParam(
+        newParamId,
+        name,
+        type,
+        minValue as number,
+        maxValue as number
+      );
+    } else if (newParam.type === "enum") {
+      const { enumVariants } = newParam;
+      enumStore.addEnum(newParamId, name, type, enumVariants);
+    }
+
     setNewParam({ newParamId: "", name: "", type: "" });
   };
 
