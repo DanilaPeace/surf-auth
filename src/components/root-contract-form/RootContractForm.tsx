@@ -76,24 +76,24 @@ const RootContractForm = () => {
               <ParamTab />
             </Tab>
           </Tabs>
-          <div className="btn-toolbar root-contract-btn-toolbar">
+          <div className="btn-toolbar root-btns-container">
             <button
               onClick={saveData}
-              className="btn root-contract-btn btn-blue"
+              className="btn btn-blue"
             >
               <i className="fas fa-file-download mr-2"></i>
               Save data
             </button>
             <button
               onClick={generateContractsCode}
-              className="btn root-contract-btn btn-blue"
+              className="btn btn-blue"
             >
               <i className="far fa-calendar-plus mr-2"></i>
               Generate contracts Code
             </button>
             <button
               onClick={deployContracts}
-              className="btn root-contract-btn btn-blue"
+              className="btn btn-blue"
             >
               <i className="fas fa-paper-plane mr-2"></i>
               Deploy contracts
