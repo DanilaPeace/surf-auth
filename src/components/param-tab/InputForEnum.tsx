@@ -12,19 +12,18 @@ const InputForEnumElement = styled.div`
 `;
 
 const EnumVariant = styled.div`
-  display: flex;
+  /* display: flex; */
+  /* align-items: center; */
+  /* margin-top: 10px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  margin: 10px 0;
 
   .text {
-    flex: 2;
+    /* flex: 2; */
     span {
       font-weight: 700;
     }
-  }
-
-  .btn {
-    flex: 1.5;
   }
 `;
 

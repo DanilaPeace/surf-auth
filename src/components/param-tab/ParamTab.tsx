@@ -165,7 +165,7 @@ const ParamTab = observer(() => {
         </div>
 
         <button className="btn btn-blue" onClick={onAddParam}>
-          ADD PARAM
+          Add Parameter
         </button>
       </div>
     </div>
