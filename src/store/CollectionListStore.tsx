@@ -22,12 +22,15 @@ export default class CollectionListStore {
   }
 
   getCollectionList = async () => {
+    console.log("GET");
+    
     return await apiCall
-      .get(global_urls.COLLECTION_LIST_URL)
-      .then((data) => data.collectionList);
+    .get(global_urls.COLLECTION_LIST_URL)
+    .then((data) => data.collectionList);
   };
-
+  
   setCollectionList = async () => {
+    console.log("SET");
     if (!this.dataIsLoaded) {
       this.collectionList = await this.getCollectionList();
     }

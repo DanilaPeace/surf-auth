@@ -6,5 +6,5 @@ export const global_urls = {
   MINTING_TOKEN_URL: DOMAIN + "/minting-tokens/minting",
   DEPLOY_COLLECTION: DOMAIN + "/root-collection/deploy-collection",
   SAVE_COLLECTION_DATA: DOMAIN + "/root-collection/save-data",
-  GENERATE_COLLECTION: DOMAIN + "/generate-collection",
+  GENERATE_COLLECTION: DOMAIN + "/root-collection/generate-collection",
 };

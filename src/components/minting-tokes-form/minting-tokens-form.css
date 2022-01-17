@@ -43,7 +43,8 @@
   margin-bottom: 25px;
 }
 
-.RaritiesField-select {
+.RaritiesField-select,
+.EnumsField-select {
   width: 100%;
 }
 
@@ -54,7 +55,8 @@
 /* RARITIES, PARAMS, SIGN TITLE */
 .RaritiesField-title,
 .ParamsField-title,
-.SignField-title {
+.SignField-title,
+.EnumsField-title {
   font-size: 20px;
   font-weight: 500;
 }

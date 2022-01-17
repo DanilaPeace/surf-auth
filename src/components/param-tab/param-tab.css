@@ -1,0 +1,45 @@
+.ParamTabContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ParamDescription {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* TODO: make this padding by default */
+  padding-right: 20px;
+}
+
+.ParamDescriptionContainer {
+  margin: 20px;
+}
+
+.ParamDescriptionContainer {
+  flex: 2;
+}
+
+.ParamDescriptionContainer select {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ParamDescription .btn {
+  flex: 1;
+  padding: 6px 12px;
+}
+
+/* Having values of params */
+.param-name,
+.param-type {
+  font-weight: 700;
+}
+
+.param-value::first-child {
+  margin-right: 10px;
+}
+
+.param-value span {
+  font-weight: 700;
+}

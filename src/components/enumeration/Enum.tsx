@@ -1,79 +1,100 @@
-import React from 'react'
-import ParameterFormStore from '../../store/ParameterFormStore'
-import { observer } from "mobx-react";
-import { action, makeObservable, observable } from 'mobx';
-import UserInput from '../common/user-input/UserInput'
-import Checkbox from '../common/checkbox/checkbox'
-import './styles.css';
+import React from "react";
+import nextId from "react-id-generator";
+
+import ParameterFormStore from "../../store/ParameterFormStore";
+import UserInput from "../common/user-input/UserInput";
+import "./styles.css";
 
 interface EnumOptionsState {
-    enumVariants: EnumType[];
-    rendered: JSX.Element[];
+  enumVariants: EnumType[];
+  rendered: JSX.Element[];
 }
 
 interface EnumType {
-    id: string;
-    value: any;
+  id: string;
+  value: any;
 }
 
 interface EnumOptionsProps {
-    id?: string;
+  id?: string;
 }
 
-export default class EnumOptions extends React.Component<EnumOptionsProps, EnumOptionsState> {
+export default class EnumOptions extends React.Component<
+  EnumOptionsProps,
+  EnumOptionsState
+> {
+  constructor(props: EnumOptionsProps | Readonly<EnumOptionsProps>) {
+    super(props);
+    this.state = {
+      enumVariants: [],
+      rendered: [],
+    };
+  }
 
-    constructor(props: EnumOptionsProps | Readonly<EnumOptionsProps>) {
-        super(props);
-        this.state = {
-            enumVariants: [],
-            rendered: []
-        };
+  onAddVariant = (e) => {
+    e.preventDefault();
 
-        this.handleAddEnumVariant = this.handleAddEnumVariant.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleCheckBoxValueChange = this.handleCheckBoxValueChange.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
+    let enumId = nextId();
 
-    handleAddEnumVariant(e) {
-        e.preventDefault();
-        let uid = Math.random();
-        let enumid = uid;
-        const { id, ...props } = this.props;
-        ParameterFormStore.changeParameterValueEnum(id, enumid, {})
-        this.setState({
-            rendered: [...this.state.rendered,
-            <div>
-                <UserInput inputType='text' labelName='Variant:' name='enumoption' inputName='enumoption' onChange={(e) => this.handleChange(id, enumid, e)} />
-                <div className="flex-center"><button className="text btn btn-blue btn-block btn-sub" onClick={(e) => this.handleDelete(id, enumid, e)}> - Delete variant </button></div>
-            </div>
-            ]
-        })
-    }
+    const { id } = this.props;
 
-    handleChange(id, enumid, e) {
-        ParameterFormStore.changeParameterValueEnum(id, enumid, e.target.value)
-    }
+    // Finish
+    ParameterFormStore.addEnumVariant(id, enumId, {});
 
-    async handleDelete(id, enumid, event) {
-        event.preventDefault();
-        ParameterFormStore.removeEnum(id, enumid)
+    this.setState({
+      rendered: [
+        ...this.state.rendered,
+        <div>
+          <UserInput
+            inputType="text"
+            labelName="Variant:"
+            name="enumoption"
+            inputName="enumoption"
+            key={enumId}
+            onChange={(e) => this.handleChange(id, enumId, e)}
+          />
+          <div className="flex-center">
+            <button
+              className="text btn btn-blue btn-block btn-sub"
+              onClick={(e) => this.handleDelete(id, enumId, e)}
+            >
+              - Delete variant
+            </button>
+          </div>
+        </div>,
+      ],
+    });
+  };
 
-        event.target.parentElement.parentElement.remove()
-    }
+  handleChange = (id, enumId, e) => {
+    ParameterFormStore.addEnumVariant(id, enumId, e.target.value);
+  };
 
-    handleCheckBoxValueChange(e) {
-        let id = this.props.id;
-        ParameterFormStore.changeParameter(id, e.target.name, e.target.checked);
-    }
+  handleDelete = (id, enumId, event) => {
+    event.preventDefault();
+    ParameterFormStore.removeEnum(id, enumId);
 
-    render() {
-        return (
-            <div>
-                {this.state.rendered}
-                <div className="flex-center"><button onClick={this.handleAddEnumVariant} className="text btn btn-blue btn-block btn-sub"> + Add variant </button></div>
-            </div>
-        );
+    event.target.parentElement.parentElement.remove();
+  };
 
-    }
+  handleCheckBoxValueChange = (e) => {
+    let id = this.props.id;
+    ParameterFormStore.changeParameter(id, e.target.name, e.target.checked);
+  };
+
+  render() {
+    return (
+      <div>
+        {this.state.rendered}
+        <div className="flex-center">
+          <button
+            onClick={this.onAddVariant}
+            className="text btn btn-blue btn-block btn-sub"
+          >
+            + Add variant
+          </button>
+        </div>
+      </div>
+    );
+  }
 }

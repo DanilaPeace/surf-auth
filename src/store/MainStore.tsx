@@ -1,45 +1,45 @@
 import { action, makeObservable, observable, reaction } from "mobx";
-import RarityFormStore from "./RarityFormStore";
-import commisionStore from "./CommisionStore";
-import ParameterFormStore from "./ParameterFormStore";
 
+import commisionStore from "./CommisionStore";
+import { enumStore } from "./EnumStore";
+import { intStringParamStore } from "./IntStringParamStore";
+import RarityFormStore from "./RarityFormStore";
+import {
+  Rarity,
+  MintDesc,
+  MintEnum,
+  MintParam,
+} from "../types/create-collection-types";
 import apiCall from "../api/CallApi";
 import { global_urls } from "../config/urls";
 
 class MainStore {
-  collectionName: string = "";
-  maxTokenNumber: number = 0;
-  enums: any[] = [];
-  commision = commisionStore;
-  //main collection object
-  Collection: any = {
-    description: {
-      name: this.collectionName,
-      limit: this.maxTokenNumber,
-      icon: "",
-    },
-    rarities: [],
-    variables: [],
-    enums: [],
-    //"mediafiles": [],
-    commissions: {
-      commissionAuthor: {
-        check: false,
-        value: 0,
-      },
-      commissionFavorOwner: {
-        check: false,
-        value: 0,
-      },
-      commissionAuthorGenerator: {
-        check: false,
-        value: 0,
-      },
-      mintingPriceUsers: 0,
-    },
+  description: MintDesc = {
+    name: "",
+    limit: 0,
+    icon: "",
   };
+  // TODO: change the name of raritys
+  rarities: Rarity[] = RarityFormStore.raritys;
+
+  variables: MintParam[] = [];
+  enums: MintEnum[] = [];
+  commisions = commisionStore;
+  options: [] = [];
 
   constructor() {
+    makeObservable(this, {
+      commisions: observable,
+      changeCollectionName: action,
+      changeMaxTokenNumber: action,
+      description: observable,
+      rarities: observable,
+      enums: observable,
+      changeEnums: action,
+      variables: observable,
+      changeVariables: action,
+    });
+
     reaction(
       () => RarityFormStore.raritys,
       () => {
@@ -50,89 +50,76 @@ class MainStore {
           delete x.id;
           return x;
         });
-        this.Collection.rarities = edited.map((x) => {
+        this.rarities = edited.map((x) => {
           x.limit = Number(x.limit);
           return x;
         });
       }
     );
-    reaction(
-      () => ParameterFormStore.parameters,
-      () => {
-        let ed = JSON.parse(JSON.stringify(ParameterFormStore.parameters));
-        let edited = ed.map((x) => {
-          x = Object.assign(x, x.value_temporary);
-          delete x.value_temporary;
-          delete x.id;
-          return x;
-        });
-        this.Collection.enums = [];
-        this.Collection.variables = edited.map((x) => {
-          switch (x.type) {
-            case "enum":
-              x.enumVariants = Object.values(x.enumVariants);
-              this.Collection.enums.push(x);
-              return x;
-            case "uint":
-              x.minValue = Number(x.minValue);
-              x.maxValue = Number(x.maxValue);
-              return x;
-            case "string":
-              x.minValue = Number(x.minValue);
-              x.maxValue = Number(x.maxValue);
-              return x;
-          }
-        });
-      }
-    );
+
+    // For Params
+    reaction(() => intStringParamStore.params, this.changeVariables);
+
+    // For enums
+    reaction(() => enumStore.enums, this.changeEnums);
 
     // Reactions for commisions
+    // TODO: change the reactions for commisitons
     reaction(
-      () => this.commision.mintingPriceUsers,
+      () => this.commisions.mintingPriceUsers,
       (mintingPriceUsers) => {
-        this.Collection.commissions.mintingPriceUsers = mintingPriceUsers;
+        this.commisions.mintingPriceUsers = mintingPriceUsers;
       }
     );
 
     reaction(
-      () => this.commision.commissionFavorOwner.check,
+      () => this.commisions.commissionFavorOwner.check,
       (commissionFavorOwnerCheck) => {
-        this.Collection.commissions.commissionFavorOwner.check =
-          commissionFavorOwnerCheck;
+        this.commisions.commissionFavorOwner.check = commissionFavorOwnerCheck;
       }
     );
 
     reaction(
-      () => this.commision.commissionFavorOwner.value,
+      () => this.commisions.commissionFavorOwner.value,
       (commissionFavorOwnerValue) => {
-        this.Collection.commissions.commissionFavorOwner.value =
-          commissionFavorOwnerValue;
+        this.commisions.commissionFavorOwner.value = commissionFavorOwnerValue;
       }
     );
-
-    makeObservable(this, {
-      collectionName: observable,
-      maxTokenNumber: observable,
-      Collection: observable,
-      enums: observable,
-      commision: observable,
-      changeCollectionName: action,
-      changeMaxTokenNumber: action,
-    });
   }
 
+  changeEnums = () => {
+    this.enums = enumStore.enums.map(({ name, enumVariants }) => {
+      return {
+        name,
+        type: "e" + name,
+        enumVariants,
+      };
+    });
+  };
+
+  changeVariables = () => {
+    this.variables = intStringParamStore.params.map(
+      ({ name, type, minValue, maxValue }) => {
+        return { name, type, minValue: +minValue, maxValue: +maxValue };
+      }
+    );
+  };
+
   changeCollectionName = (event: any) => {
-    this.collectionName = event.target.value;
-    this.Collection.description.name = this.collectionName;
+    this.description.name = event.target.value;
   };
 
   changeMaxTokenNumber = (event: any) => {
-    this.maxTokenNumber = Number(event.target.value);
-    this.Collection.description.limit = this.maxTokenNumber;
+    this.description.limit = Number(event.target.value);
   };
 
   sendingDataDeploy = async () => {
-    return apiCall.post(global_urls.DEPLOY_COLLECTION, this.Collection);
+    const resData = await apiCall.post(
+      global_urls.DEPLOY_COLLECTION,
+      this.getSendedObject()
+    );
+    this.clearData();
+    return resData;
   };
 
   sendingDataSave = () => {
@@ -141,7 +128,7 @@ class MainStore {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.Collection),
+      body: JSON.stringify(this.getSendedObject()),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -150,6 +137,7 @@ class MainStore {
       .catch((error) => {
         console.error("Error !!!:", error);
       });
+    this.clearData();
   };
 
   sendingDataContract = () => {
@@ -158,7 +146,7 @@ class MainStore {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.Collection),
+      body: JSON.stringify(this.getSendedObject()),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -167,6 +155,26 @@ class MainStore {
       .catch((error) => {
         console.error("Error !!!:", error);
       });
+
+    this.clearData();
+  };
+
+  getSendedObject = () => ({
+    description: this.description,
+    rarities: this.rarities,
+    variables: this.variables,
+    enums: this.enums,
+    commissions: this.commisions,
+    options: this.options,
+  });
+
+  clearData = () => {
+    this.description = {} as MintDesc;
+    this.rarities = [];
+    this.enums = [];
+    this.variables = [];
+    // TODO: make reset commisions and
+    this.options = [];
   };
 }
 

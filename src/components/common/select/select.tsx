@@ -1,24 +1,25 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
-import { action, makeObservable } from 'mobx';
-import { SelectProps } from '../../../types/select'
-import styles from './styles.module.scss';
+import { action, makeObservable } from "mobx";
+import nextId from "react-id-generator";
+
+import { SelectProps } from "../../../types/select";
 
 function getOptions(selectOptions) {
   let options = [] as any;
   for (let i = 0; i < selectOptions.length; i++) {
-    options.push(<option value={selectOptions[i]}>{selectOptions[i]}</option>)
+    const id = nextId();
+    options.push(<option value={selectOptions[i]} key={id}>{selectOptions[i]}</option>);
   }
-  return (options)
+  return options;
 }
 
 @observer
 class SelectComponent extends React.Component<SelectProps> {
-
   constructor(props: SelectProps | Readonly<SelectProps>) {
     super(props);
     makeObservable(this);
-    this.state = {}
+    this.state = {};
   }
 
   @action
@@ -29,16 +30,20 @@ class SelectComponent extends React.Component<SelectProps> {
   };
 
   render() {
-
     let selectOptions = this.props.selectOptions;
     let options = getOptions(selectOptions);
 
     return (
-    <div>
-    <label htmlFor={this.props.name}>{this.props.labelName}</label>
-      <select name={this.props.name} onChange={this.onChange} value={this.props.value} className={this.props.className}>
-        {options}
-      </select>
+      <div>
+        <label htmlFor={this.props.name}>{this.props.labelName}</label>
+        <select
+          name={this.props.name}
+          onChange={this.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {options}
+        </select>
       </div>
     );
   }

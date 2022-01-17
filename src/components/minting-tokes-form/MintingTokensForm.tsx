@@ -9,6 +9,7 @@ import PagePreloader from "../common/page-preloader/PagePreloader";
 import { global_urls } from "../../config/urls";
 import apiCall from "../../api/CallApi";
 import "./minting-tokens-form.css";
+import EnumField from "./EnumField";
 
 interface ServerMintingResponse {
   collectionInfo: any;
@@ -25,6 +26,7 @@ interface DefaultMintingParams {
   managersList: number[];
   royalty: number;
   rarities: string;
+  enums?: []
 }
 
 const MintingTokensForm = () => {
@@ -49,11 +51,7 @@ const MintingTokensForm = () => {
   const mintNavigate = useNavigate();
 
   const onHadleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    if (rarityIsEmpty()) {
-      // When user didn't select the rarity for token
-      mintParams.rarities =
-        infoFromServerToMint.collectionInfo.rarities[0].name;
-    }
+    parseMintParams();
     // For view preloader
     setIsLoaded(false);
     const serverResponseAfterSuccesMint = await makeFetchReqToMint();
@@ -62,7 +60,36 @@ const MintingTokensForm = () => {
     redirectToInfoCollection(serverResponseAfterSuccesMint);
   };
 
+  const parseMintParams = () => {
+    parseRarity();
+    parseAllEnumsValues();
+  };
+
+  const parseRarity = () => {
+    if (rarityIsEmpty()) {
+      // When user didn't select the rarity for token
+      mintParams.rarities =
+        infoFromServerToMint.collectionInfo.rarities[0].name;
+    }
+  };
+
   const rarityIsEmpty = () => mintParams.rarities === "";
+  const parseAllEnumsValues = () => {
+    const enums = infoFromServerToMint.collectionInfo.enums;
+    for (const currentEnum of enums) {
+      if (!hasEnumVariant(currentEnum.name)) {
+        addMissedEnumVariant(currentEnum);
+      }
+    }
+  };
+
+  const hasEnumVariant = (enumVariant: string) => {
+    return mintParams.hasOwnProperty(enumVariant);
+  };
+
+  const addMissedEnumVariant = (missedEnum) => {
+    mintParams[missedEnum.name] = 0;
+  };
 
   const makeFetchReqToMint = async () => {
     return apiCall.post(global_urls.MINTING_TOKEN_URL, mintParams);
@@ -81,6 +108,8 @@ const MintingTokensForm = () => {
         colAdd: urlParams.collectionAddress,
       })
       .then((data) => {
+        console.log("DATA FORM SERVER: ", data);
+        
         setInfoFromServerToMint(data);
         setIsLoaded(true);
       })
@@ -110,6 +139,11 @@ const MintingTokensForm = () => {
             setParam={setMintParams}
             mintParams={mintParams}
           />
+          <EnumField
+            enums={infoFromServerToMint.collectionInfo.enums}
+            setParam={setMintParams}
+            mintParams={mintParams}
+          ></EnumField>
           <SignField signFieldChange={setMintParams} mintParams={mintParams} />
           <button className="MintingTokensFormBtn btn btn-blue">
             <div>
