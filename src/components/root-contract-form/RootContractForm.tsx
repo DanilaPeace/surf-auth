@@ -43,7 +43,7 @@ const RootContractForm = () => {
         <form action="" className="root-contract-form">
           <Tabs
             defaultActiveKey="main"
-            transition={false}
+            transition={true}
             id="root-contract-tabs"
             className="mb-3"
           >

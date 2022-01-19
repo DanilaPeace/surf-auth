@@ -24,9 +24,10 @@ const ParamsField = ({ variables, setParam, mintParams }) => {
     );
   });
 
+  const paramInputTitle = parameters ? "Enter the follow parameters..." : "";
   return (
     <div className="ParamsField">
-      <div className="ParamsField-title">Enter the follow parameters...</div>
+      <div className="ParamsField-title">{paramInputTitle}</div>
       {parameters}
     </div>
   );
