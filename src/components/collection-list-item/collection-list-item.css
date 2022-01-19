@@ -1,41 +1,36 @@
 .CollectionListItem {
-    text-align: left;
-    margin-bottom: 30px;
-    padding: 25px 40px;
+  text-align: left;
+  margin-bottom: 30px;
+  padding: 25px 40px;
 }
 
 .CollectionListItem-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .CollectionListItem-col:first-child {
-    font-weight: 700;
-    margin-right: 30px;
+  font-weight: 700;
+  margin-right: 30px;
 }
 
 /* BUTTONS */
 .CollectionListItem-btns {
-    margin-top: 30px;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: minmax(100px, 320px) 200px;
+  column-gap: 20px;
 }
 
-.CollectionListItem-btns .CollectionListItem-btn {
-    margin-bottom: 10px;
-}
-
-.CollectionListItem-btn:first-child {
-    margin-right: 30px; 
-}
-
-.CollectionListItem-btn i{
-    margin-right: 15px;
+.CollectionListBtn i {
+  margin-right: 15px;
 }
 
 /* LINK */
-.CollectionListItem-btn a, 
-.CollectionListItem-btn a:hover {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px 60px;
+.CollectionListBtn a,
+.CollectionListBtn a:hover {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 60px;
 }

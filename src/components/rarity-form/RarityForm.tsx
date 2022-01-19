@@ -54,7 +54,7 @@ export default class RarityForm extends React.Component<
             <div className="flex-center">
               <button
                 onClick={this.handleAdd}
-                className="text btn btn-blue btn-block btn-sub"
+                className="btn btn-blue btn-block"
               >
                 + Add rarity
               </button>

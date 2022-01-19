@@ -1,16 +1,10 @@
 .nav-link {
-    background-color: transparent;
-}   
-
-.root-contract-btn-toolbar {
-    padding: 0 20px;
-    margin: 20px 0 0 0;
+  background-color: transparent;
 }
 
-.root-contract-btn {
-    flex: 1;
-}
-
-.root-contract-btn:nth-child(2) {
-    margin: 0 10px;
+.root-btns-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 20px;
+    column-gap: 20px;
 }

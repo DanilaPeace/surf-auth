@@ -6,6 +6,7 @@ import { store } from "../../store/MainStore";
 import { observer } from "mobx-react";
 
 const CommisionTab = observer(() => {
+  // Do fixes from this component 
   const [checked, setChecked] = useState(false);
 
   const onChangeCheckbox = () => {
@@ -15,7 +16,7 @@ const CommisionTab = observer(() => {
   };
 
   return (
-    <div className="commitsion-tab text">
+    <div className="commision-tab">
       <div className="commision-tab__content">
         <div className="commision-checkbox mb-3">
           

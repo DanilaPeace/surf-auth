@@ -31,9 +31,11 @@ export const EnumField = ({ enums, setParam, mintParams }) => {
     );
   });
 
+  const enumsInputTitle = enums.length > 0 ? "Enums" : "";
+
   return (
     <div className="RaritiesField">
-      <div className="EnumsField-title">Enums</div>
+      <div className="EnumsField-title">{enumsInputTitle}</div>
       {enumSelects}
     </div>
   );

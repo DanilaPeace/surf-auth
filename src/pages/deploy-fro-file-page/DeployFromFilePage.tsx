@@ -28,7 +28,7 @@ const DeployFromFile = () => {
           onChange={(e: any) => setUploadFile(e.target.files)}
         ></input>
         <br />
-        <button className="btn root-contract-btn btn-blue">
+        <button className="btn btn-blue">
           <i className="fas fa-paper-plane mr-2"></i>
           Deploy contracts
         </button>
