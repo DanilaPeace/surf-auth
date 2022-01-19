@@ -55,6 +55,7 @@ const MintingTokensForm = () => {
     // For view preloader
     setIsLoaded(false);
     const serverResponseAfterSuccesMint = await makeFetchReqToMint();
+    //console.log(serverResponseAfterSuccesMint) ??
     setIsLoaded(true);
     redirectToInfoCollection(serverResponseAfterSuccesMint);
   };
