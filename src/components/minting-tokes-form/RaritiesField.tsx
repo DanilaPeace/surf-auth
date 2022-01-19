@@ -6,9 +6,11 @@ const RaritiesField = ({ rarities, setRarity, mintParams }) => {
     });
   };
 
+  const raritiesInputTitle = rarities.length > 0 ? "Rarities" : "";
+
   return (
     <div className="RaritiesField">
-      <div className="RaritiesField-title">Rarities</div>
+      <div className="RaritiesField-title">{raritiesInputTitle}</div>
       <select
         onChange={onRaritiesChange}
         className="RaritiesField-select form-select"
