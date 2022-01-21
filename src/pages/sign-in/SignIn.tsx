@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 
 const SignIn = () => {
-  return <div>
-      Sign
-  </div>;
+  const onSignClick = (event) => {
+    alert("Hello!");
+  };
+
+  return (
+    <div>
+      <button onClick={onSignClick}>Sign with EVER Wallet</button>
+    </div>
+  );
 };
 
 export default SignIn;
