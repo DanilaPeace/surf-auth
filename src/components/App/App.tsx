@@ -9,22 +9,36 @@ import CollectionList from "../../pages/collection-list-page/CollectionListPage"
 import TokensDataInfo from "../../pages/tokens-data-info/TokensDataInfo";
 import OneTokenInfo from "../../pages/one-token-info/OneTokenInfo";
 import MintingTokensPage from "../../pages/minting-tokens/MintingTokensPage";
-
-import "./App.css";
 import SignIn from "../../pages/sign-in/SignIn";
 import Error404 from "../../pages/error404/Error404";
+import { user } from "../../store/user/UserStore";
+
+import "./App.css";
+import PrivateRoute from "../private-route/PrivateRoute";
 
 function App() {
+
+  // ! Вызывать useEffect, чтобы при обновлении браузера не вылетало на главную страницу
+
   return (
     <div className="App">
       <Provider>
         <NavBar />
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/root-contract-form" element={<RootContractPage />} />
+          <Route path="/signin" element={<SignIn />} />
+
+          {/* Private routes */}
+          <Route
+            path="/root-contract-form"
+            element={
+              <PrivateRoute>
+                <RootContractPage />
+              </PrivateRoute>
+            }
+          />
           <Route path="/deploy-from-file" element={<DeployFromFile />} />
           <Route path="/collection-list" element={<CollectionList />} />
-          <Route path="/signin" element={<SignIn />} />
           <Route
             path="/tokens-data-info/:collectionName/:collectionAddress"
             element={<TokensDataInfo />}
