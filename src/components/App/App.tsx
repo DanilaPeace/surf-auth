@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "mobx-react";
 
 import NavBar from "../nav-bar/NavBar";
-import DeployFromFile from "../../pages/deploy-fro-file-page/DeployFromFilePage";
+import DeployFromFile from "../../pages/deploy-from-file-page/DeployFromFilePage";
 import Home from "../../pages/home-page/HomePage";
 import RootContractPage from "../../pages/root-contract-page/RootContractPage";
 import CollectionList from "../../pages/collection-list-page/CollectionListPage";

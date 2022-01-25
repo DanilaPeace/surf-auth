@@ -7,7 +7,6 @@ const DeployFromFile = () => {
   const submitForm = (event: any) => {
     event.preventDefault();
     fetch("http://localhost:3001/deploy-from-file", {
-      ///???????
       method: "POST",
       body: uploadFile![0],
     })
