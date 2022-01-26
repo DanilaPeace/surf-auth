@@ -14,26 +14,28 @@ export default class CollectionListStore {
   constructor() {
     makeObservable(this, {
       collectionList: observable,
+      dataIsLoaded: observable,
       getCollectionList: action,
       setCollectionList: action,
-      dataIsLoaded: observable,
       changeDataIsLoaded: action,
     });
   }
 
   getCollectionList = async () => {
-    console.log("GET");
-    
-    return await apiCall
-    .get(global_urls.COLLECTION_LIST_URL)
-    .then((data) => data.collectionList);
-  };
-  
-  setCollectionList = async () => {
-    console.log("SET");
     if (!this.dataIsLoaded) {
-      this.collectionList = await this.getCollectionList();
+      return await apiCall
+        .get(global_urls.COLLECTION_LIST_URL)
+        .then((data) => {
+          this.changeDataIsLoaded(true);
+          return data.collectionList;
+        })
     }
+  };
+
+  setCollectionList = async () => {
+    // To show the preloader
+    this.changeDataIsLoaded(false);
+    this.collectionList = await this.getCollectionList();
   };
 
   changeDataIsLoaded = (dataIsLoaded: boolean) => {

@@ -7,4 +7,5 @@ export const global_urls = {
   DEPLOY_COLLECTION: DOMAIN + "/root-collection/deploy-collection",
   SAVE_COLLECTION_DATA: DOMAIN + "/root-collection/save-data",
   GENERATE_COLLECTION: DOMAIN + "/root-collection/generate-collection",
+  USER_AUTH: DOMAIN + "/auth/auth-everwallet/login"
 };
