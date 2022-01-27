@@ -1,13 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HomeLogo } from "./home-logo.svg";
 import { observer } from "mobx-react";
 
-import { user } from "../../store/user/UserStore";
-
 import "./navbar.css";
+import { Context } from "../..";
 
-const NavBar = observer(() => {
-  console.log("NAVBAR IS RERENDERED!!!");
+const NavBar = () => {
+  const { userStore } = useContext(Context);
 
   return (
     <nav className="nav">
@@ -17,7 +17,7 @@ const NavBar = observer(() => {
             <HomeLogo />
           </Link>
         </li>
-        {user.isAuthenticated() && (
+        {userStore.isAuthenticated() && (
           <>
             <li className="nav__item">
               <Link className="nav__link" to="/root-contract-form">
@@ -41,18 +41,19 @@ const NavBar = observer(() => {
       </ul>
 
       <div>
-        {!user.isAuthenticated() && (
+        {!userStore.isAuthenticated() && (
           <Link className="nav__link sign-btn" to="/signin">
             Sign in
           </Link>
         )}
-        {user.isAuthenticated() && (
-          <button className="sign-btn" onClick={user.logout}>
+        {userStore.isAuthenticated() && (
+          <button className="sign-btn" onClick={userStore.logout}>
             Log out
           </button>
         )}
       </div>
     </nav>
   );
-});
-export default NavBar;
+};
+
+export default observer(NavBar);

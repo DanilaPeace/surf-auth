@@ -1,5 +1,6 @@
+import { FC, useContext, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Provider } from "mobx-react";
+import { observer, Provider } from "mobx-react";
 
 import NavBar from "../nav-bar/NavBar";
 import DeployFromFile from "../../pages/deploy-from-file-page/DeployFromFilePage";
@@ -11,14 +12,26 @@ import OneTokenInfo from "../../pages/one-token-info/OneTokenInfo";
 import MintingTokensPage from "../../pages/minting-tokens/MintingTokensPage";
 import SignIn from "../../pages/sign-in/SignIn";
 import Error404 from "../../pages/error404/Error404";
-import { user } from "../../store/user/UserStore";
 
 import "./App.css";
 import PrivateRoute from "../private-route/PrivateRoute";
+import { Context } from "../..";
+import PagePreloader from "../common/page-preloader/PagePreloader";
 
-function App() {
+const App: FC = () => {
+  const { userStore } = useContext(Context);
 
-  // ! Вызывать useEffect, чтобы при обновлении браузера не вылетало на главную страницу
+  useEffect(() => {
+    console.log("IN APP IN USEEFFECT: ", userStore.isLoading);
+    if (localStorage.getItem("token")) {
+      userStore.checkAuth();
+    }
+  }, [userStore]);
+
+  
+  if (userStore.isLoading) {
+    return <PagePreloader />;
+  }
 
   return (
     <div className="App">
@@ -57,6 +70,6 @@ function App() {
       </Provider>
     </div>
   );
-}
+};
 
-export default App;
+export default observer(App);

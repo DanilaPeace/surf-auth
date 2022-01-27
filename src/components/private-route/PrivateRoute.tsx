@@ -1,10 +1,11 @@
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { user } from "../../store/user/UserStore";
+import { Context } from "../..";
 
 const PrivateRoute = ({ children }) => {
-  console.log(user.isAuthenticated());
-  
-  if (user.isAuthenticated()) {
+  const { userStore } = useContext(Context);
+
+  if (userStore.isAuthenticated()) {
     return children;
   } else {
     // TODO: make the notification to logins

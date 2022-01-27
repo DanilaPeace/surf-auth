@@ -1,4 +1,4 @@
-const DOMAIN = "http://localhost:4001";
+export const DOMAIN = "http://localhost:4001";
 
 export const global_urls = {
   COLLECTION_LIST_URL: DOMAIN + "/collection-list",
@@ -7,5 +7,7 @@ export const global_urls = {
   DEPLOY_COLLECTION: DOMAIN + "/root-collection/deploy-collection",
   SAVE_COLLECTION_DATA: DOMAIN + "/root-collection/save-data",
   GENERATE_COLLECTION: DOMAIN + "/root-collection/generate-collection",
-  USER_AUTH: DOMAIN + "/auth/auth-everwallet/login"
+  LOGIN: DOMAIN + "/auth/auth-everwallet/login",
+  LOGOUT: DOMAIN + "/auth/auth-everwallet/logout",
+  REFRESH: DOMAIN + "/auth/auth-everwallet/refresh"
 };

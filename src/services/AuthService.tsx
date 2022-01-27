@@ -1,42 +1,18 @@
-import { ProviderRpcClient } from "ton-inpage-provider";
+import { AxiosResponse } from "axios";
 
-import apiCall from "../api/CallApi";
+import { AuthResponse } from "../models/AuthResponse";
 import { global_urls } from "../config/urls";
-
-const getUserData = async () => {
-  const ton = new ProviderRpcClient();
-  try {
-    if (!(await ton.hasProvider())) {
-      throw new Error("Extension is not installed");
-    }
-
-    await ton.ensureInitialized();
-
-    const { accountInteraction: userDataFromBrowser } =
-      await ton.requestPermissions({
-        permissions: ["tonClient", "accountInteraction"],
-      });
-    if (userDataFromBrowser == null) {
-      throw new Error("Insufficient permissions");
-    }
-
-    ton.disconnect();
-    return userDataFromBrowser;
-  } catch (error) {
-    console.error(error);
-  }
-};
+import api from "../http/auth-api";
 
 export default class AuthService {
-  static login = async () => {
-    const userDataFromBrowser = await getUserData();
-    return await apiCall.post(global_urls.USER_AUTH, {
-      address: userDataFromBrowser?.address.toString(),
-      publicKey: userDataFromBrowser?.publicKey,
-    });
-  };
+  static async login(
+    address: string,
+    publicKey: string
+  ): Promise<AxiosResponse<AuthResponse>> {
+    return api.post<AuthResponse>(global_urls.LOGIN, { address, publicKey });
+  }
 
-  static logout = async () => {
-    return await apiCall.post('/logout', {});
-  };
+  static async logout(): Promise<void> {
+    return api.post(global_urls.LOGOUT);
+  }
 }
