@@ -12,7 +12,13 @@ export default class AuthService {
     return api.post<AuthResponse>(global_urls.LOGIN, { address, publicKey });
   }
 
-  static async logout(): Promise<void> {
-    return api.post(global_urls.LOGOUT);
+  static async logout(refreshToken: string | null): Promise<void> {
+    return api.post(global_urls.LOGOUT, { refreshToken });
+  }
+
+  static async refresh(
+    refreshToken: string | null
+  ): Promise<AxiosResponse<AuthResponse>> {
+    return api.post<AuthResponse>(global_urls.REFRESH, { refreshToken });
   }
 }

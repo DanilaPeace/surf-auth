@@ -9,6 +9,28 @@ import { Context } from "../..";
 const NavBar = () => {
   const { userStore } = useContext(Context);
 
+  const linksInNavbar = (
+    <>
+      <li className="nav__item">
+        <Link className="nav__link" to="/root-contract-form">
+          <span> Root Contract Form </span>
+        </Link>
+      </li>
+
+      <li className="nav__item">
+        <Link className="nav__link" to="/deploy-from-file">
+          Deploy From File
+        </Link>
+      </li>
+
+      <li className="nav__item">
+        <Link className="nav__link" to="/collection-list">
+          Collection List
+        </Link>
+      </li>
+    </>
+  );
+
   return (
     <nav className="nav">
       <ul className="nav__list">
@@ -17,27 +39,7 @@ const NavBar = () => {
             <HomeLogo />
           </Link>
         </li>
-        {userStore.isAuthenticated() && (
-          <>
-            <li className="nav__item">
-              <Link className="nav__link" to="/root-contract-form">
-                <span> Root Contract Form </span>
-              </Link>
-            </li>
-
-            <li className="nav__item">
-              <Link className="nav__link" to="/deploy-from-file">
-                Deploy From File
-              </Link>
-            </li>
-
-            <li className="nav__item">
-              <Link className="nav__link" to="/collection-list">
-                Collection List
-              </Link>
-            </li>
-          </>
-        )}
+        {userStore.isAuthenticated() && linksInNavbar}
       </ul>
 
       <div>

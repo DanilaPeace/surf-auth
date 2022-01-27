@@ -12,7 +12,7 @@ const CollectionListContainer = observer(() => {
     store.setCollectionList();
   }, []);
 
-  const collections = store.collectionList.map((collection, idx) => (
+  const collections = store.collectionList?.map((collection, idx) => (
     <CollectionListItem key={idx} {...collection} />
   ));
 

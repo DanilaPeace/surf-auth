@@ -6,10 +6,13 @@ import { IUser } from "../../models/IUser";
 import { AuthResponse } from "../../models/AuthResponse";
 import { global_urls } from "../../config/urls";
 
+import Cookies from "universal-cookie";
+
 export default class UserStore {
   isAuth: boolean = false;
   currentUser: IUser = {} as IUser;
   isLoading: boolean = false;
+  cookies = new Cookies();
 
   constructor() {
     makeObservable(this, {
@@ -20,6 +23,7 @@ export default class UserStore {
       setUser: action,
       login: action,
       logout: action,
+      setLoading: action,
     });
   }
 
@@ -39,10 +43,12 @@ export default class UserStore {
 
   login = async (address: string, publicKey: string) => {
     this.setLoading(true);
-    console.log(">>> IS LOADING IN LOGIN:", this.isLoading);
     try {
       const serverResponse = await AuthService.login(address, publicKey);
       console.log("USER LOGIN RESPONSE: ", serverResponse);
+      this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
+        path: "/",
+      });
       localStorage.setItem("token", serverResponse.data.accessToken);
       this.setAuth(true);
       this.setUser(serverResponse.data.user);
@@ -50,16 +56,15 @@ export default class UserStore {
       console.log(e);
     } finally {
       this.setLoading(false);
-      console.log(">>> IS LOADING IN LOGIN:", this.isLoading);
     }
   };
 
   logout = async () => {
     this.setLoading(true);
-    console.log(">>> IS LOADING IN LOGOUT:", this.isLoading);
-
     try {
-      const serverResponse = await AuthService.logout();
+      const serverResponse = await AuthService.logout(
+        this.cookies.get("refreshToken")
+      );
       console.log("LOGOUT RESPONSE: ", serverResponse);
       localStorage.removeItem("token");
       this.setAuth(false);
@@ -68,23 +73,20 @@ export default class UserStore {
       console.log(e);
     } finally {
       this.setLoading(false);
-      console.log(">>> IS LOADING IN LOGOUT:", this.isLoading);
     }
   };
 
   checkAuth = async () => {
     this.setLoading(true);
-    console.log(">>> IS LOADING in REFRESH: 1", this.isLoading);
     try {
-      const serverResponse = await axios.get<AuthResponse>(
-        global_urls.REFRESH,
-        {
-          withCredentials: true,
-        }
+      const serverResponse = await AuthService.refresh(
+        this.cookies.get("refreshToken")
       );
       console.log("REFRESH RESPONSE: ", serverResponse);
-      // localStorage.setItem("token", serverResponse.data.accessToken);
-      localStorage.setItem("token", "CURRENT DATA");
+      localStorage.setItem("token", serverResponse.data.accessToken);
+      this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
+        path: "/",
+      });
       this.setAuth(true);
       this.setUser(serverResponse.data.user);
     } catch (error) {
@@ -92,6 +94,5 @@ export default class UserStore {
     } finally {
       this.setLoading(false);
     }
-    console.log(">>> IS LOADING in REFRESH 2:", this.isLoading);
   };
 }

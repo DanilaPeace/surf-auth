@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React, { FC, useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ProviderRpcClient } from "ton-inpage-provider";
 import { Context } from "../..";
 import PagePreloader from "../../components/common/page-preloader/PagePreloader";
@@ -36,18 +36,15 @@ const SignIn: FC = () => {
   const onSignClick = async (event) => {
     event.preventDefault();
     try {
-      console.log("ON SIGN CLICK");
-      
       const userDataFromExtension = await getUserDataFromExtension();
       await userStore.login(
         userDataFromExtension!.address.toString(),
         userDataFromExtension!.publicKey
-        );
-        console.log("ON SIGN CLICK end");
+      );
     } catch (error) {
       console.log(error);
     } finally {
-      navigate('/');
+      navigate("/", { state: {} });
     }
   };
 

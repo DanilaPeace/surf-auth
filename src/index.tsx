@@ -1,8 +1,6 @@
-import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App/App";
-import { BrowserRouter } from "react-router-dom";
 
 import UserStore from "./store/user/UserStore";
 import { createContext } from "react";
@@ -18,16 +16,12 @@ export const Context = createContext<MainStore>({
 });
 
 ReactDOM.render(
-  <StrictMode>
-    <BrowserRouter>
-      <Context.Provider
-        value={{
-          userStore,
-        }}
-      >
-        <App />
-      </Context.Provider>
-    </BrowserRouter>
-  </StrictMode>,
+  <Context.Provider
+    value={{
+      userStore,
+    }}
+  >
+    <App />
+  </Context.Provider>,
   document.getElementById("root")
 );

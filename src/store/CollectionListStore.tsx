@@ -1,6 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import apiCall from "../api/CallApi";
-import { global_urls } from "../config/urls";
+import CollectionListService from "../services/CollectionListService";
 
 interface CollectionItem {
   address: string;
@@ -9,7 +8,7 @@ interface CollectionItem {
 }
 
 export default class CollectionListStore {
-  collectionList: CollectionItem[] = [];
+  collectionList?: CollectionItem[] = [];
   dataIsLoaded: boolean = false;
   constructor() {
     makeObservable(this, {
@@ -22,20 +21,23 @@ export default class CollectionListStore {
   }
 
   getCollectionList = async () => {
-    if (!this.dataIsLoaded) {
-      return await apiCall
-        .get(global_urls.COLLECTION_LIST_URL)
-        .then((data) => {
-          this.changeDataIsLoaded(true);
-          return data.collectionList;
-        })
+    this.changeDataIsLoaded(false);
+    try {
+      const collectoins = await CollectionListService.getCollectionList();
+      return collectoins.data.collectionList;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.changeDataIsLoaded(true);
     }
   };
 
   setCollectionList = async () => {
-    // To show the preloader
-    this.changeDataIsLoaded(false);
-    this.collectionList = await this.getCollectionList();
+    try {
+      this.collectionList = await this.getCollectionList();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   changeDataIsLoaded = (dataIsLoaded: boolean) => {
