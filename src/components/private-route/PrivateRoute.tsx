@@ -1,16 +1,17 @@
+import { observer } from "mobx-react";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { Context } from "../..";
 
 const PrivateRoute = ({ children }) => {
   const { userStore } = useContext(Context);
+  let location = useLocation();
 
-  if (userStore.isAuthenticated()) {
-    return children;
-  } else {
-    // TODO: make the notification to logins
-    return <Navigate to="/" />;
+  if (!userStore.isAuthenticated()) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
+
+  return children;
 };
 
-export default PrivateRoute;
+export default observer(PrivateRoute);

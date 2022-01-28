@@ -1,13 +1,21 @@
 import { observer } from "mobx-react";
 import React, { FC, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ProviderRpcClient } from "ton-inpage-provider";
 import { Context } from "../..";
 import PagePreloader from "../../components/common/page-preloader/PagePreloader";
 
-const SignIn: FC = () => {
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
+const SignIn: FC = (props) => {
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as LocationState)?.from || "/";
 
   const getUserDataFromExtension = async () => {
     const ton = new ProviderRpcClient();
@@ -44,7 +52,7 @@ const SignIn: FC = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      navigate("/", { state: {} });
+      navigate(from);
     }
   };
 

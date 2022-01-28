@@ -8,8 +8,7 @@ import { Context } from "../..";
 
 const NavBar = () => {
   const { userStore } = useContext(Context);
-
-  const linksInNavbar = (
+  const navbarLinks = (
     <>
       <li className="nav__item">
         <Link className="nav__link" to="/root-contract-form">
@@ -39,16 +38,15 @@ const NavBar = () => {
             <HomeLogo />
           </Link>
         </li>
-        {userStore.isAuthenticated() && linksInNavbar}
+        {userStore.isAuthenticated() && navbarLinks}
       </ul>
 
       <div>
-        {!userStore.isAuthenticated() && (
+        {!userStore.isAuthenticated() ? (
           <Link className="nav__link sign-btn" to="/signin">
             Sign in
           </Link>
-        )}
-        {userStore.isAuthenticated() && (
+        ) : (
           <button className="sign-btn" onClick={userStore.logout}>
             Log out
           </button>

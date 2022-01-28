@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import CollectionListContainer from "./components/collection-list-container/CollectionListContainer";
+import NavBar from "./components/nav-bar/NavBar";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import DeployFromFile from "./pages/deploy-from-file-page/DeployFromFilePage";
 import Error404 from "./pages/error404/Error404";

@@ -3,7 +3,6 @@ import qs from "query-string";
 // Class to wort with api
 class ApiCall {
   async perform(url: string, data?: any, config?: any) {
-    console.log("HEY!");
     
     const request = await fetch(url, {
       ...config,
@@ -13,10 +12,8 @@ class ApiCall {
       },
     });
 
-    console.log("RESPONSE: ", request);
     
     let body = await request.json();
-    console.log("BODY: ", body);
     return body;
   }
 

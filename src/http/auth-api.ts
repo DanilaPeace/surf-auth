@@ -1,6 +1,8 @@
 import axios from "axios";
 import { DOMAIN, global_urls } from "../config/urls";
-import { AuthResponse } from "../models/AuthResponse";
+
+import Cookies from "universal-cookie";
+const cookie = new Cookies();
 
 const api = axios.create({
   withCredentials: true,
@@ -16,37 +18,38 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (config) => {
-    console.log("CONFIG IN AUTH API");
     return config;
   },
   async (error) => {
-    console.log("ERROR IN AUTH API");
-    
     const originRequest = error.config;
     if (
-      error.reponse.status === 401 &&
+      error.response.status === 401 &&
       error.config &&
-      !originRequest._isRetry
+      !error.config._isRetry
     ) {
+      originRequest._isRetry = true;
       try {
-        originRequest._isRetry = true;
-        const serverResponse = await axios.get<AuthResponse>(
+        const serverResponse = await axios.post(
           global_urls.REFRESH,
           {
-            withCredentials: true,
-          }
+            refreshToken: cookie.get("refreshToken"),
+          },
+          { withCredentials: true }
         );
         localStorage.setItem("token", serverResponse.data.accessToken);
-        // To repeate the request
+        cookie.set("refreshToken", serverResponse.data.refreshToken, {
+          path: "/",
+        });
         return api.request(originRequest);
       } catch (error) {
-        console.log("USER IS NOT AUTH");
+        alert("Please refresh your page");
+        localStorage.removeItem("token");
+        cookie.remove("refreshToken");
       }
     }
-    console.log("ERROR AFTER TRY IN REFRESH");
-    
     // When error code !== 401
     throw error;
   }
 );
+
 export default api;

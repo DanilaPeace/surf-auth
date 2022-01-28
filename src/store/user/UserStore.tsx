@@ -45,7 +45,6 @@ export default class UserStore {
     this.setLoading(true);
     try {
       const serverResponse = await AuthService.login(address, publicKey);
-      console.log("USER LOGIN RESPONSE: ", serverResponse);
       this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
         path: "/",
       });
@@ -65,8 +64,8 @@ export default class UserStore {
       const serverResponse = await AuthService.logout(
         this.cookies.get("refreshToken")
       );
-      console.log("LOGOUT RESPONSE: ", serverResponse);
       localStorage.removeItem("token");
+      this.cookies.remove("refreshToken");
       this.setAuth(false);
       this.setUser({} as IUser);
     } catch (e) {
@@ -82,7 +81,6 @@ export default class UserStore {
       const serverResponse = await AuthService.refresh(
         this.cookies.get("refreshToken")
       );
-      console.log("REFRESH RESPONSE: ", serverResponse);
       localStorage.setItem("token", serverResponse.data.accessToken);
       this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
         path: "/",

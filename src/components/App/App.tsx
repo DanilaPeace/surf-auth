@@ -8,7 +8,6 @@ import { Context } from "../..";
 import PagePreloader from "../common/page-preloader/PagePreloader";
 import AppRoutes from "../../Routes";
 import { BrowserRouter } from "react-router-dom";
-
 const App: FC = () => {
   const { userStore } = useContext(Context);
 
@@ -16,7 +15,7 @@ const App: FC = () => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, [userStore]);
+  }, []);
 
   if (userStore.isLoading) {
     return <PagePreloader />;

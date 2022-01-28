@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import CollectionListService from "../services/CollectionListService";
 
 interface CollectionItem {
@@ -11,20 +11,14 @@ export default class CollectionListStore {
   collectionList?: CollectionItem[] = [];
   dataIsLoaded: boolean = false;
   constructor() {
-    makeObservable(this, {
-      collectionList: observable,
-      dataIsLoaded: observable,
-      getCollectionList: action,
-      setCollectionList: action,
-      changeDataIsLoaded: action,
-    });
+    makeAutoObservable(this);
   }
 
   getCollectionList = async () => {
     this.changeDataIsLoaded(false);
     try {
-      const collectoins = await CollectionListService.getCollectionList();
-      return collectoins.data.collectionList;
+      const collections = await CollectionListService.getCollectionList();
+      return collections.data.collectionList;
     } catch (error) {
       console.log(error);
     } finally {
