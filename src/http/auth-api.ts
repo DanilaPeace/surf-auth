@@ -1,17 +1,18 @@
 import axios from "axios";
-import { DOMAIN, global_urls } from "../config/urls";
-
+import { SERVER_DOMAIN, global_urls } from "../config/urls";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: DOMAIN,
+  baseURL: SERVER_DOMAIN,
 });
 
 api.interceptors.request.use((config) => {
   if (config.headers) {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem(
+      "accessToken"
+    )}`;
   }
   return config;
 });
@@ -30,20 +31,19 @@ api.interceptors.response.use(
       originRequest._isRetry = true;
       try {
         const serverResponse = await axios.post(
-          global_urls.REFRESH,
+          SERVER_DOMAIN + global_urls.REFRESH,
           {
             refreshToken: cookie.get("refreshToken"),
           },
           { withCredentials: true }
         );
-        localStorage.setItem("token", serverResponse.data.accessToken);
+        localStorage.setItem("accessToken", serverResponse.data.accessToken);
         cookie.set("refreshToken", serverResponse.data.refreshToken, {
           path: "/",
         });
         return api.request(originRequest);
       } catch (error) {
-        alert("Please refresh your page");
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
         cookie.remove("refreshToken");
       }
     }

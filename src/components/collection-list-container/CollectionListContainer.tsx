@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 import PagePreloader from "../common/page-preloader/PagePreloader";
-import CollectionListItem from "../collection-list-item/CollectionListItem";
-import CollectionListStore from "../../store/CollectionListStore";
+import CollectionListItem from "../collection-list-item/CollectionItem";
+import CollectionListStore from "../../store/collection-list/CollectionListStore";
 
 const store = new CollectionListStore();
 

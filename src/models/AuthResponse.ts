@@ -1,6 +1,6 @@
 import { IUser } from "./IUser";
 
-export interface AuthResponse {
+export interface AuthResponseModel {
   user: IUser;
   accessToken: string;
   refreshToken: string;

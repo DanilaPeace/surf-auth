@@ -8,7 +8,7 @@ import { Context } from "../..";
 
 const NavBar = () => {
   const { userStore } = useContext(Context);
-  const navbarLinks = (
+  const navbarLinks = userStore.isAuthenticated() ? (
     <>
       <li className="nav__item">
         <Link className="nav__link" to="/root-contract-form">
@@ -28,7 +28,7 @@ const NavBar = () => {
         </Link>
       </li>
     </>
-  );
+  ) : null;
 
   return (
     <nav className="nav">
@@ -38,7 +38,7 @@ const NavBar = () => {
             <HomeLogo />
           </Link>
         </li>
-        {userStore.isAuthenticated() && navbarLinks}
+        {navbarLinks}
       </ul>
 
       <div>

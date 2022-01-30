@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import "./collection-list-item.css";
 import { Link } from "react-router-dom";
+import "./collection-list-item.css";
 
-const CollectionListItem = ({ address, name }) => {
+import ICollectionItem from "../../models/CollectionItem";
+import { FC } from "react";
+
+const CollectionItem: FC<ICollectionItem> = ({ address, name }) => {
   let navigate = useNavigate();
   const transitionInfoRoot = () => {
     navigate(`/tokens-data-info/${name}/${address}`);
@@ -39,4 +42,4 @@ const CollectionListItem = ({ address, name }) => {
   );
 };
 
-export default CollectionListItem;
+export default CollectionItem;

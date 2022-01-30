@@ -1,12 +1,8 @@
 import { action, makeObservable, observable } from "mobx";
-import axios from "axios";
+import Cookies from "universal-cookie";
 
 import AuthService from "../../services/AuthService";
 import { IUser } from "../../models/IUser";
-import { AuthResponse } from "../../models/AuthResponse";
-import { global_urls } from "../../config/urls";
-
-import Cookies from "universal-cookie";
 
 export default class UserStore {
   isAuth: boolean = false;
@@ -19,6 +15,7 @@ export default class UserStore {
       isAuth: observable,
       isLoading: observable,
       currentUser: observable,
+      cookies: observable,
       setAuth: action,
       setUser: action,
       login: action,
@@ -48,7 +45,7 @@ export default class UserStore {
       this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
         path: "/",
       });
-      localStorage.setItem("token", serverResponse.data.accessToken);
+      localStorage.setItem("accessToken", serverResponse.data.accessToken);
       this.setAuth(true);
       this.setUser(serverResponse.data.user);
     } catch (e) {
@@ -61,10 +58,8 @@ export default class UserStore {
   logout = async () => {
     this.setLoading(true);
     try {
-      const serverResponse = await AuthService.logout(
-        this.cookies.get("refreshToken")
-      );
-      localStorage.removeItem("token");
+      await AuthService.logout(this.cookies.get<string>("refreshToken"));
+      localStorage.removeItem("accessToken");
       this.cookies.remove("refreshToken");
       this.setAuth(false);
       this.setUser({} as IUser);
@@ -79,9 +74,9 @@ export default class UserStore {
     this.setLoading(true);
     try {
       const serverResponse = await AuthService.refresh(
-        this.cookies.get("refreshToken")
+        this.cookies.get<string>("refreshToken")
       );
-      localStorage.setItem("token", serverResponse.data.accessToken);
+      localStorage.setItem("accessToken", serverResponse.data.accessToken);
       this.cookies.set("refreshToken", serverResponse.data.refreshToken, {
         path: "/",
       });

@@ -1,15 +1,11 @@
 import { makeAutoObservable } from "mobx";
-import CollectionListService from "../services/CollectionListService";
-
-interface CollectionItem {
-  address: string;
-  icon: string;
-  name: string;
-}
+import CollectionListService from "../../services/CollectionListService";
+import ICollectionItem from "../../models/CollectionItem";
 
 export default class CollectionListStore {
-  collectionList?: CollectionItem[] = [];
+  collectionList?: ICollectionItem[] = [];
   dataIsLoaded: boolean = false;
+  
   constructor() {
     makeAutoObservable(this);
   }
@@ -26,7 +22,7 @@ export default class CollectionListStore {
     }
   };
 
-  setCollectionList = async () => {
+  setCollectionList = async ()=> {
     try {
       this.collectionList = await this.getCollectionList();
     } catch (error) {

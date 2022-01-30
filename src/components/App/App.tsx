@@ -12,10 +12,10 @@ const App: FC = () => {
   const { userStore } = useContext(Context);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("accessToken")) {
       userStore.checkAuth();
     }
-  }, []);
+  }, [userStore]);
 
   if (userStore.isLoading) {
     return <PagePreloader />;
