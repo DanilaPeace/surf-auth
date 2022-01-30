@@ -1,6 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { render } from "react-dom";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./tokens-data-info.css";
 interface stateType {
   from: { pathname: JSON };

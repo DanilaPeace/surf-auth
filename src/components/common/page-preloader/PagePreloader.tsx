@@ -1,14 +1,14 @@
 import { ReactComponent as Preloader } from "./preloader.svg";
 
-import "./page-preloader.css";
+import "./page-preloader.scss";
 
 const PagePreloader = () => {
   return (
     <div className="preloader">
-      <div className="preloader-container">
-        <div className="preloader-body">
+      <div className="preloader__container">
+        <div className="preloader__body">
           <Preloader />
-          <div className="loading-title">Page is loading...</div>
+          <div className="preloader__title">Page is loading...</div>
         </div>
       </div>
     </div>
