@@ -5,6 +5,7 @@ import { Context } from "../..";
 
 const PrivateRoute = ({ children }) => {
   const { userStore } = useContext(Context);
+
   let location = useLocation();
 
   if (!userStore.isAuthenticated()) {

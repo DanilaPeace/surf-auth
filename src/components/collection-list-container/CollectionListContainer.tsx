@@ -7,7 +7,7 @@ import CollectionListStore from "../../store/collection-list/CollectionListStore
 
 const store = new CollectionListStore();
 
-const CollectionListContainer = observer(() => {
+const CollectionListContainer = () => {
   useEffect(() => {
     store.setCollectionList();
   }, []);
@@ -16,11 +16,23 @@ const CollectionListContainer = observer(() => {
     <CollectionListItem key={idx} {...collection} />
   ));
 
+  const getContent = () => {
+    return collections ? collections : <h1>There is no collection yet.</h1>;
+  };
+
+  const errorMessage = store.error ? (
+    <h1>Error. Please reload page or log in again.</h1>
+  ) : null;
+  const preloader = store.isLoading ? <PagePreloader /> : null;
+  const content = !(store.error || store.isLoading) ? getContent() : null;
+
   return (
     <div className="container">
-      {store.dataIsLoaded ? collections : <PagePreloader />}
+      {errorMessage}
+      {preloader}
+      {content}
     </div>
   );
-});
+};
 
-export default CollectionListContainer;
+export default observer(CollectionListContainer);
