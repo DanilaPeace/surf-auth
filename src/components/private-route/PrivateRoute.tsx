@@ -7,8 +7,8 @@ const PrivateRoute = ({ children }) => {
   const { userStore } = useContext(Context);
 
   let location = useLocation();
-
-  if (!userStore.isAuthenticated()) {
+  
+  if (!userStore.isAuthenticated() && !localStorage.getItem("accessToken")) {
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 
