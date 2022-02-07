@@ -60,11 +60,22 @@ const SignIn: FC = (props) => {
     return <PagePreloader />;
   }
 
+  const signSerf = () => {
+    
+  }
+
   return (
-    <div>
-      <button className="btn btn-blue" onClick={onSignClick}>
-        Sign with EVER Wallet
-      </button>
+    <div className="signin">
+      <div className="signin__container container">
+        <div className="signin__content">
+          <div className="signin__btns">
+            <button className="btn btn-blue" onClick={onSignClick}>
+              Sign with EVER Wallet
+            </button>
+            <button className="btn btn-blue">Sing with SURF</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
