@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { ReactComponent as HomeLogo } from "./home-logo.svg";
 import { observer } from "mobx-react";
 
@@ -8,7 +8,7 @@ import { Context } from "../..";
 
 const NavBar = () => {
   const { userStore } = useContext(Context);
-  const navbarLinks = userStore.isAuthenticated() ? (
+  const authedLinks = userStore.isAuthenticated() ? (
     <>
       <li className="nav__item">
         <Link className="nav__link" to="/root-contract-form">
@@ -29,6 +29,20 @@ const NavBar = () => {
       </li>
     </>
   ) : null;
+  const navbarBtns = !userStore.isAuthenticated() ? (
+    <Link className="nav__link sign-btn" to="/signin">
+      Sign in
+    </Link>
+  ) : (
+    <button
+      className="sign-btn"
+      onClick={() => {
+        userStore.logout();
+      }}
+    >
+      Log out
+    </button>
+  );
 
   return (
     <nav className="nav">
@@ -38,20 +52,10 @@ const NavBar = () => {
             <HomeLogo />
           </Link>
         </li>
-        {navbarLinks}
+        {authedLinks}
       </ul>
 
-      <div>
-        {!userStore.isAuthenticated() ? (
-          <Link className="nav__link sign-btn" to="/signin">
-            Sign in
-          </Link>
-        ) : (
-          <button className="sign-btn" onClick={userStore.logout}>
-            Log out
-          </button>
-        )}
-      </div>
+      <div>{navbarBtns}</div>
     </nav>
   );
 };

@@ -5,10 +5,10 @@ import "./collection-list-item.css";
 import ICollectionItem from "../../models/CollectionItem";
 import { FC } from "react";
 
-const CollectionItem: FC<ICollectionItem> = ({ address, name }) => {
+const CollectionItem: FC<ICollectionItem> = ({ address, title }) => {
   let navigate = useNavigate();
   const transitionInfoRoot = () => {
-    navigate(`/tokens-data-info/${name}/${address}`);
+    navigate(`/tokens-data-info/${title}/${address}`);
   };
 
   return (
@@ -16,7 +16,7 @@ const CollectionItem: FC<ICollectionItem> = ({ address, name }) => {
       <div>
         <div className="CollectionListItem-row">
           <div className="CollectionListItem-col col-2">Collection:</div>
-          <div className="CollectionListItem-col">{name}</div>
+          <div className="CollectionListItem-col">{title}</div>
         </div>
         <div className="CollectionListItem-row">
           <div className="CollectionListItem-col col-2">Address:</div>
@@ -25,7 +25,7 @@ const CollectionItem: FC<ICollectionItem> = ({ address, name }) => {
       </div>
       <div className="CollectionListItem-btns">
         <button className="CollectionListBtn btn btn-blue">
-          <Link to={`/minting-tokens/${name}/${address}`}>
+          <Link to={`/minting-tokens/${title}/${address}`}>
             <i className="far fa-plus-square"></i>
             Minting token
           </Link>

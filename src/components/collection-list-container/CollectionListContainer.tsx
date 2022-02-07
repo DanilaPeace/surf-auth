@@ -17,7 +17,7 @@ const CollectionListContainer = () => {
   ));
 
   const getContent = () => {
-    return collections ? collections : <h1>There is no collection yet.</h1>;
+    return collections ? collections : <h1>There are no collections yet.</h1>;
   };
 
   const errorMessage = store.error ? (

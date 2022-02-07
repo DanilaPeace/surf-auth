@@ -1,7 +1,7 @@
 export const SERVER_DOMAIN = "http://localhost:4001";
 
 export const global_urls = {
-  COLLECTION_LIST_URL: SERVER_DOMAIN + "/collection-list",
+  COLLECTION_LIST_URL: SERVER_DOMAIN + "/root-collection/show-collection-list",
   MINTING_INFORMATION_URL: SERVER_DOMAIN + "/minting-tokens",
   MINTING_TOKEN_URL: SERVER_DOMAIN + "/minting-tokens/minting",
   DEPLOY_COLLECTION: SERVER_DOMAIN + "/root-collection/deploy-collection",

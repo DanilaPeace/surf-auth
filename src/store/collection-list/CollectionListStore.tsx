@@ -14,7 +14,7 @@ export default class CollectionListStore {
   getCollectionList = async () => {
     try {
       const collections = await CollectionListService.getCollectionList();
-      return collections.data.collectionList;
+      return collections.data;
     } catch (error) {
       this.onError();
       console.log(error);
