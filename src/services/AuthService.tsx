@@ -15,13 +15,7 @@ export default class AuthService {
     });
   }
 
-  static async logout(refreshToken: string): Promise<void> {
-    return api.post(global_urls.LOGOUT, { refreshToken });
-  }
-
-  static async refresh(
-    refreshToken: string
-  ): Promise<AxiosResponse<AuthResponseModel>> {
-    return api.post<AuthResponseModel>(global_urls.REFRESH, { refreshToken });
+  static async logout(): Promise<void> {
+    return api.post(global_urls.LOGOUT);
   }
 }
