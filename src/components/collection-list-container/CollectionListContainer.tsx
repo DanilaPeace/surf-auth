@@ -1,30 +1,32 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 import PagePreloader from "../common/page-preloader/PagePreloader";
 import CollectionListItem from "../collection-list-item/CollectionItem";
-import CollectionListStore from "../../store/collection-list/CollectionListStore";
-
-const store = new CollectionListStore();
+import { Context } from "../..";
 
 const CollectionListContainer = () => {
+  const { collectionListStore } = useContext(Context);
+
   useEffect(() => {
-    store.setCollectionList();
+    collectionListStore.setCollectionList();
   }, []);
 
-  const collections = store.collectionList?.map((collection, idx) => (
-    <CollectionListItem key={idx} {...collection} />
-  ));
+  const collections = collectionListStore.collectionList?.map(
+    (collection, idx) => <CollectionListItem key={idx} {...collection} />
+  );
 
   const getContent = () => {
     return collections ? collections : <h1>There are no collections yet.</h1>;
   };
 
-  const errorMessage = store.error ? (
+  const errorMessage = collectionListStore.error ? (
     <h1>Error. Please reload page or log in again.</h1>
   ) : null;
-  const preloader = store.isLoading ? <PagePreloader /> : null;
-  const content = !(store.error || store.isLoading) ? getContent() : null;
+  const preloader = collectionListStore.isLoading ? <PagePreloader /> : null;
+  const content = !(collectionListStore.error || collectionListStore.isLoading)
+    ? getContent()
+    : null;
 
   return (
     <div className="container">
