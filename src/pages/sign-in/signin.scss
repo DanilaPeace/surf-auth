@@ -1,0 +1,17 @@
+.signin {
+  &__container {
+    justify-content: center;
+  }
+
+  &__content {
+    width: 400px;
+  }
+
+  &__btns {
+    display: flex;
+    flex-direction: column;
+    .btn {
+      margin: 10px 0;
+    }
+  }
+}

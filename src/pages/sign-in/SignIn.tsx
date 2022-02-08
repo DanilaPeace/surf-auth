@@ -6,6 +6,7 @@ import QRCode from "react-qr-code";
 
 import { Context } from "../..";
 import PagePreloader from "../../components/common/page-preloader/PagePreloader";
+import "./signin.scss";
 
 interface LocationState {
   from: {
@@ -44,7 +45,7 @@ const SignIn: FC = (props) => {
     }
   };
 
-  const onSignClick = async (event) => {
+  const onEvenSignClick = async (event) => {
     event.preventDefault();
     try {
       const userDataFromExtension = await getUserDataFromExtension();
@@ -59,25 +60,25 @@ const SignIn: FC = (props) => {
     }
   };
 
+  const onSurfSignClick = () => {
+    alert("SURF");
+  };
+
   if (userStore.isLoading) {
     return <PagePreloader />;
   }
-
-  // const signSerf = () => {
-
-  //   return qrCanvas;
-  // }
 
   return (
     <div className="signin">
       <div className="signin__container container">
         <div className="signin__content">
           <div className="signin__btns">
-            <QRCode value="https://uri.ton.surf/debot/0:a7e1c39a6e0d59622f5e5e5d1836eccea86288c3972c15fabad56dafc57e746b?net=devnet&message=te6ccgEBBAEArAADaGIAU_DhzTcGrLEXry8ujBt2Z1QxRGHLlgr9XWq21-K_OjWAAAAAAAAAAAAAAAAAAH9IYB8DAgEASmh0dHA6Ly9sb2NhbGhvc3Q6NDAwMS9hdXRoL2RlYm90LWF1dGgASDg0NzJjMzRlLTA0ZGItNDZmYi05YmQ4LTlkZDk5OGNkOTRjOQBIYWE5NjNmODEtZGUxMy00MDIzLTk0ODItNTNhNGI3YjE4NzBh" />
-            <button className="btn btn-blue" onClick={onSignClick}>
+            <button className="btn btn-blue" onClick={onEvenSignClick}>
               Sign with EVER Wallet
             </button>
-            <button className="btn btn-blue">Sing with SURF</button>
+            <button className="btn btn-blue" onClick={onSurfSignClick}>
+              Sing with SURF
+            </button>
           </div>
         </div>
       </div>
