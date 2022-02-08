@@ -4,25 +4,27 @@ import ICollectionItem from "../../models/CollectionItem";
 
 export default class CollectionListStore {
   collectionList?: ICollectionItem[] = [];
-  dataIsLoaded: boolean = false;
-  
+  isLoading: boolean = true;
+  error: boolean = false;
+
   constructor() {
     makeAutoObservable(this);
   }
 
   getCollectionList = async () => {
-    this.changeDataIsLoaded(false);
     try {
       const collections = await CollectionListService.getCollectionList();
-      return collections.data.collectionList;
+      return collections.data;
     } catch (error) {
+      this.onError();
       console.log(error);
     } finally {
-      this.changeDataIsLoaded(true);
+      this.changeDataIsLoadingTo(false);
     }
   };
 
-  setCollectionList = async ()=> {
+  setCollectionList = async () => {
+    this.changeDataIsLoadingTo(true);
     try {
       this.collectionList = await this.getCollectionList();
     } catch (error) {
@@ -30,7 +32,12 @@ export default class CollectionListStore {
     }
   };
 
-  changeDataIsLoaded = (dataIsLoaded: boolean) => {
-    this.dataIsLoaded = dataIsLoaded;
+  changeDataIsLoadingTo = (dataIsLoaded: boolean) => {
+    this.isLoading = dataIsLoaded;
+  };
+
+  onError = () => {
+    this.error = true;
+    this.isLoading = false;
   };
 }

@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -13,6 +14,8 @@ import SignIn from "./pages/sign-in/SignIn";
 import TokensDataInfo from "./pages/tokens-data-info/TokensDataInfo";
 
 const AppRoutes = () => {
+  // console.log();
+  
   return (
     <Routes>
       <Route index element={<Home />} />
@@ -79,4 +82,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default observer(AppRoutes);

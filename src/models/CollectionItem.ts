@@ -1,5 +1,5 @@
 export default interface ICollectionItem {
-  name: string;
+  title: string;
   address: string;
   icon: string;
 }

@@ -1,7 +1,5 @@
 import axios from "axios";
 import { SERVER_DOMAIN, global_urls } from "../config/urls";
-import Cookies from "universal-cookie";
-const cookie = new Cookies();
 
 const api = axios.create({
   withCredentials: true,
@@ -30,21 +28,14 @@ api.interceptors.response.use(
     ) {
       originRequest._isRetry = true;
       try {
-        const serverResponse = await axios.post(
+        const serverResponse = await axios.get(
           SERVER_DOMAIN + global_urls.REFRESH,
-          {
-            refreshToken: cookie.get("refreshToken"),
-          },
           { withCredentials: true }
         );
         localStorage.setItem("accessToken", serverResponse.data.accessToken);
-        cookie.set("refreshToken", serverResponse.data.refreshToken, {
-          path: "/",
-        });
         return api.request(originRequest);
       } catch (error) {
         localStorage.removeItem("accessToken");
-        cookie.remove("refreshToken");
       }
     }
     // When error code !== 401

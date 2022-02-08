@@ -12,7 +12,10 @@ const App: FC = () => {
   const { userStore } = useContext(Context);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (
+      localStorage.getItem("accessToken") !== "undefined" &&
+      localStorage.getItem("accessToken")
+    ) {
       userStore.checkAuth();
     }
   }, [userStore]);

@@ -17,7 +17,8 @@ const SignIn: FC = (props) => {
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as LocationState)?.from || "/";
+
+  let from = (location.state as LocationState)?.from.pathname || "/";
 
   const getUserDataFromExtension = async () => {
     const ton = new ProviderRpcClient();
