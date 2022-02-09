@@ -90,6 +90,7 @@ const SignIn: FC = () => {
             <div className="signin__modal">
               <QRCode value={userStore.qrValue} />
               <a
+                onClick={() => setModalActive(false)}
                 href={userStore.deepLink}
                 className="btn btn-blue"
                 rel="noreferrer"

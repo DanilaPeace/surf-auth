@@ -11,7 +11,12 @@ const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
   const modalContentClass = active ? "modal__content active" : "modal__content";
   return (
     <div className={modalClass} onClick={() => setActive(false)}>
-      <div className={modalContentClass} onClick={event => event.stopPropagation()}>{children}</div>
+      <div
+        className={modalContentClass}
+        onClick={(event) => event.stopPropagation()}
+      >
+        {children}
+      </div>
     </div>
   );
 };
