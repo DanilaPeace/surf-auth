@@ -15,12 +15,11 @@ interface LocationState {
   };
 }
 
-const SignIn: FC = (props) => {
+const SignIn: FC = () => {
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
   const [modalActive, setModalActive] = useState(false);
-
   let from = (location.state as LocationState)?.from.pathname || "/";
 
   const getUserDataFromExtension = async () => {
@@ -62,10 +61,13 @@ const SignIn: FC = (props) => {
     }
   };
 
-  const onSurfSignClick = () => {
-    console.log("CLICK");
-    
-    setModalActive(true);
+  const onSurfSignClick = async () => {
+    try {
+      await userStore.surfLogin();
+      setModalActive(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (userStore.isLoading) {
@@ -85,7 +87,17 @@ const SignIn: FC = (props) => {
             </button>
           </div>
           <Modal active={modalActive} setActive={setModalActive}>
-            <QRCode value="https://uri.ton.surf/debot/0:a7e1c39a6e0d59622f5e5e5d1836eccea86288c3972c15fabad56dafc57e746b?net=devnet&message=te6ccgEBBAEArAADaGIAU_DhzTcGrLEXry8ujBt2Z1QxRGHLlgr9XWq21-K_OjWAAAAAAAAAAAAAAAAAAH9IYB8DAgEASmh0dHA6Ly9sb2NhbGhvc3Q6NDAwMS9hdXRoL2RlYm90LWF1dGgASDg0NzJjMzRlLTA0ZGItNDZmYi05YmQ4LTlkZDk5OGNkOTRjOQBIYWE5NjNmODEtZGUxMy00MDIzLTk0ODItNTNhNGI3YjE4NzBh" />
+            <div className="signin__modal">
+              <QRCode value={userStore.qrValue} />
+              <a
+                href={userStore.deepLink}
+                className="btn btn-blue"
+                rel="noreferrer"
+                target="_blank"
+              >
+                To debot
+              </a>
+            </div>
           </Modal>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 import AuthService from "../../services/AuthService";
 import { IUser } from "../../models/IUser";
@@ -9,18 +9,19 @@ export default class UserStore {
   isAuth: boolean = false;
   currentUser: IUser = {} as IUser;
   isLoading: boolean = false;
+  qrValue: string = "";
+  deepLink: string = "";
 
   constructor() {
-    makeObservable(this, {
-      isAuth: observable,
-      isLoading: observable,
-      currentUser: observable,
-      setAuth: action,
-      setUser: action,
-      login: action,
-      logout: action,
-      setLoading: action,
-    });
+    makeAutoObservable(this);
+  }
+
+  setQrValue = (qrValue: string) => {
+    this.qrValue = qrValue;
+  };
+
+  setDeepLink = (deepLinkValue: string) => {
+    this.deepLink = deepLinkValue;
   }
 
   setAuth = (bool: boolean) => {
@@ -48,6 +49,21 @@ export default class UserStore {
       console.log(e);
     } finally {
       this.setLoading(false);
+    }
+  };
+
+  surfLogin = async () => {
+    try {
+      const surfAuthResponse = await AuthService.surfLogin();
+      console.log("DATA: ", surfAuthResponse.data);
+      this.setQrValue(surfAuthResponse.data.deeplink);
+      this.setDeepLink(surfAuthResponse.data.deeplink);
+      /**
+       * TODO:
+       * в этом методе тоже нужно будет добавлять в локальное хранилище токены
+       */
+    } catch (error) {
+      console.log(error);
     }
   };
 
