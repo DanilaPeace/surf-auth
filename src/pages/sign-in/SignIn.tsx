@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ProviderRpcClient } from "ton-inpage-provider";
 import QRCode from "react-qr-code";
@@ -8,6 +8,9 @@ import { Context } from "../..";
 import PagePreloader from "../../components/common/page-preloader/PagePreloader";
 import Modal from "../../components/Modal/Modal";
 import "./signin.scss";
+
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "ws://localhost:4001";
 
 interface LocationState {
   from: {
@@ -21,6 +24,20 @@ const SignIn: FC = () => {
   const location = useLocation();
   const [modalActive, setModalActive] = useState(false);
   let from = (location.state as LocationState)?.from.pathname || "/";
+
+  const [surfResponse, setsurfResponse] = useState("");
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("auth data", (data) => {
+      setsurfResponse(data);
+    });
+
+    // CLEAN UP THE EFFECT
+    return () => {
+      socket.disconnect();
+    };
+    //
+  }, []);
 
   const getUserDataFromExtension = async () => {
     const ton = new ProviderRpcClient();
@@ -65,6 +82,7 @@ const SignIn: FC = () => {
     try {
       await userStore.surfLogin();
       setModalActive(true);
+      console.log()
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +94,7 @@ const SignIn: FC = () => {
 
   return (
     <div className="signin">
+      {surfResponse}
       <div className="signin__container container">
         <div className="signin__content">
           <div className="signin__btns">
@@ -83,7 +102,7 @@ const SignIn: FC = () => {
               Sign with EVER Wallet
             </button>
             <button className="btn btn-blue" onClick={onSurfSignClick}>
-              Sing with SURF
+              Sign with SURF
             </button>
           </div>
           <Modal active={modalActive} setActive={setModalActive}>
