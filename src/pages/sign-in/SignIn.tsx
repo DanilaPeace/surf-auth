@@ -9,8 +9,8 @@ import PagePreloader from "../../components/common/page-preloader/PagePreloader"
 import Modal from "../../components/Modal/Modal";
 import "./signin.scss";
 
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "ws://localhost:4001";
+import * as io from 'socket.io-client';
+const ENDPOINT = "http://localhost:3000";
 
 interface LocationState {
   from: {
@@ -27,8 +27,15 @@ const SignIn: FC = () => {
 
   const [surfResponse, setsurfResponse] = useState("");
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("auth data", (data) => {
+    const socket = io.connect(ENDPOINT, {
+      path: "/auth/debot-auth"
+    });
+    console.log(socket.connected);
+    setInterval(function () {
+      socket.emit('getAuthData')
+  }, 60 * 1000);
+    socket.on("authData", (data) => {
+      console.log("AUTH DATA: ", data);
       setsurfResponse(data);
     });
 
