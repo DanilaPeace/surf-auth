@@ -1,5 +1,11 @@
+import React, {
+  FC,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { observer } from "mobx-react";
-import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ProviderRpcClient } from "ton-inpage-provider";
 import QRCode from "react-qr-code";
@@ -22,10 +28,10 @@ const SignIn: FC = () => {
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
-  const [modalActive, setModalActive] = useState(false);
+  const [modalActive, setModalActive] = useState<boolean>(false);
   let from = (location.state as LocationState)?.from.pathname || "/";
 
-  const [surfResponse, setsurfResponse] = useState("");
+  const [surfResponse, setsurfResponse] = useState<string>("");
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("auth data", (data) => {
@@ -63,8 +69,7 @@ const SignIn: FC = () => {
     }
   };
 
-  const onEvenSignClick = async (event) => {
-    event.preventDefault();
+  const onEverSignClick: MouseEventHandler = async () => {
     try {
       const userDataFromExtension = await getUserDataFromExtension();
       await userStore.login(
@@ -78,11 +83,10 @@ const SignIn: FC = () => {
     }
   };
 
-  const onSurfSignClick = async () => {
+  const onSurfSignClick: MouseEventHandler = async () => {
     try {
       await userStore.surfLogin();
       setModalActive(true);
-      console.log()
     } catch (error) {
       console.log(error);
     }
@@ -94,11 +98,10 @@ const SignIn: FC = () => {
 
   return (
     <div className="signin">
-      {surfResponse}
       <div className="signin__container container">
         <div className="signin__content">
           <div className="signin__btns">
-            <button className="btn btn-blue" onClick={onEvenSignClick}>
+            <button className="btn btn-blue" onClick={onEverSignClick}>
               Sign with EVER Wallet
             </button>
             <button className="btn btn-blue" onClick={onSurfSignClick}>
