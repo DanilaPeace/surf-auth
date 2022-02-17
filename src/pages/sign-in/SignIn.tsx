@@ -15,8 +15,8 @@ import PagePreloader from "../../components/common/page-preloader/PagePreloader"
 import Modal from "../../components/Modal/Modal";
 import "./signin.scss";
 
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "ws://localhost:4001";
+import { io } from 'socket.io-client';
+const ENDPOINT = "http://localhost:4000";
 
 interface LocationState {
   from: {
@@ -25,16 +25,22 @@ interface LocationState {
 }
 
 const SignIn: FC = () => {
+
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
   const [modalActive, setModalActive] = useState<boolean>(false);
   let from = (location.state as LocationState)?.from.pathname || "/";
 
-  const [surfResponse, setsurfResponse] = useState<string>("");
+  const [surfResponse, setsurfResponse] = useState({});
+  const socket = io(ENDPOINT, {
+    path: '/auth/debot-auth',
+    transports: ['websocket']
+  });
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("auth data", (data) => {
+    console.log('connected: ', socket.active);
+    socket.on("authData", (data) => {
+      console.log("AUTH DATA: ", data);
       setsurfResponse(data);
     });
 

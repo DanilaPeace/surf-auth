@@ -6,7 +6,6 @@ import { Context } from "../..";
 const PrivateRoute = ({ children }) => {
   const { userStore } = useContext(Context);
   const location = useLocation();
-  
   if (!userStore.isAuthenticated()) {
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
