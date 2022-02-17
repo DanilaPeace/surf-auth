@@ -9,8 +9,8 @@ import PagePreloader from "../../components/common/page-preloader/PagePreloader"
 import Modal from "../../components/Modal/Modal";
 import "./signin.scss";
 
-import * as io from 'socket.io-client';
-const ENDPOINT = "http://localhost:3000";
+import { io } from 'socket.io-client';
+const ENDPOINT = "http://localhost:4000";
 
 interface LocationState {
   from: {
@@ -19,21 +19,20 @@ interface LocationState {
 }
 
 const SignIn: FC = () => {
+
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
   const [modalActive, setModalActive] = useState(false);
   let from = (location.state as LocationState)?.from.pathname || "/";
 
-  const [surfResponse, setsurfResponse] = useState("");
+  const [surfResponse, setsurfResponse] = useState({});
+  const socket = io(ENDPOINT, {
+    path: '/auth/debot-auth',
+    transports: ['websocket']
+  });
   useEffect(() => {
-    const socket = io.connect(ENDPOINT, {
-      path: "/auth/debot-auth"
-    });
-    console.log(socket.connected);
-    setInterval(function () {
-      socket.emit('getAuthData')
-  }, 60 * 1000);
+    console.log('connected: ', socket.active);
     socket.on("authData", (data) => {
       console.log("AUTH DATA: ", data);
       setsurfResponse(data);
@@ -101,7 +100,6 @@ const SignIn: FC = () => {
 
   return (
     <div className="signin">
-      {surfResponse}
       <div className="signin__container container">
         <div className="signin__content">
           <div className="signin__btns">
