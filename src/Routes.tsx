@@ -14,8 +14,6 @@ import SignIn from "./pages/sign-in/SignIn";
 import TokensDataInfo from "./pages/tokens-data-info/TokensDataInfo";
 
 const AppRoutes = () => {
-  // console.log();
-  
   return (
     <Routes>
       <Route index element={<Home />} />

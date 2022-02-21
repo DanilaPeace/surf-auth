@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as HomeLogo } from "./home-logo.svg";
 import { observer } from "mobx-react";
 
@@ -29,6 +29,7 @@ const NavBar = () => {
       </li>
     </>
   ) : null;
+  
   const navbarBtns = !userStore.isAuthenticated() ? (
     <Link className="nav__link sign-btn" to="/signin">
       Sign in

@@ -15,7 +15,7 @@ import PagePreloader from "../../components/common/page-preloader/PagePreloader"
 import Modal from "../../components/Modal/Modal";
 import "./signin.scss";
 
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 const ENDPOINT = "http://localhost:4000";
 
 interface LocationState {
@@ -25,30 +25,25 @@ interface LocationState {
 }
 
 const SignIn: FC = () => {
-
   const { userStore } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
   const [modalActive, setModalActive] = useState<boolean>(false);
   let from = (location.state as LocationState)?.from.pathname || "/";
 
-  const [surfResponse, setsurfResponse] = useState({});
   const socket = io(ENDPOINT, {
-    path: '/auth/debot-auth',
-    transports: ['websocket']
+    path: "/auth/debot-auth",
+    transports: ["websocket"],
   });
   useEffect(() => {
-    console.log('connected: ', socket.active);
-    socket.on("authData", (data) => {
-      console.log("AUTH DATA: ", data);
-      setsurfResponse(data);
+    socket.on("authData", async (data) => {
+      await userStore.surfLogin(data);
     });
 
     // CLEAN UP THE EFFECT
     return () => {
       socket.disconnect();
     };
-    //
   }, []);
 
   const getUserDataFromExtension = async () => {
@@ -91,7 +86,7 @@ const SignIn: FC = () => {
 
   const onSurfSignClick: MouseEventHandler = async () => {
     try {
-      await userStore.surfLogin();
+      await userStore.setDataForAuth();
       setModalActive(true);
     } catch (error) {
       console.log(error);

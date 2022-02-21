@@ -22,7 +22,7 @@ export default class UserStore {
 
   setDeepLink = (deepLinkValue: string) => {
     this.deepLink = deepLinkValue;
-  }
+  };
 
   setAuth = (bool: boolean) => {
     this.isAuth = bool;
@@ -52,16 +52,17 @@ export default class UserStore {
     }
   };
 
-  surfLogin = async () => {
+  surfLogin = async (loginData) => {
+    localStorage.setItem("accessToken", loginData.accessToken);
+    this.setAuth(true);
+    this.setUser(loginData.user);
+  };
+
+  setDataForAuth = async () => {
     try {
       const surfAuthResponse = await AuthService.surfLogin();
-      console.log("DATA: ", surfAuthResponse.data);
       this.setQrValue(surfAuthResponse.data.deeplink);
       this.setDeepLink(surfAuthResponse.data.deeplink);
-      /**
-       * TODO:
-       * в этом методе тоже нужно будет добавлять в локальное хранилище токены
-       */
     } catch (error) {
       console.log(error);
     }
